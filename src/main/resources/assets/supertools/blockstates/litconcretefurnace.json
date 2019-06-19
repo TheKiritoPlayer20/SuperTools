@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "supertools:litconcretefurnace" },
+        "facing=south": { "model": "supertools:litconcretefurnace", "y": 180 },
+        "facing=west":  { "model": "supertools:litconcretefurnace", "y": 270 },
+        "facing=east":  { "model": "supertools:litconcretefurnace", "y": 90 }
+    }
+}
