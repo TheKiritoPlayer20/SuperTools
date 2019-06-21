@@ -1,7 +1,6 @@
 {
     "pack": {
         "description": "SuperTools",
-        "pack_format": 4,
-        "_comment": "The SuperTools Mod.It adds Coal-,Lapis-,Redstone-,Quartz- & Emerald Tools. Made by TheLuigiplayer & KiritoGames20"
+        "pack_format": 4
     }
 }
