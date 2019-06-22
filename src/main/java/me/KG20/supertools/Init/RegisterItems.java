@@ -24,6 +24,18 @@ public class RegisterItems {
     public static final Shovel emeraldShovel = new Shovel(BasisToolMaterial.emerald);
     public static final Sword emeraldSword = new Sword(BasisToolMaterial.emerald);
 
+    public static final Hoe obsidianHoe = new Hoe(BasisToolMaterial.obsidian);
+    public static final Axe obsidianAxe = new Axe(BasisToolMaterial.obsidian);
+    public static final Pickaxe obsidianPickaxe = new Pickaxe(BasisToolMaterial.obsidian);
+    public static final Shovel obsidianShovel = new Shovel(BasisToolMaterial.obsidian);
+    public static final Sword obsidianSword = new Sword(BasisToolMaterial.obsidian);
+
+    public static final Hoe lapisHoe = new Hoe(BasisToolMaterial.lapis);
+    public static final Axe lapisAxe = new Axe(BasisToolMaterial.lapis);
+    public static final Pickaxe lapisPickaxe = new Pickaxe(BasisToolMaterial.lapis);
+    public static final Shovel lapisShovel = new Shovel(BasisToolMaterial.lapis);
+    public static final Sword lapisSword = new Sword(BasisToolMaterial.lapis);
+
     @SubscribeEvent
     public static void register(Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
@@ -41,6 +53,20 @@ public class RegisterItems {
         emeraldShovel.setRegistryName(Constants.modid, "emeraldshovel");
         emeraldSword.setRegistryName(Constants.modid, "emeraldsword");
         registry.registerAll(emeraldHoe,emeraldAxe,emeraldPickaxe,emeraldShovel,emeraldSword);
+
+        obsidianHoe.setRegistryName(Constants.modid, "obsidianhoe");
+        obsidianAxe.setRegistryName(Constants.modid, "obsidianaxe");
+        obsidianPickaxe.setRegistryName(Constants.modid, "obsidianpickaxe");
+        obsidianShovel.setRegistryName(Constants.modid, "obsidianshovel");
+        obsidianSword.setRegistryName(Constants.modid, "obsidiansword");
+        registry.registerAll(obsidianHoe,obsidianAxe,obsidianPickaxe,obsidianShovel,obsidianSword);
+
+        lapisHoe.setRegistryName(Constants.modid, "lapishoe");
+        lapisAxe.setRegistryName(Constants.modid, "lapisaxe");
+        lapisPickaxe.setRegistryName(Constants.modid, "lapispickaxe");
+        lapisShovel.setRegistryName(Constants.modid, "lapisshovel");
+        lapisSword.setRegistryName(Constants.modid, "lapissword");
+        registry.registerAll(lapisHoe,lapisAxe,lapisPickaxe,lapisShovel,lapisSword);
 
     }
 
