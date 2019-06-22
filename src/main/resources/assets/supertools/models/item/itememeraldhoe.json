@@ -1,6 +1,0 @@
-{
-  "parent": "item/handheld",
-  "textures": {
-    "layer0": "supertools:items/emerald_hoe"
-  }
-}

@@ -1,5 +1,10 @@
 {
   "itemGroup.armor": "Super Armor",
   "itemGroup.tools": "Tools",
-  "itemGroup.supertools" : "Super Tools"
+  "itemGroup.supertools" : "Super Tools",
+  "item.supertools.quartzhoe": "Quartz Hoe",
+  "item.supertools.quartzaxe": "Quartz Axe",
+  "item.supertools.quartzpickaxe": "Quartz Pickaxe",
+  "item.supertools.quartzshovel": "Quartz Shovel",
+  "item.supertools.quartzsword": "Quartz Sword"
 }
