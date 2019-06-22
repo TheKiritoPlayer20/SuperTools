@@ -16,11 +16,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class SuperTools
 {
 
-    public static CreativeTabTools tools;
-    public static CreativeTabArmor armor;
-    public static CreativeTabSuperTools supertools;
-
-
     private static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
 
@@ -34,9 +29,7 @@ public class SuperTools
     @SubscribeEvent
     public void setup(FMLCommonSetupEvent event){
         proxy.setup();
-        tools = new CreativeTabTools();
-        armor = new CreativeTabArmor();
-        supertools = new CreativeTabSuperTools();
+
     }
 
     @SubscribeEvent
