@@ -65,6 +65,8 @@ public class RegisterItems {
     public static final ItemArmor quartzLeggings = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.LEGS);
     public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.FEET);
 
+    public static final BonemealTool boneMealTool = new BonemealTool();
+
     @SubscribeEvent
     public static void register(Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
@@ -127,6 +129,10 @@ public class RegisterItems {
         quartzLeggings.setRegistryName(Constants.modid, "quartzleggings");
         quartzBoots.setRegistryName(Constants.modid, "quartzboots");
         registry.registerAll(quartzHelmet,quartzChestplate,quartzLeggings,quartzBoots);
+
+        boneMealTool.setRegistryName(Constants.modid, "bonemealtool");
+        registry.register(boneMealTool);
+
 
     }
 
