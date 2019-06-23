@@ -40,7 +40,7 @@ public class BonemealTool extends Item {
         } else {
             BlockState blockstate = world.getBlockState(blockpos);
             boolean flag = Block.func_220056_d(blockstate, world, blockpos, context.getFace());
-            if (flag && growSeagrass(context.getItem(), world, blockpos1, context.getFace())) {
+            if (flag && growSeagrass(context.getItem(), world, blockpos1, context.getFace(), context.getPlayer())) {
                 if (!world.isRemote) {
                     world.playEvent(2005, blockpos1, 0);
                 }
@@ -82,7 +82,7 @@ public class BonemealTool extends Item {
         return false;
     }
 
-    public static boolean growSeagrass(ItemStack p_203173_0_, World p_203173_1_, BlockPos p_203173_2_, @Nullable Direction p_203173_3_) {
+    public static boolean growSeagrass(ItemStack p_203173_0_, World p_203173_1_, BlockPos p_203173_2_, @Nullable Direction p_203173_3_, net.minecraft.entity.player.PlayerEntity player) {
         if (p_203173_1_.getBlockState(p_203173_2_).getBlock() == Blocks.WATER && p_203173_1_.getFluidState(p_203173_2_).getLevel() == 8) {
             if (!p_203173_1_.isRemote) {
                 label79:
@@ -122,7 +122,9 @@ public class BonemealTool extends Item {
                         }
                     }
                 }
-                    p_203173_0_.setDamage(p_203173_0_.getDamage() + 1);
+                    if(!player.playerAbilities.isCreativeMode) {
+                        p_203173_0_.setDamage(p_203173_0_.getDamage() + 1);
+                    }
             }
 
             return true;
