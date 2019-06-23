@@ -1,0 +1,17 @@
+﻿{
+    "type": "crafting_shaped",
+    "pattern": [
+        "EEE",
+        "E E",
+        "E E"
+    ],
+    "key": {
+        "E": {
+            "item": "minecraft:emerald"
+        }
+    },
+    "result": {
+        "item": "supertools:emeraldleggings"
+    },
+    "group": "emeraldarmor"
+}

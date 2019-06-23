@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    " L ",
+    " L ",
+    " S "
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "S": {
+     "item" : "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "supertools:lapissword"
+  },
+  "group": "lapistools"
+}

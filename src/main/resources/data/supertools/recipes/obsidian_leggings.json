@@ -1,0 +1,17 @@
+﻿{
+    "type": "crafting_shaped",
+    "pattern": [
+        "OOO",
+        "O O",
+        "O O"
+    ],
+    "key": {
+        "O": {
+            "item": "minecraft:obsidian"
+        }
+    },
+    "result": {
+        "item": "supertools:obsidianleggings"
+    },
+    "group": "obsidianarmor"
+}

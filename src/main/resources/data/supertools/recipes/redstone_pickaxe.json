@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "RRR",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "S": {
+     "item" : "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "supertools:redstonepickaxe"
+  },
+  "group": "redstonetools"
+}

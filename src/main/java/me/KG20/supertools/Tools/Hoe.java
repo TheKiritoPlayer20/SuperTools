@@ -7,7 +7,7 @@ import net.minecraft.item.IItemTier;
 
 public class Hoe extends HoeItem {
 
-    public Hoe(IItemTier material) {
-        super(material, -1F, new Properties().group(CreativeTabs.tools));
+    public Hoe(IItemTier material, float speed) {
+        super(material, speed, new Properties().group(CreativeTabs.tools));
     }
 }

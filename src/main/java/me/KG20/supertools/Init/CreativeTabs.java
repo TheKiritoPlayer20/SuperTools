@@ -8,6 +8,6 @@ public class CreativeTabs {
 
     public final static CreativeTabTools tools = new CreativeTabTools();
     public final static CreativeTabArmor armor = new CreativeTabArmor();
-    public final static CreativeTabSuperTools supertools = new CreativeTabSuperTools();
+    //public final static CreativeTabSuperTools supertools = new CreativeTabSuperTools();
 
 }

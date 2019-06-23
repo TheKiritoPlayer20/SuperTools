@@ -1,0 +1,17 @@
+﻿{
+    "type": "crafting_shaped",
+    "pattern": [
+        "QQQ",
+        "Q Q",
+        "   "
+    ],
+    "key": {
+        "Q": {
+            "item": "minecraft:quartz"
+        }
+    },
+    "result": {
+        "item": "supertools:quartzhelmet"
+    },
+    "group": "quartzarmor"
+}

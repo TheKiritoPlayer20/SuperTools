@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    " O ",
+    " O ",
+    " S "
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "S": {
+     "item" : "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "supertools:obsidiansword"
+  },
+  "group": "obsidiantools"
+}

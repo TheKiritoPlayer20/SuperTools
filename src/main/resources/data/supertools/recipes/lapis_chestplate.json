@@ -1,0 +1,17 @@
+﻿{
+    "type": "crafting_shaped",
+    "pattern": [
+        "L L",
+        "LLL",
+        "LLL"
+    ],
+    "key": {
+        "L": {
+            "item": "minecraft:lapis_lazuli"
+        }
+    },
+    "result": {
+        "item": "supertools:lapischestplate"
+    },
+    "group": "lapisarmor"
+}

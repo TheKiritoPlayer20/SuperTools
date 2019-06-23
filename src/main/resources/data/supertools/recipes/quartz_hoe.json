@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "QQ ",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "S": {
+     "item" : "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "supertools:quartzhoe"
+  },
+  "group": "quartztools"
+}

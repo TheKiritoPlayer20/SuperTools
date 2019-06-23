@@ -8,8 +8,8 @@ import net.minecraftforge.common.ToolType;
 
 public class Pickaxe extends PickaxeItem {
 
-    public Pickaxe(IItemTier material) {
-        super(material, 1, -2.8F, new Properties().group(CreativeTabs.tools).addToolType(ToolType.PICKAXE, material.getHarvestLevel()));
+    public Pickaxe(IItemTier material, float speed) {
+        super(material, 1, speed, new Properties().group(CreativeTabs.tools).addToolType(ToolType.PICKAXE, material.getHarvestLevel()));
     }
 
 }

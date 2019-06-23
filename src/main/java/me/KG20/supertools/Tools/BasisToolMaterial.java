@@ -12,10 +12,10 @@ import java.util.function.Supplier;
 public class BasisToolMaterial {
 
     public static final IItemTier quartz = new ToolMaterial(3, 1000,6.0F, 2.0F, 14, () -> Ingredient.fromItems(Items.QUARTZ));
-    public static final IItemTier obsidian = new ToolMaterial(3, 1800, 8.7F, 3.5F, 10, () -> Ingredient.fromItems(Blocks.OBSIDIAN));
+    public static final IItemTier obsidian = new ToolMaterial(3, 2000, 7F, 3.5F, 10, () -> Ingredient.fromItems(Blocks.OBSIDIAN));
     public static final IItemTier emerald = new ToolMaterial(3, 1561, 9.5F, 3.5F, 10, () -> Ingredient.fromItems(Items.EMERALD));
     public static final IItemTier lapis = new ToolMaterial(1, 150, 6.0F, 2.0F, 20, () -> Ingredient.fromItems(Items.LAPIS_LAZULI));
-
+    public static final IItemTier redstone = new ToolMaterial(2, 100, 15.0F, -0.5F, 20, () -> Ingredient.fromItems(Items.REDSTONE));
 
 
     private static class ToolMaterial implements IItemTier{

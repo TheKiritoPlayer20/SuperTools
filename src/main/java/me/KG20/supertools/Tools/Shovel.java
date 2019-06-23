@@ -8,8 +8,8 @@ import net.minecraftforge.common.ToolType;
 
 public class Shovel extends ShovelItem {
 
-    public Shovel(IItemTier material) {
-        super(material, 1.5F, -3F, new Properties().group(CreativeTabs.tools).addToolType(ToolType.SHOVEL, material.getHarvestLevel()));
+    public Shovel(IItemTier material, float speed) {
+        super(material, 1.5F, speed, new Properties().group(CreativeTabs.tools).addToolType(ToolType.SHOVEL, material.getHarvestLevel()));
     }
 
 }

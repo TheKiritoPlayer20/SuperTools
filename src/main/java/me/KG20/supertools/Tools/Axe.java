@@ -9,8 +9,8 @@ import net.minecraftforge.common.ToolType;
 
 public class Axe extends AxeItem {
 
-    public Axe(IItemTier material) {
-        super(material, 6, -3.1F, new Properties().group(CreativeTabs.tools).addToolType(ToolType.AXE, material.getHarvestLevel()));
+    public Axe(IItemTier material, float speed) {
+        super(material, 6, speed, new Properties().group(CreativeTabs.tools).addToolType(ToolType.AXE, material.getHarvestLevel()));
     }
 
 }
