@@ -1,14 +1,14 @@
 modLoader="javafml"
 loaderVersion="[26,)"
-issueTrackerURL="http://my.issue.tracker/"
-displayURL="http://example.com/"
+#issueTrackerURL="http://my.issue.tracker/"
+#displayURL="http://example.com/"
 logoFile="supertools_logo.png"
 
 [[mods]]
 modId="supertools"
 version="${file.jarVersion}"
 displayName="Super Tools"
-updateJSONURL="http://myurl.me/"
+#updateJSONURL="http://myurl.me/"
 
 
 credits="Textures by: TheLuigiplayer, Code by: KiritoGames20"

@@ -1,13 +1,16 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "###",
-        "###",
-        "###"
+        "LLL",
+        "L#L",
+        "LLL"
     ],
     "key": {
         "#": {
             "item": "minecraft:bone_block"
+        },
+        "L":{
+            "item": "minecraft:leather"
         }
     },
     "result": {
