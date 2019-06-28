@@ -37,13 +37,12 @@ public class ItemArmor extends ArmorItem {
         ItemArmor quartzBoots = RegisterItems.quartzBoots;
 
 
-        if(player.inventory.armorItemInSlot(0).getItem().equals(obsidianBoots) || player.inventory.armorItemInSlot(1).getItem().equals(obsidianLeggings) ||
-
-                player.inventory.armorItemInSlot(2).getItem().equals(obsidianChestplate) || player.inventory.armorItemInSlot(3).getItem().equals(obsidianHelmet)){
+        if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(obsidianBoots) || player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(obsidianLeggings) ||
+                player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(obsidianChestplate) || player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(obsidianHelmet)){
             player.addPotionEffect(new EffectInstance(Effect.getPotionById(2), 10, 0));
 
-            if(player.inventory.armorItemInSlot(0).getItem().equals(obsidianBoots) && player.inventory.armorItemInSlot(1).getItem().equals(obsidianLeggings) &&
-                    player.inventory.armorItemInSlot(2).getItem().equals(obsidianChestplate) && player.inventory.armorItemInSlot(3).getItem().equals(obsidianHelmet)) {
+            if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(obsidianBoots) && player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(obsidianLeggings) &&
+                    player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(obsidianChestplate) && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(obsidianHelmet)) {
 
                 player.addPotionEffect(new EffectInstance(Effect.getPotionById(12), 10, 0));
                 player.addPotionEffect(new EffectInstance(Effect.getPotionById(2), 10, 1));
@@ -51,8 +50,8 @@ public class ItemArmor extends ArmorItem {
             }
         }
 
-        if(player.inventory.armorItemInSlot(0).getItem().equals(quartzBoots) && player.inventory.armorItemInSlot(1).getItem().equals(quartzLeggings) &&
-                player.inventory.armorItemInSlot(2).getItem().equals(quartzChestplate) && player.inventory.armorItemInSlot(3).getItem().equals(quartzHelmet)) {
+        if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(quartzBoots) && player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(quartzLeggings) &&
+                player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(quartzChestplate) && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(quartzHelmet)) {
             player.addPotionEffect(new EffectInstance(Effect.getPotionById(12), 10, 0));
         }
 

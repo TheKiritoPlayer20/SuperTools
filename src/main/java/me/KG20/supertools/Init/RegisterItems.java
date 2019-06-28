@@ -66,6 +66,11 @@ public class RegisterItems {
     public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.FEET);
 
     public static final BonemealTool boneMealTool = new BonemealTool();
+    public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, -1F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final Axe superAxe = new Axe(BasisToolMaterial.supertools, -3.1F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final Pickaxe superPickaxe = new Pickaxe(BasisToolMaterial.supertools, -2.8F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final Shovel superShovel = new Shovel(BasisToolMaterial.supertools, -3F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final Sword superSword = new Sword(BasisToolMaterial.supertools, -2.4F, new Item.Properties().group(CreativeTabs.supertools));
 
     @SubscribeEvent
     public static void register(Register<Item> event) {
@@ -131,7 +136,12 @@ public class RegisterItems {
         registry.registerAll(quartzHelmet,quartzChestplate,quartzLeggings,quartzBoots);
 
         boneMealTool.setRegistryName(Constants.modid, "bonemealtool");
-        registry.register(boneMealTool);
+        superHoe.setRegistryName(Constants.modid, "superhoe");
+        superAxe.setRegistryName(Constants.modid, "superaxe");
+        superPickaxe.setRegistryName(Constants.modid, "superpickaxe");
+        superShovel.setRegistryName(Constants.modid, "supershovel");
+        superSword.setRegistryName(Constants.modid, "supersword");
+        registry.registerAll(boneMealTool,superHoe,superAxe,superPickaxe,superShovel,superSword);
 
 
     }
