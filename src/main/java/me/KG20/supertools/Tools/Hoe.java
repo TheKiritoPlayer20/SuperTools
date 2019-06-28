@@ -41,7 +41,7 @@ public class Hoe extends HoeItem {
             int bz = pos.getZ();
 
 
-            if(world.getBlockState(pos).getBlock() != Blocks.FARMLAND){
+            if(world.getBlockState(pos).getBlock() == Blocks.DIRT || world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK){
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
                         if(world.getBlockState(new BlockPos(bx + x,by + 1,bz + z)).getBlock() == Blocks.AIR){
