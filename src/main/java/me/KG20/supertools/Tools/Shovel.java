@@ -99,7 +99,7 @@ public class Shovel extends ShovelItem {
             int by = pos.getY();
             int bz = pos.getZ();
 
-            if(world.getBlockState(pos).getBlock() != Blocks.GRASS_PATH) {
+            if(world.getBlockState(pos).getBlock() == Blocks.GRASS) {
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
                         if (world.getBlockState(new BlockPos(bx + x, by + 1, bz + z)).getBlock() == Blocks.AIR) {

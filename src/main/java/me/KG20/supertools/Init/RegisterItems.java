@@ -71,6 +71,9 @@ public class RegisterItems {
     public static final Pickaxe superPickaxe = new Pickaxe(BasisToolMaterial.supertools, -2.8F, new Item.Properties().group(CreativeTabs.supertools));
     public static final Shovel superShovel = new Shovel(BasisToolMaterial.supertools, -3F, new Item.Properties().group(CreativeTabs.supertools));
     public static final Sword superSword = new Sword(BasisToolMaterial.supertools, -2.4F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final Cups itemCup = new Cups(BasisToolMaterial.itemcup, -2.8F);
+    public static final Cups specialCup = new Cups(BasisToolMaterial.specialcup, -2.8F);
+
 
     @SubscribeEvent
     public static void register(Register<Item> event) {
@@ -141,7 +144,9 @@ public class RegisterItems {
         superPickaxe.setRegistryName(Constants.modid, "superpickaxe");
         superShovel.setRegistryName(Constants.modid, "supershovel");
         superSword.setRegistryName(Constants.modid, "supersword");
-        registry.registerAll(boneMealTool,superHoe,superAxe,superPickaxe,superShovel,superSword);
+        itemCup.setRegistryName(Constants.modid, "itemcup");
+        specialCup.setRegistryName(Constants.modid, "specialcup");
+        registry.registerAll(boneMealTool,superHoe,superAxe,superPickaxe,superShovel,superSword,itemCup,specialCup);
 
 
     }

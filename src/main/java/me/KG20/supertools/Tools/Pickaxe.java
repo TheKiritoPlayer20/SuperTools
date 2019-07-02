@@ -4,15 +4,23 @@ import me.KG20.supertools.Init.CreativeTabs;
 import me.KG20.supertools.Init.RegisterItems;
 import me.KG20.supertools.Main.SuperTools;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Pickaxe extends PickaxeItem {
 
@@ -39,8 +47,11 @@ public class Pickaxe extends PickaxeItem {
                     for(int z = -1; z<2; z++){
 
                         if(world.getBlockState(new BlockPos(bx + x,by , bz + z)).getMaterial() == Material.ROCK || world.getBlockState(new BlockPos(bx + x,by , bz + z)).getMaterial() == Material.IRON || world.getBlockState(new BlockPos(bx + x,by, bz + z)).getMaterial() == Material.ANVIL){
-                            world.destroyBlock(new BlockPos(bx + x,by , bz + z),true);
-                            stack.setDamage(stack.getDamage() + 1);
+                            if(world.getBlockState(new BlockPos(bx + x,by , bz + z)).getBlock() != Blocks.BEDROCK){
+                                world.destroyBlock(new BlockPos(bx + x,by , bz + z),true);
+                                stack.setDamage(stack.getDamage() + 1);
+                            }
+
                         }
 
                     }
@@ -52,8 +63,10 @@ public class Pickaxe extends PickaxeItem {
                     for(int y = -1; y<2; y++){
 
                         if(world.getBlockState(new BlockPos(bx + x,by + y, bz)).getMaterial() == Material.ROCK || world.getBlockState(new BlockPos(bx + x,by + y, bz)).getMaterial() == Material.IRON || world.getBlockState(new BlockPos(bx + x,by + y, bz)).getMaterial() == Material.ANVIL){
-                            world.destroyBlock(new BlockPos(bx + x,by + y, bz),true);
-                            stack.setDamage(stack.getDamage() + 1);
+                            if(world.getBlockState(new BlockPos(bx + x,by + y, bz)).getBlock() != Blocks.BEDROCK){
+                                world.destroyBlock(new BlockPos(bx + x,by + y, bz),true);
+                                stack.setDamage(stack.getDamage() + 1);
+                            }
                         }
 
                     }
@@ -63,8 +76,11 @@ public class Pickaxe extends PickaxeItem {
                     for(int y = -1; y<2; y++){
 
                         if(world.getBlockState(new BlockPos(bx ,by + y, bz + z)).getMaterial() == Material.ROCK || world.getBlockState(new BlockPos(bx ,by + y, bz + z)).getMaterial() == Material.IRON || world.getBlockState(new BlockPos(bx ,by + y, bz + z)).getMaterial() == Material.ANVIL){
-                            world.destroyBlock(new BlockPos(bx ,by + y, bz + z),true);
-                            stack.setDamage(stack.getDamage() + 1);
+                            if(world.getBlockState(new BlockPos(bx,by + y, bz + z)).getBlock() != Blocks.BEDROCK){
+                                world.destroyBlock(new BlockPos(bx ,by + y, bz + z),true);
+                                stack.setDamage(stack.getDamage() + 1);
+                            }
+
                         }
 
                     }

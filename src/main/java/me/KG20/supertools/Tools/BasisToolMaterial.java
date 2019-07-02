@@ -7,6 +7,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyLoadBase;
 
+import javax.tools.Tool;
 import java.util.function.Supplier;
 
 public class BasisToolMaterial {
@@ -16,7 +17,9 @@ public class BasisToolMaterial {
     public static final IItemTier emerald = new ToolMaterial(3, 1561, 9.5F, 3.5F, 10, () -> Ingredient.fromItems(Items.EMERALD));
     public static final IItemTier lapis = new ToolMaterial(1, 150, 6.0F, 2.0F, 20, () -> Ingredient.fromItems(Items.LAPIS_LAZULI));
     public static final IItemTier redstone = new ToolMaterial(2, 100, 15.0F, -0.5F, 20, () -> Ingredient.fromItems(Items.REDSTONE));
-    public static final IItemTier supertools = new ToolMaterial(3, 1700, 10.6F, 4.5F, 16, () -> Ingredient.fromItems(Items.DIAMOND));
+    public static final IItemTier supertools = new ToolMaterial(4, 1350, 10.6F, 3.5F, 16, () -> Ingredient.fromItems(Items.DIAMOND));
+    public static final IItemTier itemcup = new ToolMaterial(4,1700, 10.6F, 3.5F,16, () -> Ingredient.fromItems(Items.DIAMOND));
+    public static final IItemTier specialcup = new ToolMaterial(4, 2000, 12F, 4.0F, 16, () ->Ingredient.fromItems(Items.DIAMOND));
 
 
     private static class ToolMaterial implements IItemTier{

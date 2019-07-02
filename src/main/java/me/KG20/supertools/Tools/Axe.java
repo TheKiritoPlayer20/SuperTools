@@ -37,14 +37,15 @@ public class Axe extends AxeItem {
     public boolean onBlockDestroyed(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity entityLiving) {
         Block startLog = state.getBlock();
         BlockPos currentPos = pos;
-        ArrayList<BlockPos> brokenBlocks = new ArrayList<BlockPos>();
-        ArrayList<BlockPos> nextPos = new ArrayList<BlockPos>();
+        ArrayList<BlockPos> brokenBlocks = new ArrayList<>();
+        ArrayList<BlockPos> nextPos = new ArrayList<>();
+        int blocksHarvested = 0;
 
         if(RegisterItems.superAxe.equals(stack.getItem()) && startLog.getBlock() == Blocks.ACACIA_LOG || startLog.getBlock() == Blocks.BIRCH_LOG || startLog.getBlock() == Blocks.DARK_OAK_LOG
                 || startLog.getBlock() == Blocks.JUNGLE_LOG || startLog.getBlock() == Blocks.OAK_LOG || startLog.getBlock() == Blocks.SPRUCE_LOG){
 
             brokenBlocks.add(pos);
-            while(stack.getDamage() != stack.getMaxDamage()){
+            while(stack.getDamage() != stack.getMaxDamage() && blocksHarvested <= 160){
                 ArrayList<BlockPos> logNeighbours = getWoodNeighbours(world,currentPos,startLog);
                 logNeighbours.removeAll(brokenBlocks);
                 if(logNeighbours.size() > 0){
@@ -52,6 +53,7 @@ public class Axe extends AxeItem {
                         brokenBlocks.add(blockPos);
                         nextPos.add(blockPos);
                         world.destroyBlock(blockPos, true);
+                        blocksHarvested += 1;
                         stack.setDamage(stack.getDamage() + 1);
                     }
                 }
@@ -70,7 +72,7 @@ public class Axe extends AxeItem {
     }
 
     private ArrayList<BlockPos> getWoodNeighbours(World world, BlockPos blockPos, Block block) {
-        ArrayList<BlockPos> list = new ArrayList<BlockPos>();
+        ArrayList<BlockPos> list = new ArrayList<>();
         for(int x=-1; x<=1; x++){
             for(int y=-1; y<=1; y++){
                 for(int z=-1; z<=1; z++) {

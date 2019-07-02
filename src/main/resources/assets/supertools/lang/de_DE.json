@@ -43,5 +43,12 @@
   "item.supertools.quartzchestplate" : "Quarzharnisch",
   "item.supertools.quartzleggings" : "Quarzbeinschutz",
   "item.supertools.quartzboots" : "Quarzstiefel",
-  "item.supertools.bonemealtool" : "Knochenmehl Sack"
+  "item.supertools.bonemealtool" : "Knochenmehl Sack",
+  "item.supertools.superhoe": "Super Hacke",
+  "item.supertools.superaxe": "Super Axt",
+  "item.supertools.superpickaxe": "Super Spitzhacke",
+  "item.supertools.supershovel": "Super Schaufeö",
+  "item.supertools.supersword": "Super Schwert",
+  "item.supertools.itemcup" : "Pokal",
+  "item.supertools.specialcup" : "Spezial Pokal"
 }
