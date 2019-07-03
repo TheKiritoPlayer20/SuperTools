@@ -16,7 +16,10 @@ import net.minecraftforge.common.ToolType;
 public class Cups extends PickaxeItem {
 
     public Cups(IItemTier material, float speed) {
-        super(material, 1, speed, new Properties().group(CreativeTabs.supertools).addToolType(ToolType.PICKAXE, material.getHarvestLevel()).addToolType(ToolType.AXE, material.getHarvestLevel()).addToolType(ToolType.SHOVEL, material.getHarvestLevel()));
+        super(material, 1, speed, new Properties().group(CreativeTabs.supertools)
+                .addToolType(ToolType.PICKAXE, material.getHarvestLevel())
+                .addToolType(ToolType.AXE, material.getHarvestLevel())
+                .addToolType(ToolType.SHOVEL, material.getHarvestLevel()));
     }
 
     @Override

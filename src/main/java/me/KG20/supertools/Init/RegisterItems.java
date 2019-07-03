@@ -66,11 +66,11 @@ public class RegisterItems {
     public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.FEET);
 
     public static final BonemealTool boneMealTool = new BonemealTool();
-    public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, -1F, new Item.Properties().group(CreativeTabs.supertools));
-    public static final Axe superAxe = new Axe(BasisToolMaterial.supertools, -3.1F, new Item.Properties().group(CreativeTabs.supertools));
-    public static final Pickaxe superPickaxe = new Pickaxe(BasisToolMaterial.supertools, -2.8F, new Item.Properties().group(CreativeTabs.supertools));
-    public static final Shovel superShovel = new Shovel(BasisToolMaterial.supertools, -3F, new Item.Properties().group(CreativeTabs.supertools));
-    public static final Sword superSword = new Sword(BasisToolMaterial.supertools, -2.4F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final SuperHoe superHoe = new SuperHoe(BasisToolMaterial.supertools, -1F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final SuperAxe superAxe = new SuperAxe(BasisToolMaterial.supertools, -3.1F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final SuperPickaxe superPickaxe = new SuperPickaxe(BasisToolMaterial.supertools, -2.8F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final SuperShovel superShovel = new SuperShovel(BasisToolMaterial.supertools, -3F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final SuperSword superSword = new SuperSword(BasisToolMaterial.supertools, -2.4F, new Item.Properties().group(CreativeTabs.supertools));
     public static final Cups itemCup = new Cups(BasisToolMaterial.itemcup, -2.8F);
     public static final Cups specialCup = new Cups(BasisToolMaterial.specialcup, -2.8F);
 
