@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#g",
+        "/ ",
+        "/ "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:diamond"
+        },
+        "g": {
+            "item": "minecraft:gold_ingot"
+        },
+        "/": {
+            "item": "minecraft:blaze_rod"
+        }
+    },
+    "result": {
+        "item": "supertools:superhoe",
+        "count": 1
+    },
+    "group": "supertools"
+}

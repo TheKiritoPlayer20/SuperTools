@@ -17,17 +17,5 @@ public class Sword extends SwordItem {
     public Sword(IItemTier material, float speed) {
         super(material, 3, speed, new Properties().group(CreativeTabs.tools));
     }
-    public Sword(IItemTier material, float speed, Properties properties) {
-        super(material, 3, speed, properties);
-    }
 
-    @Override
-    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if(RegisterItems.superSword.equals(stack.getItem())){
-            target.addPotionEffect(new EffectInstance(Effect.getPotionById(18), 60, 1));
-            target.addPotionEffect(new EffectInstance(Effect.getPotionById(19), 60, 1));
-            target.addPotionEffect(new EffectInstance(Effect.getPotionById(24), 60, 1));
-        }
-        return super.hitEntity(stack, target, attacker);
-    }
 }

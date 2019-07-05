@@ -43,5 +43,12 @@
   "item.supertools.quartzchestplate" : "Quartz Chestplate",
   "item.supertools.quartzleggings" : "Quartz Leggings",
   "item.supertools.quartzboots" : "Quartz Boots",
-  "item.supertools.bonemealtool" : "A bag of Bonemeal"
+  "item.supertools.bonemealtool" : "A bag of Bonemeal",
+  "item.supertools.superhoe": "Super Hoe",
+  "item.supertools.superaxe": "Super Axe",
+  "item.supertools.superpickaxe": "Super Pickaxe",
+  "item.supertools.supershovel": "Super Shovel",
+  "item.supertools.supersword": "Super Sword",
+  "item.supertools.itemcup" : "Cup",
+  "item.supertools.specialcup" : "Special Cup"
 }

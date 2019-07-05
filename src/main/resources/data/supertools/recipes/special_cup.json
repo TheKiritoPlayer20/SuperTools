@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "GNG",
+        "BCB",
+        "DDD"
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:gold_ingot"
+        },
+        "N": {
+            "item": "minecraft:nether_star"
+        },
+        "B": {
+            "item": "minecraft:blaze_rod"
+        },
+        "C": {
+            "item": "supertools:itemcup"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        }
+    },
+        "result": {
+        "item": "supertools:specialcup",
+        "count": 1
+    }
+}
