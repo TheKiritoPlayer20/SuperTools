@@ -1,4 +1,4 @@
-package me.KG20.supertools.proxy;
+package me.KG20.supertools.Proxy;
 
 public class ClientProxy extends CommonProxy {
 

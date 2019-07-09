@@ -1,10 +1,7 @@
 package me.KG20.supertools.Main;
 
-import me.KG20.supertools.CreativeTabs.CreativeTabArmor;
-import me.KG20.supertools.CreativeTabs.CreativeTabSuperTools;
-import me.KG20.supertools.CreativeTabs.CreativeTabTools;
-import me.KG20.supertools.proxy.ClientProxy;
-import me.KG20.supertools.proxy.CommonProxy;
+import me.KG20.supertools.Proxy.ClientProxy;
+import me.KG20.supertools.Proxy.CommonProxy;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;

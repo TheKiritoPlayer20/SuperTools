@@ -55,7 +55,6 @@ public class SuperAxe extends AxeItem {
 
 
         if(RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("logs")){
-
             brokenBlocks.add(pos);
             while(stack.getDamage() != stack.getMaxDamage() && blocksHarvested <= 64){
                 ArrayList<BlockPos> logNeighbours = getWoodNeighbours(world,currentPos,startLog);

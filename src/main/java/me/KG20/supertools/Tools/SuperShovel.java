@@ -60,112 +60,117 @@ public class SuperShovel extends ShovelItem {
                 }
             }
 
-            if (entityLiving.getLookVec().y <= -0.50f || entityLiving.getLookVec().y >= 0.50f) {
-                for (int x = -1; x < 2; x++) {
+            if(world.getBlockState(pos).getMaterial() == Material.EARTH || world.getBlockState(pos).getMaterial() == Material.SAND || world.getBlockState(pos).getMaterial() == Material.ORGANIC){
+                if (entityLiving.getLookVec().y <= -0.50f || entityLiving.getLookVec().y >= 0.50f) {
+                    for (int x = -1; x < 2; x++) {
+                        for (int z = -1; z < 2; z++) {
+
+                            BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
+
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
+                                if(silktouchEnchantment.length() != 0) {
+                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                    world.destroyBlock(newBlockPos, false);
+                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                }else{
+                                    world.destroyBlock(newBlockPos, true);
+                                }
+                                if (unbreakingEnchantment.length() != 0) {
+                                    if (unbreakingEnchantment.contains("lvl:1")) {
+                                        if (random.nextInt(100) + 1 <= 50) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    } else if (unbreakingEnchantment.contains("lvl:2")) {
+                                        if (random.nextInt(100) + 1 <= 33) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    } else if (unbreakingEnchantment.contains("lvl:3")) {
+                                        if (random.nextInt(100) + 1 <= 25) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    }
+                                } else {
+                                    stack.setDamage(stack.getDamage() + 1);
+                                }
+                            }
+
+                        }
+                    }
+                } else if (headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)) {
+                    for (int x = -1; x < 2; x++) {
+                        for (int y = -1; y < 2; y++) {
+
+                            BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
+
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
+                                if(silktouchEnchantment.length() != 0) {
+                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                    world.destroyBlock(newBlockPos, false);
+                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                }else{
+                                    world.destroyBlock(newBlockPos, true);
+                                }
+                                if (unbreakingEnchantment.length() != 0) {
+                                    if (unbreakingEnchantment.contains("lvl:1")) {
+                                        if (random.nextInt(100) + 1 <= 50) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    } else if (unbreakingEnchantment.contains("lvl:2")) {
+                                        if (random.nextInt(100) + 1 <= 33) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    } else if (unbreakingEnchantment.contains("lvl:3")) {
+                                        if (random.nextInt(100) + 1 <= 25) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    }
+                                } else {
+                                    stack.setDamage(stack.getDamage() + 1);
+                                }
+                            }
+
+                        }
+                    }
+                } else if (headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)) {
                     for (int z = -1; z < 2; z++) {
+                        for (int y = -1; y < 2; y++) {
 
-                        BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
+                            BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
 
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
-                            if(silktouchEnchantment.length() != 0) {
-                                Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                world.destroyBlock(newBlockPos, false);
-                                Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
-                            }else{
-                                world.destroyBlock(newBlockPos, true);
-                            }
-                            if (unbreakingEnchantment.length() != 0) {
-                                if (unbreakingEnchantment.contains("lvl:1")) {
-                                    if (random.nextInt(100) + 1 <= 50) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
-                                } else if (unbreakingEnchantment.contains("lvl:2")) {
-                                    if (random.nextInt(100) + 1 <= 33) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
-                                } else if (unbreakingEnchantment.contains("lvl:3")) {
-                                    if (random.nextInt(100) + 1 <= 25) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
+                                if(silktouchEnchantment.length() != 0) {
+                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                    world.destroyBlock(newBlockPos, false);
+                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                }else{
+                                    world.destroyBlock(newBlockPos, true);
                                 }
-                            } else {
-                                stack.setDamage(stack.getDamage() + 1);
+                                if (unbreakingEnchantment.length() != 0) {
+                                    if (unbreakingEnchantment.contains("lvl:1")) {
+                                        if (random.nextInt(100) + 1 <= 50) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    } else if (unbreakingEnchantment.contains("lvl:2")) {
+                                        if (random.nextInt(100) + 1 <= 33) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    } else if (unbreakingEnchantment.contains("lvl:3")) {
+                                        if (random.nextInt(100) + 1 <= 25) {
+                                            stack.setDamage(stack.getDamage() + 1);
+                                        }
+                                    }
+                                } else {
+                                    stack.setDamage(stack.getDamage() + 1);
+                                }
                             }
-                        }
 
+                        }
                     }
                 }
-            } else if (headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)) {
-                for (int x = -1; x < 2; x++) {
-                    for (int y = -1; y < 2; y++) {
 
-                        BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
-
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
-                            if(silktouchEnchantment.length() != 0) {
-                                Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                world.destroyBlock(newBlockPos, false);
-                                Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
-                            }else{
-                                world.destroyBlock(newBlockPos, true);
-                            }
-                            if (unbreakingEnchantment.length() != 0) {
-                                if (unbreakingEnchantment.contains("lvl:1")) {
-                                    if (random.nextInt(100) + 1 <= 50) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
-                                } else if (unbreakingEnchantment.contains("lvl:2")) {
-                                    if (random.nextInt(100) + 1 <= 33) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
-                                } else if (unbreakingEnchantment.contains("lvl:3")) {
-                                    if (random.nextInt(100) + 1 <= 25) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
-                                }
-                            } else {
-                                stack.setDamage(stack.getDamage() + 1);
-                            }
-                        }
-
-                    }
-                }
-            } else if (headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)) {
-                for (int z = -1; z < 2; z++) {
-                    for (int y = -1; y < 2; y++) {
-
-                        BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
-
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
-                            if(silktouchEnchantment.length() != 0) {
-                                Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                world.destroyBlock(newBlockPos, false);
-                                Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
-                            }else{
-                                world.destroyBlock(newBlockPos, true);
-                            }
-                            if (unbreakingEnchantment.length() != 0) {
-                                if (unbreakingEnchantment.contains("lvl:1")) {
-                                    if (random.nextInt(100) + 1 <= 50) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
-                                } else if (unbreakingEnchantment.contains("lvl:2")) {
-                                    if (random.nextInt(100) + 1 <= 33) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
-                                } else if (unbreakingEnchantment.contains("lvl:3")) {
-                                    if (random.nextInt(100) + 1 <= 25) {
-                                        stack.setDamage(stack.getDamage() + 1);
-                                    }
-                                }
-                            } else {
-                                stack.setDamage(stack.getDamage() + 1);
-                            }
-                        }
-
-                    }
-                }
             }
+
+
 
         }
 
@@ -176,7 +181,6 @@ public class SuperShovel extends ShovelItem {
     public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
         World world = context.getWorld();
         BlockPos pos = context.getPos();
-        System.out.println("Gehe hier rein");
 
         if (RegisterItems.superShovel.equals(stack.getItem())) {
             int bx = pos.getX();
@@ -207,7 +211,6 @@ public class SuperShovel extends ShovelItem {
                         if (world.getBlockState(new BlockPos(bx + x, by + 1, bz + z)).getBlock() == Blocks.AIR) {
                             if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK) {
                                 world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.GRASS_PATH.getDefaultState());
-                                System.out.println("Gehe hier rein");
                                 if (!context.getPlayer().isCreative()) {
                                     if(unbreakingEnchantment.length() != 0){
                                         if(unbreakingEnchantment.contains("lvl:1")){
