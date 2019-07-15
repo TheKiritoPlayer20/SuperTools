@@ -12,7 +12,6 @@ import net.minecraft.nbt.INBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -54,7 +53,7 @@ public class SuperAxe extends AxeItem {
 
 
 
-        if(RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("logs")){
+        if(RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("logs") || RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("log")){
             brokenBlocks.add(pos);
             while(stack.getDamage() != stack.getMaxDamage() && blocksHarvested <= 64){
                 ArrayList<BlockPos> logNeighbours = getWoodNeighbours(world,currentPos,startLog);
