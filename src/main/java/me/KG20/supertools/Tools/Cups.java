@@ -25,8 +25,8 @@ public class Cups extends PickaxeItem {
     @Override
     public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if(RegisterItems.specialCup.equals(stack.getItem())){
-            target.addPotionEffect(new EffectInstance(Effect.getPotionById(20), 100, 5));
-            target.addPotionEffect(new EffectInstance(Effect.getPotionById(24), 100, 1));
+            target.addPotionEffect(new EffectInstance(Effect.get(20), 100, 5));
+            target.addPotionEffect(new EffectInstance(Effect.get(24), 100, 1));
         }
         if(RegisterItems.itemCup.equals(stack.getItem())){
             target.setFire(5);

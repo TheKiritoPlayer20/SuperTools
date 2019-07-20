@@ -39,7 +39,7 @@ public class BonemealTool extends Item {
             return ActionResultType.SUCCESS;
         } else {
             BlockState blockstate = world.getBlockState(blockpos);
-            boolean flag = Block.func_220056_d(blockstate, world, blockpos, context.getFace());
+            boolean flag = blockstate.func_224755_d(world, blockpos, context.getFace());
             if (flag && growSeagrass(context.getItem(), world, blockpos1, context.getFace(), context.getPlayer())) {
                 if (!world.isRemote) {
                     world.playEvent(2005, blockpos1, 0);
@@ -54,8 +54,8 @@ public class BonemealTool extends Item {
 
     @Deprecated //Forge: Use Player/Hand version
     public static boolean applyBonemeal(ItemStack p_195966_0_, World p_195966_1_, BlockPos p_195966_2_) {
-        if (p_195966_1_ instanceof net.minecraft.world.ServerWorld)
-            return applyBonemeal(p_195966_0_, p_195966_1_, p_195966_2_, net.minecraftforge.common.util.FakePlayerFactory.getMinecraft((net.minecraft.world.ServerWorld)p_195966_1_));
+        if (p_195966_1_ instanceof net.minecraft.world.server.ServerWorld)
+            return applyBonemeal(p_195966_0_, p_195966_1_, p_195966_2_, net.minecraftforge.common.util.FakePlayerFactory.getMinecraft((net.minecraft.world.server.ServerWorld)p_195966_1_));
         return false;
     }
 
@@ -70,7 +70,7 @@ public class BonemealTool extends Item {
                     if (igrowable.canUseBonemeal(p_195966_1_, p_195966_1_.rand, p_195966_2_, blockstate)) {
                         igrowable.grow(p_195966_1_, p_195966_1_.rand, p_195966_2_, blockstate);
                     }
-                    if(!player.playerAbilities.isCreativeMode) {
+                    if(!player.isCreative()) {
                         p_195966_0_.setDamage(p_195966_0_.getDamage() + 1);
                     }
                 }
@@ -122,7 +122,7 @@ public class BonemealTool extends Item {
                         }
                     }
                 }
-                    if(!player.playerAbilities.isCreativeMode) {
+                    if(!player.isCreative()) {
                         p_203173_0_.setDamage(p_203173_0_.getDamage() + 1);
                     }
             }

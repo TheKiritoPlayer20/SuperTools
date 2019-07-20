@@ -21,9 +21,9 @@ public class SuperSword extends SwordItem {
     @Override
     public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         if(RegisterItems.superSword.equals(stack.getItem())){
-            target.addPotionEffect(new EffectInstance(Effect.getPotionById(18), 60, 1));
-            target.addPotionEffect(new EffectInstance(Effect.getPotionById(19), 60, 1));
-            target.addPotionEffect(new EffectInstance(Effect.getPotionById(24), 60, 1));
+            target.addPotionEffect(new EffectInstance(Effect.get(18), 60, 1));
+            target.addPotionEffect(new EffectInstance(Effect.get(19), 60, 1));
+            target.addPotionEffect(new EffectInstance(Effect.get(24), 60, 1));
         }
         return super.hitEntity(stack, target, attacker);
     }

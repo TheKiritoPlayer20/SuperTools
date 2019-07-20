@@ -39,20 +39,20 @@ public class ItemArmor extends ArmorItem {
 
         if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(obsidianBoots) || player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(obsidianLeggings) ||
                 player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(obsidianChestplate) || player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(obsidianHelmet)){
-            player.addPotionEffect(new EffectInstance(Effect.getPotionById(2), 10, 0));
+            player.addPotionEffect(new EffectInstance(Effect.get(2), 10, 0));
 
             if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(obsidianBoots) && player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(obsidianLeggings) &&
                     player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(obsidianChestplate) && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(obsidianHelmet)) {
 
-                player.addPotionEffect(new EffectInstance(Effect.getPotionById(12), 10, 0));
-                player.addPotionEffect(new EffectInstance(Effect.getPotionById(2), 10, 1));
-                player.addPotionEffect(new EffectInstance(Effect.getPotionById(11), 10, 0));
+                player.addPotionEffect(new EffectInstance(Effect.get(12), 10, 0));
+                player.addPotionEffect(new EffectInstance(Effect.get(2), 10, 1));
+                player.addPotionEffect(new EffectInstance(Effect.get(11), 10, 0));
             }
         }
 
         if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(quartzBoots) && player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(quartzLeggings) &&
                 player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(quartzChestplate) && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(quartzHelmet)) {
-            player.addPotionEffect(new EffectInstance(Effect.getPotionById(12), 10, 0));
+            player.addPotionEffect(new EffectInstance(Effect.get(12), 10, 0));
         }
 
     }

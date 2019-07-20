@@ -14,12 +14,7 @@ displayName="Super Tools"
 credits="Textures by: TheLuigiplayer, Code by: KiritoGames20"
 authors="KiritoGames20 & TheLuigiplayer"
 description='''
-The SuperTools Mod.  It adds Lapis, Redstone, Quartz, Emerald & Obsidian Tools and also Emerald, Quartz, Lapis & Obsidian Armor.
-But the special things are the Super Tools, like the Pickaxe,Shovel,Axe or Hoe which have a 3x3 working area. The Sword gives
-the target you hit with it a potion effect like the Cup and the Special Cup.
-Made by TheLuigiplayer & KiritoGames20
-Disclaimer: Make sure to download this mod from Curseforge or Planetminecraft.
-'''
+The SuperTools Mod. It adds Lapis, Redstone, Quartz, Emerald & Obsidian Tools and also Emerald, Quartz, Lapis & Obsidian Armor. But the special things are the Super Tools, like the Pickaxe,Shovel,Axe or Hoe which have a 3x3 working area. The Sword gives the target you hit with it a potion effect like the Cup and the Special Cup. Made by TheLuigiplayer & KiritoGames20 Disclaimer: Make sure to download this mod from Curseforge or Planetminecraft.'''
 
 
 [[dependencies.supertools]] #optional
@@ -33,6 +28,6 @@ Disclaimer: Make sure to download this mod from Curseforge or Planetminecraft.
 [[dependencies.supertools]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.2, 1.14.3]"
+    versionRange="[1.14.3, 1.14.4]"
     ordering="NONE"
     side="BOTH"
