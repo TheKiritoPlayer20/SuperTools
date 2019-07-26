@@ -15,35 +15,46 @@ import net.minecraftforge.registries.IForgeRegistry;
 @EventBusSubscriber(modid = Constants.modid, bus = Bus.MOD)
 public class RegisterItems {
 
+    public static final Sickle woodenSickle = new Sickle(new Item.Properties().maxDamage(10));
+    public static final Sickle stoneSickle = new Sickle(new Item.Properties().maxDamage(50));
+    public static final Sickle ironSickle = new Sickle(new Item.Properties().maxDamage(100));
+    public static final Sickle goldenSickle = new Sickle(new Item.Properties().maxDamage(130));
+    public static final Sickle diamondSickle = new Sickle(new Item.Properties().maxDamage(150));
+
     public static final Hoe quartzHoe = new Hoe(BasisToolMaterial.quartz, -1F);
     public static final Axe quartzAxe = new Axe(BasisToolMaterial.quartz, -3.1F);
     public static final Pickaxe quartzPickaxe = new Pickaxe(BasisToolMaterial.quartz, -2.8F);
     public static final Shovel quartzShovel = new Shovel(BasisToolMaterial.quartz, -3F);
     public static final Sword quartzSword = new Sword(BasisToolMaterial.quartz, -2.4F);
+    public static final Sickle quartzSickle = new Sickle(new Item.Properties().maxDamage(250));
 
     public static final Hoe emeraldHoe = new Hoe(BasisToolMaterial.emerald, -1F);
     public static final Axe emeraldAxe = new Axe(BasisToolMaterial.emerald, -3.1F);
     public static final Pickaxe emeraldPickaxe = new Pickaxe(BasisToolMaterial.emerald, -2.8F);
     public static final Shovel emeraldShovel = new Shovel(BasisToolMaterial.emerald, -3F);
     public static final Sword emeraldSword = new Sword(BasisToolMaterial.emerald, -2.4F);
+    public static final Sickle emeraldSickle = new Sickle(new Item.Properties().maxDamage(150));
 
     public static final Hoe obsidianHoe = new Hoe(BasisToolMaterial.obsidian, -1F);
     public static final Axe obsidianAxe = new Axe(BasisToolMaterial.obsidian, -3.1F);
     public static final Pickaxe obsidianPickaxe = new Pickaxe(BasisToolMaterial.obsidian, -2.8F);
     public static final Shovel obsidianShovel = new Shovel(BasisToolMaterial.obsidian, -3F);
     public static final Sword obsidianSword = new Sword(BasisToolMaterial.obsidian, -2.4F);
+    public static final Sickle obsidianSickle = new Sickle(new Item.Properties().maxDamage(170));
 
     public static final Hoe lapisHoe = new Hoe(BasisToolMaterial.lapis, -1F);
     public static final Axe lapisAxe = new Axe(BasisToolMaterial.lapis, -3.1F);
     public static final Pickaxe lapisPickaxe = new Pickaxe(BasisToolMaterial.lapis, -2.8F);
     public static final Shovel lapisShovel = new Shovel(BasisToolMaterial.lapis, -3F);
     public static final Sword lapisSword = new Sword(BasisToolMaterial.lapis, -2.4F);
+    public static final Sickle lapisSickle = new Sickle(new Item.Properties().maxDamage(70));
 
     public static final Hoe redstoneHoe = new Hoe(BasisToolMaterial.redstone, -0.5F);
     public static final Axe redstoneAxe = new Axe(BasisToolMaterial.redstone, -2.6F);
     public static final Pickaxe redstonePickaxe = new Pickaxe(BasisToolMaterial.redstone, -2.3F);
     public static final Shovel redstoneShovel = new Shovel(BasisToolMaterial.redstone, -2.5F);
     public static final Sword redstoneSword = new Sword(BasisToolMaterial.redstone, -1.9F);
+    public static final Sickle redstoneSickle = new Sickle(new Item.Properties().maxDamage(100));
 
     public static final ItemArmor emeraldHelmet = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.HEAD);
     public static final ItemArmor emeraldChestplate = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.CHEST);
@@ -79,40 +90,52 @@ public class RegisterItems {
     public static void register(Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
 
+        woodenSickle.setRegistryName(Constants.modid, "woodensickle");
+        stoneSickle.setRegistryName(Constants.modid, "stonesickle");
+        ironSickle.setRegistryName(Constants.modid, "ironsickle");
+        goldenSickle.setRegistryName(Constants.modid, "goldensickle");
+        diamondSickle.setRegistryName(Constants.modid, "diamondsickle");
+        registry.registerAll(woodenSickle,stoneSickle,ironSickle,goldenSickle,diamondSickle);
+
         quartzHoe.setRegistryName(Constants.modid, "quartzhoe");
         quartzAxe.setRegistryName(Constants.modid, "quartzaxe");
         quartzPickaxe.setRegistryName(Constants.modid, "quartzpickaxe");
         quartzShovel.setRegistryName(Constants.modid, "quartzshovel");
         quartzSword.setRegistryName(Constants.modid, "quartzsword");
-        registry.registerAll(quartzHoe,quartzAxe,quartzPickaxe,quartzShovel,quartzSword);
+        quartzSickle.setRegistryName(Constants.modid, "quartzsickle");
+        registry.registerAll(quartzHoe,quartzAxe,quartzPickaxe,quartzShovel,quartzSword,quartzSickle);
 
         emeraldHoe.setRegistryName(Constants.modid, "emeraldhoe");
         emeraldAxe.setRegistryName(Constants.modid, "emeraldaxe");
         emeraldPickaxe.setRegistryName(Constants.modid, "emeraldpickaxe");
         emeraldShovel.setRegistryName(Constants.modid, "emeraldshovel");
         emeraldSword.setRegistryName(Constants.modid, "emeraldsword");
-        registry.registerAll(emeraldHoe,emeraldAxe,emeraldPickaxe,emeraldShovel,emeraldSword);
+        emeraldSickle.setRegistryName(Constants.modid, "emeraldsickle");
+        registry.registerAll(emeraldHoe,emeraldAxe,emeraldPickaxe,emeraldShovel,emeraldSword,emeraldSickle);
 
         obsidianHoe.setRegistryName(Constants.modid, "obsidianhoe");
         obsidianAxe.setRegistryName(Constants.modid, "obsidianaxe");
         obsidianPickaxe.setRegistryName(Constants.modid, "obsidianpickaxe");
         obsidianShovel.setRegistryName(Constants.modid, "obsidianshovel");
         obsidianSword.setRegistryName(Constants.modid, "obsidiansword");
-        registry.registerAll(obsidianHoe,obsidianAxe,obsidianPickaxe,obsidianShovel,obsidianSword);
+        obsidianSickle.setRegistryName(Constants.modid, "obsidiansickle");
+        registry.registerAll(obsidianHoe,obsidianAxe,obsidianPickaxe,obsidianShovel,obsidianSword,obsidianSickle);
 
         lapisHoe.setRegistryName(Constants.modid, "lapishoe");
         lapisAxe.setRegistryName(Constants.modid, "lapisaxe");
         lapisPickaxe.setRegistryName(Constants.modid, "lapispickaxe");
         lapisShovel.setRegistryName(Constants.modid, "lapisshovel");
         lapisSword.setRegistryName(Constants.modid, "lapissword");
-        registry.registerAll(lapisHoe,lapisAxe,lapisPickaxe,lapisShovel,lapisSword);
+        lapisSickle.setRegistryName(Constants.modid, "lapissickle");
+        registry.registerAll(lapisHoe,lapisAxe,lapisPickaxe,lapisShovel,lapisSword,lapisSickle);
 
         redstoneHoe.setRegistryName(Constants.modid, "redstonehoe");
         redstoneAxe.setRegistryName(Constants.modid, "redstoneaxe");
         redstonePickaxe.setRegistryName(Constants.modid, "redstonepickaxe");
         redstoneShovel.setRegistryName(Constants.modid, "redstoneshovel");
         redstoneSword.setRegistryName(Constants.modid, "redstonesword");
-        registry.registerAll(redstoneHoe,redstoneAxe,redstonePickaxe,redstoneShovel,redstoneSword);
+        redstoneSickle.setRegistryName(Constants.modid, "redstonesickle");
+        registry.registerAll(redstoneHoe,redstoneAxe,redstonePickaxe,redstoneShovel,redstoneSword,redstoneSickle);
 
         emeraldHelmet.setRegistryName(Constants.modid, "emeraldhelmet");
         emeraldChestplate.setRegistryName(Constants.modid, "emeraldchestplate");

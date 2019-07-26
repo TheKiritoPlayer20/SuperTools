@@ -50,5 +50,16 @@
   "item.supertools.supershovel": "Super Shovel",
   "item.supertools.supersword": "Super Sword",
   "item.supertools.itemcup" : "Cup",
-  "item.supertools.specialcup" : "Special Cup"
+  "item.supertools.specialcup" : "Special Cup",
+  "item.supertools.woodensickle" : "Wooden Sickle",
+  "item.supertools.stonesickle" : "Stone Sickle",
+  "item.supertools.lapissickle" : "Lapis Sickle",
+  "item.supertools.ironsickle" : "Iron Sickle",
+  "item.supertools.redstonesickle" : "Redstone Sickle",
+  "item.supertools.goldensickle" : "Golden Sickle",
+  "item.supertools.diamondsickle" : "Diamond Sickle",
+  "item.supertools.emeraldsickle" : "Emerald Sickle",
+  "item.supertools.obsidiansickle" : "Obsidian Sickle",
+  "item.supertools.quartzsickle" : "Quartz Sickle",
+
 }

@@ -50,5 +50,15 @@
   "item.supertools.supershovel": "Super Schaufel",
   "item.supertools.supersword": "Super Schwert",
   "item.supertools.itemcup" : "Pokal",
-  "item.supertools.specialcup" : "Spezial Pokal"
+  "item.supertools.specialcup" : "Spezial Pokal",
+  "item.supertools.woodensickle" : "Holz Sichel",
+  "item.supertools.stonesickle" : "Stein Sichel",
+  "item.supertools.lapissickle" : "Lapis Sichel",
+  "item.supertools.ironsickle" : "Eisen Sichel",
+  "item.supertools.redstonesickle" : "Rotstein Sichel",
+  "item.supertools.goldensickle" : "Gold Sichel",
+  "item.supertools.diamondsickle" : "Diamant Sichel",
+  "item.supertools.emeraldsickle" : "Smaragd Sichel",
+  "item.supertools.obsidiansickle" : "Obsidian Sichel",
+  "item.supertools.quartzsickle" : "Quartz Sichel"
 }
