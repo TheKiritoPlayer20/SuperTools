@@ -180,7 +180,8 @@ public class SuperShovel extends ShovelItem {
     }
 
     @Override
-    public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
+    public ActionResultType onItemUse(ItemUseContext context) {
+        ItemStack stack = context.getItem();
         World world = context.getWorld();
         BlockPos pos = context.getPos();
 
