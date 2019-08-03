@@ -2,7 +2,7 @@
 name: Feature request(Super Tools)
 about: Suggest an idea for this project
 title: ''
-labels: enhancement, SuperTools
+labels: SuperTools, enhancement
 assignees: ''
 
 ---
