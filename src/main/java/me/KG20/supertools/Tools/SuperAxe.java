@@ -92,6 +92,8 @@ public class SuperAxe extends AxeItem {
 
 
 
+        }else{
+            stack.setDamage(stack.getDamage() + 1);
         }
 
         return super.onBlockDestroyed(stack, world, state, pos, entityLiving);

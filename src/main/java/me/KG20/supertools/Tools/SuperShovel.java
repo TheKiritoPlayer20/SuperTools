@@ -168,6 +168,8 @@ public class SuperShovel extends ShovelItem {
                     }
                 }
 
+            }else{
+                stack.setDamage(stack.getDamage() + 1);
             }
 
 

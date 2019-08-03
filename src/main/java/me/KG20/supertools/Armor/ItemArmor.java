@@ -2,19 +2,13 @@ package me.KG20.supertools.Armor;
 
 import me.KG20.supertools.Init.CreativeTabs;
 import me.KG20.supertools.Init.RegisterItems;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerAbilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.PotionItem;
 import net.minecraft.potion.*;
 import net.minecraft.world.World;
-import net.minecraftforge.common.asm.PotionEffectTransformer;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ItemArmor extends ArmorItem {
 

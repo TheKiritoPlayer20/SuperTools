@@ -15,39 +15,39 @@ import net.minecraftforge.registries.IForgeRegistry;
 @EventBusSubscriber(modid = Constants.modid, bus = Bus.MOD)
 public class RegisterItems {
 
-    public static final Sickle woodenSickle = new Sickle(new Item.Properties().maxDamage(10));
-    public static final Sickle stoneSickle = new Sickle(new Item.Properties().maxDamage(50));
-    public static final Sickle ironSickle = new Sickle(new Item.Properties().maxDamage(100));
-    public static final Sickle goldenSickle = new Sickle(new Item.Properties().maxDamage(130));
-    public static final Sickle diamondSickle = new Sickle(new Item.Properties().maxDamage(150));
+    public static final Sickle woodenSickle = new Sickle(new Item.Properties().maxDamage(59));
+    public static final Sickle stoneSickle = new Sickle(new Item.Properties().maxDamage(131));
+    public static final Sickle ironSickle = new Sickle(new Item.Properties().maxDamage(250));
+    public static final Sickle goldenSickle = new Sickle(new Item.Properties().maxDamage(32));
+    public static final Sickle diamondSickle = new Sickle(new Item.Properties().maxDamage(1561));
 
     public static final Hoe quartzHoe = new Hoe(BasisToolMaterial.quartz, -1F);
     public static final Axe quartzAxe = new Axe(BasisToolMaterial.quartz, -3.1F);
     public static final Pickaxe quartzPickaxe = new Pickaxe(BasisToolMaterial.quartz, -2.8F);
     public static final Shovel quartzShovel = new Shovel(BasisToolMaterial.quartz, -3F);
     public static final Sword quartzSword = new Sword(BasisToolMaterial.quartz, -2.4F);
-    public static final Sickle quartzSickle = new Sickle(new Item.Properties().maxDamage(250));
+    public static final Sickle quartzSickle = new Sickle(new Item.Properties().maxDamage(1000));
 
     public static final Hoe emeraldHoe = new Hoe(BasisToolMaterial.emerald, -1F);
     public static final Axe emeraldAxe = new Axe(BasisToolMaterial.emerald, -3.1F);
     public static final Pickaxe emeraldPickaxe = new Pickaxe(BasisToolMaterial.emerald, -2.8F);
     public static final Shovel emeraldShovel = new Shovel(BasisToolMaterial.emerald, -3F);
     public static final Sword emeraldSword = new Sword(BasisToolMaterial.emerald, -2.4F);
-    public static final Sickle emeraldSickle = new Sickle(new Item.Properties().maxDamage(150));
+    public static final Sickle emeraldSickle = new Sickle(new Item.Properties().maxDamage(1561));
 
     public static final Hoe obsidianHoe = new Hoe(BasisToolMaterial.obsidian, -1F);
     public static final Axe obsidianAxe = new Axe(BasisToolMaterial.obsidian, -3.1F);
     public static final Pickaxe obsidianPickaxe = new Pickaxe(BasisToolMaterial.obsidian, -2.8F);
     public static final Shovel obsidianShovel = new Shovel(BasisToolMaterial.obsidian, -3F);
     public static final Sword obsidianSword = new Sword(BasisToolMaterial.obsidian, -2.4F);
-    public static final Sickle obsidianSickle = new Sickle(new Item.Properties().maxDamage(170));
+    public static final Sickle obsidianSickle = new Sickle(new Item.Properties().maxDamage(2000));
 
     public static final Hoe lapisHoe = new Hoe(BasisToolMaterial.lapis, -1F);
     public static final Axe lapisAxe = new Axe(BasisToolMaterial.lapis, -3.1F);
     public static final Pickaxe lapisPickaxe = new Pickaxe(BasisToolMaterial.lapis, -2.8F);
     public static final Shovel lapisShovel = new Shovel(BasisToolMaterial.lapis, -3F);
     public static final Sword lapisSword = new Sword(BasisToolMaterial.lapis, -2.4F);
-    public static final Sickle lapisSickle = new Sickle(new Item.Properties().maxDamage(70));
+    public static final Sickle lapisSickle = new Sickle(new Item.Properties().maxDamage(150));
 
     public static final Hoe redstoneHoe = new Hoe(BasisToolMaterial.redstone, -0.5F);
     public static final Axe redstoneAxe = new Axe(BasisToolMaterial.redstone, -2.6F);

@@ -19,6 +19,7 @@ import net.minecraftforge.common.ToolType;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.function.Consumer;
 
 public class SuperPickaxe extends PickaxeItem {
 
@@ -58,7 +59,7 @@ public class SuperPickaxe extends PickaxeItem {
                 }
             }
 
-            if(world.getBlockState(pos).getMaterial() == Material.ROCK || world.getBlockState(pos).getMaterial() == Material.IRON || world.getBlockState(pos).getMaterial() == Material.ANVIL){
+            if(world.getBlockState(pos).getMaterial() == Material.ROCK || world.getBlockState(pos).getMaterial() == Material.IRON || world.getBlockState(pos).getMaterial() == Material.ANVIL || world.getBlockState(pos).getMaterial() == Material.GLASS || world.getBlockState(pos).getMaterial() == Material.ICE || world.getBlockState(pos).getMaterial() == Material.PACKED_ICE){
                 if(entityLiving.getLookVec().y <= -0.52f || entityLiving.getLookVec().y >= 0.52f){
                     for(int x = -1; x < 2; x++){
                         for(int z = -1; z < 2; z++){
@@ -67,8 +68,8 @@ public class SuperPickaxe extends PickaxeItem {
                             BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
 
-                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL){
-                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK){
+                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE){
+                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME){
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
                                     if(silktouchEnchantment.length() != 0){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
@@ -166,8 +167,8 @@ public class SuperPickaxe extends PickaxeItem {
                             int randomNumber = random.nextInt(100) + 1;
                             BlockPos newBlockPos = new BlockPos(bx + x,by + y, bz);
 
-                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL){
-                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK){
+                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE){
+                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME){
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
                                     if(silktouchEnchantment.length() != 0){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
@@ -263,8 +264,8 @@ public class SuperPickaxe extends PickaxeItem {
                             int randomNumber = random.nextInt(100) + 1;
                             BlockPos newBlockPos = new BlockPos(bx ,by + y, bz + z);
 
-                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL){
-                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK){
+                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE){
+                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME){
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
                                     if(silktouchEnchantment.length() != 0){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
@@ -356,6 +357,8 @@ public class SuperPickaxe extends PickaxeItem {
                     }
                 }
 
+            }else{
+                stack.setDamage(stack.getDamage() + 1);
             }
 
         }
