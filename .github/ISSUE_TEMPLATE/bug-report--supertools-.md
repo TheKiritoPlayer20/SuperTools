@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Versions**
-Forge version: 26.*.*/27.*.*
+Forge version: 28.*.*
 Supertools version: 1.*
 
 **To Reproduce**
