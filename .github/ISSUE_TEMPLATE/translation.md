@@ -2,14 +2,14 @@
 name: Translation
 about: Translate Super Tools
 title: "[TRANSLATION]"
-labels: SuperTools, documentation
+labels: SuperTools, Translation
 assignees: KiritoGames20
 
 ---
 
 Language: [Language]
 
-To translate: just replace the old names, e.g to rename the "itemGroup.armor" replace "Super Armor".
+To translate: just replace the old names, e.g to rename the "itemGroup.armor" replace "Super Armor" with the translation.
 
 {
   "itemGroup.armor": "Super Armor",
