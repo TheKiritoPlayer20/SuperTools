@@ -74,5 +74,21 @@ To translate: just replace the old names, e.g to rename the "itemGroup.armor" re
   "item.supertools.emeraldsickle" : "Emerald Sickle",
   "item.supertools.obsidiansickle" : "Obsidian Sickle",
   "item.supertools.quartzsickle" : "Quartz Sickle",
-  "item.supertools.supersickle" : "Super Sickle"
+  "item.supertools.supersickle" : "Super Sickle",
+  "advancements.supertools.root.title" : "Super Tools",
+  "advancements.supertools.root.description" : "Make every Super Tool!",
+  "advancements.supertools.superaxe.title" : "Super Axe",
+  "advancements.supertools.superaxe.description" : "Isn't it a Super Axe?",
+  "advancements.supertools.superpickaxe.title" : "Super Pickaxe",
+  "advancements.supertools.superpickaxe.description" : "Isn't it a Super Pickaxe?",
+  "advancements.supertools.supershovel.title" : "Super Shovel",
+  "advancements.supertools.supershovel.description" : "Isn't it a Super Shovel?",
+  "advancements.supertools.superhoe.title" : "Super Hoe",
+  "advancements.supertools.superhoe.description" : "Isn't it a Super Hoe?",
+  "advancements.supertools.supersword.title" : "Super Sword",
+  "advancements.supertools.supersword.description" : "Isn't it a Super Sword?",
+  "advancements.supertools.supersickle.title" : "Super Sickle",
+  "advancements.supertools.supersickle.description" : "Isn't it a Super Sickle?",
+  "advancements.supertools.supercup.title" : "SUPER CUP!",
+  "advancements.supertools.supercup.description" : "Why dont you hit any entities with it?"
 }
