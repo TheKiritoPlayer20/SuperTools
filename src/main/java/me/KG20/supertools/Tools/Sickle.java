@@ -31,13 +31,13 @@ public class Sickle extends Item {
             int by = pos.getY();
             int bz = pos.getZ();
 
-            if (world.getBlockState(pos).getMaterial() == Material.PLANTS || world.getBlockState(pos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(pos).getMaterial() == Material.OCEAN_PLANT){
+            if (world.getBlockState(pos).getMaterial() == Material.PLANTS || world.getBlockState(pos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(pos).getMaterial() == Material.OCEAN_PLANT || world.getBlockState(pos).getMaterial() == Material.SEA_GRASS){
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
 
                         BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.OCEAN_PLANT) {
+                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.OCEAN_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.SEA_GRASS) {
                             world.destroyBlock(newBlockPos, true);
                         }
 
@@ -54,13 +54,13 @@ public class Sickle extends Item {
             int by = pos.getY();
             int bz = pos.getZ();
 
-            if (world.getBlockState(pos).getMaterial() == Material.PLANTS || world.getBlockState(pos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(pos).getMaterial() == Material.OCEAN_PLANT){
+            if (world.getBlockState(pos).getMaterial() == Material.PLANTS || world.getBlockState(pos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(pos).getMaterial() == Material.OCEAN_PLANT || world.getBlockState(pos).getMaterial() == Material.SEA_GRASS){
                 for (int x = -4; x < 5; x++) {
                     for (int z = -4; z < 5; z++) {
 
                         BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.OCEAN_PLANT) {
+                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.OCEAN_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.SEA_GRASS) {
                             world.destroyBlock(newBlockPos, true);
                         }
 
@@ -93,7 +93,7 @@ public class Sickle extends Item {
 
                         BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.OCEAN_PLANT) {
+                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.OCEAN_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.SEA_GRASS) {
                             world.destroyBlock(newBlockPos, true);
                         }
 
@@ -109,37 +109,4 @@ public class Sickle extends Item {
         return super.onItemUse(context);
     }
 
-    /*
-    @Override
-    public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getPos();
-
-        if (RegisterItems.superSickle.equals(stack.getItem())) {
-            int bx = pos.getX();
-            int by = pos.getY();
-            int bz = pos.getZ();
-
-            if (world.getBlockState(pos).getMaterial() == Material.PLANTS || world.getBlockState(pos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(pos).getMaterial() == Material.OCEAN_PLANT){
-                for (int x = -4; x < 5; x++) {
-                    for (int z = -4; z < 5; z++) {
-
-                        BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
-
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.OCEAN_PLANT) {
-                            world.destroyBlock(newBlockPos, true);
-                        }
-
-                    }
-                }
-                stack.setDamage(stack.getDamage() + 1);
-                if(stack.getDamage() >= stack.getMaxDamage()){
-                    stack.shrink(1);
-                }
-            }
-        }
-
-
-        return null;
-    }*/
 }

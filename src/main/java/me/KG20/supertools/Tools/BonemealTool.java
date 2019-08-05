@@ -59,19 +59,22 @@ public class BonemealTool extends Item {
         return false;
     }
 
-    public static boolean applyBonemeal(ItemStack p_195966_0_, World p_195966_1_, BlockPos p_195966_2_, net.minecraft.entity.player.PlayerEntity player) {
-        BlockState blockstate = p_195966_1_.getBlockState(p_195966_2_);
-        int hook = net.minecraftforge.event.ForgeEventFactory.onApplyBonemeal(player, p_195966_1_, p_195966_2_, blockstate, p_195966_0_);
+    public static boolean applyBonemeal(ItemStack stack, World world, BlockPos blockPos, net.minecraft.entity.player.PlayerEntity player) {
+        BlockState blockstate = world.getBlockState(blockPos);
+        int hook = net.minecraftforge.event.ForgeEventFactory.onApplyBonemeal(player, world, blockPos, blockstate, stack);
         if (hook != 0) return hook > 0;
         if (blockstate.getBlock() instanceof IGrowable) {
             IGrowable igrowable = (IGrowable)blockstate.getBlock();
-            if (igrowable.canGrow(p_195966_1_, p_195966_2_, blockstate, p_195966_1_.isRemote)) {
-                if (!p_195966_1_.isRemote) {
-                    if (igrowable.canUseBonemeal(p_195966_1_, p_195966_1_.rand, p_195966_2_, blockstate)) {
-                        igrowable.grow(p_195966_1_, p_195966_1_.rand, p_195966_2_, blockstate);
+            if (igrowable.canGrow(world, blockPos, blockstate, world.isRemote)) {
+                if (!world.isRemote) {
+                    if (igrowable.canUseBonemeal(world, world.rand, blockPos, blockstate)) {
+                        igrowable.grow(world, world.rand, blockPos, blockstate);
                     }
                     if(!player.isCreative()) {
-                        p_195966_0_.setDamage(p_195966_0_.getDamage() + 1);
+                        stack.setDamage(stack.getDamage() + 1);
+                        if(stack.getDamage() >= stack.getMaxDamage()){
+                            stack.shrink(1);
+                        }
                     }
                 }
 
@@ -82,48 +85,51 @@ public class BonemealTool extends Item {
         return false;
     }
 
-    public static boolean growSeagrass(ItemStack p_203173_0_, World p_203173_1_, BlockPos p_203173_2_, @Nullable Direction p_203173_3_, net.minecraft.entity.player.PlayerEntity player) {
-        if (p_203173_1_.getBlockState(p_203173_2_).getBlock() == Blocks.WATER && p_203173_1_.getFluidState(p_203173_2_).getLevel() == 8) {
-            if (!p_203173_1_.isRemote) {
+    public static boolean growSeagrass(ItemStack stack, World world, BlockPos blockPos, @Nullable Direction direction, net.minecraft.entity.player.PlayerEntity player) {
+        if (world.getBlockState(blockPos).getBlock() == Blocks.WATER && world.getFluidState(blockPos).getLevel() == 8) {
+            if (!world.isRemote) {
                 label79:
                 for(int i = 0; i < 128; ++i) {
-                    BlockPos blockpos = p_203173_2_;
-                    Biome biome = p_203173_1_.getBiome(p_203173_2_);
+                    BlockPos blockpos = blockPos;
+                    Biome biome = world.getBiome(blockPos);
                     BlockState blockstate = Blocks.SEAGRASS.getDefaultState();
 
                     for(int j = 0; j < i / 16; ++j) {
                         blockpos = blockpos.add(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-                        biome = p_203173_1_.getBiome(blockpos);
-                        if (Block.isOpaque(p_203173_1_.getBlockState(blockpos).getCollisionShape(p_203173_1_, blockpos))) {
+                        biome = world.getBiome(blockpos);
+                        if (Block.isOpaque(world.getBlockState(blockpos).getCollisionShape(world, blockpos))) {
                             continue label79;
                         }
                     }
 
                     if (biome == Biomes.WARM_OCEAN || biome == Biomes.DEEP_WARM_OCEAN) {
-                        if (i == 0 && p_203173_3_ != null && p_203173_3_.getAxis().isHorizontal()) {
-                            blockstate = BlockTags.WALL_CORALS.getRandomElement(p_203173_1_.rand).getDefaultState().with(DeadCoralWallFanBlock.FACING, p_203173_3_);
+                        if (i == 0 && direction != null && direction.getAxis().isHorizontal()) {
+                            blockstate = BlockTags.WALL_CORALS.getRandomElement(world.rand).getDefaultState().with(DeadCoralWallFanBlock.FACING, direction);
                         } else if (random.nextInt(4) == 0) {
                             blockstate = BlockTags.UNDERWATER_BONEMEALS.getRandomElement(random).getDefaultState();
                         }
                     }
 
                     if (blockstate.getBlock().isIn(BlockTags.WALL_CORALS)) {
-                        for(int k = 0; !blockstate.isValidPosition(p_203173_1_, blockpos) && k < 4; ++k) {
+                        for(int k = 0; !blockstate.isValidPosition(world, blockpos) && k < 4; ++k) {
                             blockstate = blockstate.with(DeadCoralWallFanBlock.FACING, Direction.Plane.HORIZONTAL.random(random));
                         }
                     }
 
-                    if (blockstate.isValidPosition(p_203173_1_, blockpos)) {
-                        BlockState blockstate1 = p_203173_1_.getBlockState(blockpos);
-                        if (blockstate1.getBlock() == Blocks.WATER && p_203173_1_.getFluidState(blockpos).getLevel() == 8) {
-                            p_203173_1_.setBlockState(blockpos, blockstate, 3);
+                    if (blockstate.isValidPosition(world, blockpos)) {
+                        BlockState blockstate1 = world.getBlockState(blockpos);
+                        if (blockstate1.getBlock() == Blocks.WATER && world.getFluidState(blockpos).getLevel() == 8) {
+                            world.setBlockState(blockpos, blockstate, 3);
                         } else if (blockstate1.getBlock() == Blocks.SEAGRASS && random.nextInt(10) == 0) {
-                            ((IGrowable)Blocks.SEAGRASS).grow(p_203173_1_, random, blockpos, blockstate1);
+                            ((IGrowable)Blocks.SEAGRASS).grow(world, random, blockpos, blockstate1);
                         }
                     }
                 }
                     if(!player.isCreative()) {
-                        p_203173_0_.setDamage(p_203173_0_.getDamage() + 1);
+                        stack.setDamage(stack.getDamage() + 1);
+                        if(stack.getDamage() >= stack.getMaxDamage()){
+                            stack.shrink(1);
+                        }
                     }
             }
 
