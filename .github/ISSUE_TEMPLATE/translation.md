@@ -1,0 +1,78 @@
+---
+name: Translation
+about: Translate Super Tools
+title: "[TRANSLATION]"
+labels: SuperTools, documentation
+assignees: KiritoGames20
+
+---
+
+Language: [Language]
+
+To translate: just replace the old names, e.g to rename the "itemGroup.armor" replace "Super Armor".
+
+{
+  "itemGroup.armor": "Super Armor",
+  "itemGroup.tools": "Tools",
+  "itemGroup.supertools" : "Super Tools",
+  "item.supertools.quartzhoe": "Quartz Hoe",
+  "item.supertools.quartzaxe": "Quartz Axe",
+  "item.supertools.quartzpickaxe": "Quartz Pickaxe",
+  "item.supertools.quartzshovel": "Quartz Shovel",
+  "item.supertools.quartzsword": "Quartz Sword",
+  "item.supertools.emeraldhoe": "Emerald Hoe",
+  "item.supertools.emeraldaxe": "Emerald Axe",
+  "item.supertools.emeraldpickaxe": "Emerald Pickaxe",
+  "item.supertools.emeraldshovel": "Emerald Shovel",
+  "item.supertools.emeraldsword": "Emerald Sword",
+  "item.supertools.obsidianhoe": "Obsidian Hoe",
+  "item.supertools.obsidianaxe": "Obsidian Axe",
+  "item.supertools.obsidianpickaxe": "Obsidian Pickaxe",
+  "item.supertools.obsidianshovel": "Obsidian Shovel",
+  "item.supertools.obsidiansword": "Obsidian Sword",
+  "item.supertools.lapishoe": "Lapis Hoe",
+  "item.supertools.lapisaxe": "Lapis Axe",
+  "item.supertools.lapispickaxe": "Lapis Pickaxe",
+  "item.supertools.lapisshovel": "Lapis Shovel",
+  "item.supertools.lapissword": "Lapis Sword",
+  "item.supertools.redstonehoe": "Redstone Hoe",
+  "item.supertools.redstoneaxe": "Redstone Axe",
+  "item.supertools.redstonepickaxe": "Redstone Pickaxe",
+  "item.supertools.redstoneshovel": "Redstone Shovel",
+  "item.supertools.redstonesword": "Redstone Sword",
+  "item.supertools.emeraldhelmet" : "Emerald Helmet",
+  "item.supertools.emeraldchestplate" : "Emerald Chestplate",
+  "item.supertools.emeraldleggings" : "Emerald Leggings",
+  "item.supertools.emeraldboots" : "Emerald Boots",
+  "item.supertools.obsidianhelmet" : "Obsidian Helmet",
+  "item.supertools.obsidianchestplate" : "Obsidian Chestplate",
+  "item.supertools.obsidianleggings" : "Obsidian Leggings",
+  "item.supertools.obsidianboots" : "Obsidian Boots",
+  "item.supertools.lapishelmet" : "Lapis Helmet",
+  "item.supertools.lapischestplate" : "Lapis Chestplate",
+  "item.supertools.lapisleggings" : "Lapis Leggings",
+  "item.supertools.lapisboots" : "Lapis Boots",
+  "item.supertools.quartzhelmet" : "Quartz Helmet",
+  "item.supertools.quartzchestplate" : "Quartz Chestplate",
+  "item.supertools.quartzleggings" : "Quartz Leggings",
+  "item.supertools.quartzboots" : "Quartz Boots",
+  "item.supertools.bonemealtool" : "A bag of Bonemeal",
+  "item.supertools.superhoe": "Super Hoe",
+  "item.supertools.superaxe": "Super Axe",
+  "item.supertools.superpickaxe": "Super Pickaxe",
+  "item.supertools.supershovel": "Super Shovel",
+  "item.supertools.supersword": "Super Sword",
+  "item.supertools.itemcup" : "Cup",
+  "item.supertools.specialcup" : "Special Cup",
+  "item.supertools.woodensickle" : "Wooden Sickle",
+  "item.supertools.stonesickle" : "Stone Sickle",
+  "item.supertools.lapissickle" : "Lapis Sickle",
+  "item.supertools.ironsickle" : "Iron Sickle",
+  "item.supertools.redstonesickle" : "Redstone Sickle",
+  "item.supertools.goldensickle" : "Golden Sickle",
+  "item.supertools.diamondsickle" : "Diamond Sickle",
+  "item.supertools.emeraldsickle" : "Emerald Sickle",
+  "item.supertools.obsidiansickle" : "Obsidian Sickle",
+  "item.supertools.quartzsickle" : "Quartz Sickle",
+  "item.supertools.supersickle" : "Super Sickle"
+}
