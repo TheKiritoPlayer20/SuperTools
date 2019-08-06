@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "supertools:blocks/concrete_furnace_top",
-        "front": "supertools:blocks/concrete_furnace_front_off",
-        "side": "supertools:blocks/concrete_furnace_side"
-    }
-}
