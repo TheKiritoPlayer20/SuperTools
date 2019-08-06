@@ -1,0 +1,35 @@
+{
+  "parent": "supertools:supertools/root",
+  "display": {
+    "icon": {
+      "item": "supertools:supershovel"
+    },
+    "title": {
+      "translate": "advancements.supertools.supershovel.title"
+    },
+    "description": {
+      "translate": "advancements.supertools.supershovel.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "super_shovel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "supertools:supershovel"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "super_shovel"
+    ]
+  ]
+}

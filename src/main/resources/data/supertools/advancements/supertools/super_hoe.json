@@ -1,0 +1,35 @@
+{
+  "parent": "supertools:supertools/root",
+  "display": {
+    "icon": {
+      "item": "supertools:superhoe"
+    },
+    "title": {
+      "translate": "advancements.supertools.superhoe.title"
+    },
+    "description": {
+      "translate": "advancements.supertools.superhoe.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "super_hoe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "supertools:superhoe"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "super_hoe"
+    ]
+  ]
+}

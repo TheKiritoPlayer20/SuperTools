@@ -1,0 +1,44 @@
+{
+  "parent": "supertools:recipes/root",
+  "rewards": {
+    "recipes": [
+      "supertools:special_cup"
+    ]
+  },
+  "criteria": {
+    "has_items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:diamond"
+          },
+          {
+            "item": "minecraft:gold_ingot"
+          },
+          {
+            "item": "minecraft:blaze_rod"
+          },
+		  {
+            "item": "minecraft:nether_star"
+          },
+		  {
+            "item": "supertools:itemcup"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "supertools:special_cup"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_items",
+      "has_the_recipe"
+    ]
+  ]
+}

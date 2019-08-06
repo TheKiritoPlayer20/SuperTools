@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "supertools:specialcup"
+    },
+    "title": {
+      "translate": "advancements.supertools.root.title"
+    },
+    "description": {
+      "translate": "advancements.supertools.root.description"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "criteria": {
+    "killed_blaze": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:blaze"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "killed_blaze"
+    ]
+  ]
+}

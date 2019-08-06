@@ -60,14 +60,14 @@ public class SuperShovel extends ShovelItem {
                 }
             }
 
-            if(world.getBlockState(pos).getMaterial() == Material.EARTH || world.getBlockState(pos).getMaterial() == Material.SAND || world.getBlockState(pos).getMaterial() == Material.ORGANIC){
+            if(world.getBlockState(pos).getMaterial() == Material.EARTH || world.getBlockState(pos).getMaterial() == Material.SAND || world.getBlockState(pos).getMaterial() == Material.ORGANIC || world.getBlockState(pos).getMaterial() == Material.SNOW || world.getBlockState(pos).getMaterial() == Material.SNOW_BLOCK){
                 if (entityLiving.getLookVec().y <= -0.50f || entityLiving.getLookVec().y >= 0.50f) {
                     for (int x = -1; x < 2; x++) {
                         for (int z = -1; z < 2; z++) {
 
                             BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
                                 if(silktouchEnchantment.length() != 0) {
                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                     world.destroyBlock(newBlockPos, false);
@@ -102,7 +102,7 @@ public class SuperShovel extends ShovelItem {
 
                             BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
                                 if(silktouchEnchantment.length() != 0) {
                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                     world.destroyBlock(newBlockPos, false);
@@ -137,7 +137,7 @@ public class SuperShovel extends ShovelItem {
 
                             BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
                                 if(silktouchEnchantment.length() != 0) {
                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                     world.destroyBlock(newBlockPos, false);

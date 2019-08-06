@@ -1,0 +1,35 @@
+{
+  "parent": "supertools:supertools/root",
+  "display": {
+    "icon": {
+      "item": "supertools:itemcup"
+    },
+    "title": {
+      "translate": "advancements.supertools.cup.title"
+    },
+    "description": {
+      "translate": "advancements.supertools.cup.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "cup": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "supertools:itemcup"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "cup"
+    ]
+  ]
+}
