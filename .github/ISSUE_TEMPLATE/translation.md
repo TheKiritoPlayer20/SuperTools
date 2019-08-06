@@ -89,6 +89,8 @@ To translate: just replace the old names, e.g to rename the "itemGroup.armor" re
   "advancements.supertools.supersword.description" : "Isn't it a Super Sword?",
   "advancements.supertools.supersickle.title" : "Super Sickle",
   "advancements.supertools.supersickle.description" : "Isn't it a Super Sickle?",
+  "advancements.supertools.cup.title" : "CUP!",
+  "advancements.supertools.cup.description" : "Why don't you go mining with it?",
   "advancements.supertools.specialcup.title" : "SUPER CUP!",
-  "advancements.supertools.specialcup.description" : "Why dont you hit any entities with it?"
+  "advancements.supertools.specialcup.description" : "Why don't you hit any entities with it?"
 }
