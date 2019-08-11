@@ -8,7 +8,7 @@ logoFile="supertools_logo.png"
 modId="supertools"
 version="${file.jarVersion}"
 displayName="Super Tools"
-#updateJSONURL="http://myurl.me/"
+updateJSONURL="https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/updates/update.json"
 
 
 credits="Textures by: TheLuigiplayer, Code by: KiritoGames20"
