@@ -1,17 +1,95 @@
-Build: 1.1b
-	Added update.json
-	Added tags for all gems, and ores.
+Build: 1.4
+	Updated to Forge 28.0.45.
+	Requires Forge 28.0.45.
+	Slightly updated the cup texture.
+	Fixed a "bug" where you wouldn't get the recipe for the Cups.
+	Added Advancement Tab.
+	Ores mined with the Super Pickaxe will now drop Experience Points.
+	Removed unused Block models.
 	
+=========
+Build: 1.3c
+	Fixed a Bag of Bonemeal.
+	Fixed Sickles as they now also remove sea grass.
+	Changed cup and super cup texture.
+
+	This should be the last Super Tools version, which get's features. New versions will only contain bug fixes or will be updates
+	if there's a new Minecraft version or a forge version.
+	
+=========
+Build: 1.3b
+	Fixed the Super Sickle recipe. Now needs a blaze rod instead of a normal stick.
+	Added Advancements which will give you the recipes for the recipe book in your inventory/workbench when you have the required
+	items in your inventory.
+	
+=========
+Build: 1.3
+	Added Super Sickle(works in a 9x9 area)
+	Updated to Forge 28.0.40
+		
+=========
+Build: 1.2c
+	Fixed a bug, where you could destroy End Portal Frames with the Super Pickaxe
+		
+=========
+Build: 1.2b
+	Sickles now have the same durabilty as the other tools, made out of this material.
+	Super Pickaxe will now also 3x3 Glass(Glowstone),Ice and Packed Ice.
+	Super Pickaxe,Shovel and Axe will now also take damage, if you mine blocks, they arent supposed to mine in a 3x3 area. 
+	Added a required forge version(28.0.19), as there were forge bugs, were the Pickaxe atleast woudn't mine a 3x3 area.
+		
+=========
+Build: 1.2
+	Added Sickles
+	they work in a 3x3 area
+ 
+	Durabilities:
+	Wooden -> 10
+	Stone -> 50
+	Iron -> 100
+	Gold -> 130
+	Diamond ->150
+
+	Emerald -> 150
+	Lapis -> 70
+	Quartz -> 250
+	Redstone -> 100
+	Obsidian -> 170
+		
+=========
+Build: 1.1b
+	Super -Shovel and -Pickaxe will only work now if the first block you break is a block they are supposed to break.
+	Removed not used textures.
+		
 =========
 Build: 1.1
-	Ores will now drop Experience Points.
-	Sickles will now destory sea grass.
-	Slightly updated topaz armor texture.
-	
+	Fixed enchantments for Super Tools.
+	Unbreaking now works for the Super -Axe,-Shovel,-Hoe and the -Pickaxe.
+	Fortune and silktouch now work for the Super -Shovel and the -Pickaxe.
+	Updated Cup Textures.
+	Fixed a bug where you couldnt do farmland with normal hoes.
+	Fixed a bug where you couldnt do path ways with normal shovels.
+	Fixed a bug where every tool wouldn't take damage.	
+		
+=========
+Build: 1.0b
+	Fixed a bug, where you could destroy bedrock with the Super Pickaxe.
+		
 =========
 Build: 1.0
-	First Release of More Ores In ONE.
+	Added the Super Hoe,Super Axe,Super Pickaxe,Super Shovel and Super Sword.
+	The Super -Pickaxe,-Shovel and Hoe have a 3x3 working area.
+	The Super Axe works like a lumber axe. (Be careful, as it could ruin your whole house)
+	The Super Sword gives the target you hit a glowing, weakness and poison effect for 3 seconds.
+	Added the Cup and Special Cup.
+	The Cup ignites the targets you hit for 5 seconds and the Special Cup gives them a wither effect for 5 seconds.
+		
+=========
+Build: 0.6
+ 	Fixed a bug which crashed the server when you equipped obsidian or quartz armor
+	Added a Bag of Bonemeal which you craft with 8 leather and 1 Bone block.
+	Updated to Minecraft 1.14.3
 	
 =========
-Build: 1.0
-	First Release of More Ores In ONE.
+Build: 0.5
+	First Release of Super Tools.
