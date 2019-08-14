@@ -1,6 +1,7 @@
 package me.KG20.supertools.Tools;
 
 
+import me.KG20.supertools.Config.Config;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Items;
@@ -12,14 +13,14 @@ import java.util.function.Supplier;
 
 public class BasisToolMaterial {
 
-    public static final IItemTier quartz = new ToolMaterial(3, 1000,6.0F, 2.0F, 14, () -> Ingredient.fromItems(Items.QUARTZ));
-    public static final IItemTier obsidian = new ToolMaterial(3, 2000, 7F, 3.5F, 10, () -> Ingredient.fromItems(Blocks.OBSIDIAN));
-    public static final IItemTier emerald = new ToolMaterial(3, 1561, 9.5F, 3.5F, 10, () -> Ingredient.fromItems(Items.EMERALD));
-    public static final IItemTier lapis = new ToolMaterial(1, 150, 6.0F, 2.0F, 20, () -> Ingredient.fromItems(Items.LAPIS_LAZULI));
-    public static final IItemTier redstone = new ToolMaterial(2, 100, 15.0F, -0.5F, 20, () -> Ingredient.fromItems(Items.REDSTONE));
-    public static final IItemTier supertools = new ToolMaterial(4, 1350, 10.6F, 3.5F, 16, () -> Ingredient.fromItems(Items.DIAMOND));
-    public static final IItemTier itemcup = new ToolMaterial(4,1700, 10.6F, 3.5F,16, () -> Ingredient.fromItems(Items.DIAMOND));
-    public static final IItemTier specialcup = new ToolMaterial(4, 2000, 12F, 4.0F, 16, () ->Ingredient.fromItems(Items.DIAMOND));
+    public static final IItemTier quartz = new ToolMaterial(3, Config.durability_quartz.get(),6.0F, 2.0F, 14, () -> Ingredient.fromItems(Items.QUARTZ));
+    public static final IItemTier obsidian = new ToolMaterial(3, Config.durability_obsidian.get(), 7F, 3.5F, 10, () -> Ingredient.fromItems(Blocks.OBSIDIAN));
+    public static final IItemTier emerald = new ToolMaterial(3, Config.durability_emerald.get(), 9.5F, 3.5F, 10, () -> Ingredient.fromItems(Items.EMERALD));
+    public static final IItemTier lapis = new ToolMaterial(1, Config.durability_lapis.get(), 6.0F, 2.0F, 20, () -> Ingredient.fromItems(Items.LAPIS_LAZULI));
+    public static final IItemTier redstone = new ToolMaterial(2, Config.durability_redstone.get(), 15.0F, -0.5F, 20, () -> Ingredient.fromItems(Items.REDSTONE));
+    public static final IItemTier supertools = new ToolMaterial(4, Config.durability_SuperTools.get(), 10.6F, 3.5F, 16, () -> Ingredient.fromItems(Items.DIAMOND));
+    public static final IItemTier itemcup = new ToolMaterial(4, Config.durability_Cup.get(), 10.6F, 3.5F,16, () -> Ingredient.fromItems(Items.DIAMOND));
+    public static final IItemTier specialcup = new ToolMaterial(4, Config.durability_SpecialCup.get(), 12F, 4.0F, 16, () ->Ingredient.fromItems(Items.DIAMOND));
 
 
     private static class ToolMaterial implements IItemTier{

@@ -1,5 +1,6 @@
 package me.KG20.supertools.Tools;
 
+import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.block.*;
 import net.minecraft.item.Item;
@@ -21,7 +22,7 @@ import javax.annotation.Nullable;
 
 public class BonemealTool extends Item {
     public BonemealTool() {
-        super(new Item.Properties().maxDamage(100).group(CreativeTabs.supertools));
+        super(new Item.Properties().maxDamage(Config.durability_BoneMealTool.get()).group(CreativeTabs.supertools));
     }
 
     /**

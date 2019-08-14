@@ -2,6 +2,7 @@ package me.KG20.supertools.Init;
 
 import me.KG20.supertools.Armor.BasisArmorMaterial;
 import me.KG20.supertools.Armor.ItemArmor;
+import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Main.Constants;
 import me.KG20.supertools.Tools.*;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -26,35 +27,35 @@ public class RegisterItems {
     public static final Pickaxe quartzPickaxe = new Pickaxe(BasisToolMaterial.quartz, -2.8F);
     public static final Shovel quartzShovel = new Shovel(BasisToolMaterial.quartz, -3F);
     public static final Sword quartzSword = new Sword(BasisToolMaterial.quartz, -2.4F);
-    public static final Sickle quartzSickle = new Sickle(new Item.Properties().maxDamage(1000).group(CreativeTabs.tools));
+    public static final Sickle quartzSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_quartz.get()).group(CreativeTabs.tools));
 
     public static final Hoe emeraldHoe = new Hoe(BasisToolMaterial.emerald, -1F);
     public static final Axe emeraldAxe = new Axe(BasisToolMaterial.emerald, -3.1F);
     public static final Pickaxe emeraldPickaxe = new Pickaxe(BasisToolMaterial.emerald, -2.8F);
     public static final Shovel emeraldShovel = new Shovel(BasisToolMaterial.emerald, -3F);
     public static final Sword emeraldSword = new Sword(BasisToolMaterial.emerald, -2.4F);
-    public static final Sickle emeraldSickle = new Sickle(new Item.Properties().maxDamage(1561).group(CreativeTabs.tools));
+    public static final Sickle emeraldSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_emerald.get()).group(CreativeTabs.tools));
 
     public static final Hoe obsidianHoe = new Hoe(BasisToolMaterial.obsidian, -1F);
     public static final Axe obsidianAxe = new Axe(BasisToolMaterial.obsidian, -3.1F);
     public static final Pickaxe obsidianPickaxe = new Pickaxe(BasisToolMaterial.obsidian, -2.8F);
     public static final Shovel obsidianShovel = new Shovel(BasisToolMaterial.obsidian, -3F);
     public static final Sword obsidianSword = new Sword(BasisToolMaterial.obsidian, -2.4F);
-    public static final Sickle obsidianSickle = new Sickle(new Item.Properties().maxDamage(2000).group(CreativeTabs.tools));
+    public static final Sickle obsidianSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_obsidian.get()).group(CreativeTabs.tools));
 
     public static final Hoe lapisHoe = new Hoe(BasisToolMaterial.lapis, -1F);
     public static final Axe lapisAxe = new Axe(BasisToolMaterial.lapis, -3.1F);
     public static final Pickaxe lapisPickaxe = new Pickaxe(BasisToolMaterial.lapis, -2.8F);
     public static final Shovel lapisShovel = new Shovel(BasisToolMaterial.lapis, -3F);
     public static final Sword lapisSword = new Sword(BasisToolMaterial.lapis, -2.4F);
-    public static final Sickle lapisSickle = new Sickle(new Item.Properties().maxDamage(150).group(CreativeTabs.tools));
+    public static final Sickle lapisSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_lapis.get()).group(CreativeTabs.tools));
 
     public static final Hoe redstoneHoe = new Hoe(BasisToolMaterial.redstone, -0.5F);
     public static final Axe redstoneAxe = new Axe(BasisToolMaterial.redstone, -2.6F);
     public static final Pickaxe redstonePickaxe = new Pickaxe(BasisToolMaterial.redstone, -2.3F);
     public static final Shovel redstoneShovel = new Shovel(BasisToolMaterial.redstone, -2.5F);
     public static final Sword redstoneSword = new Sword(BasisToolMaterial.redstone, -1.9F);
-    public static final Sickle redstoneSickle = new Sickle(new Item.Properties().maxDamage(100).group(CreativeTabs.tools));
+    public static final Sickle redstoneSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_redstone.get()).group(CreativeTabs.tools));
 
     public static final ItemArmor emeraldHelmet = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.HEAD);
     public static final ItemArmor emeraldChestplate = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.CHEST);
@@ -84,7 +85,7 @@ public class RegisterItems {
     public static final SuperSword superSword = new SuperSword(BasisToolMaterial.supertools, -2.4F, new Item.Properties().group(CreativeTabs.supertools));
     public static final Cups itemCup = new Cups(BasisToolMaterial.itemcup, -2.8F);
     public static final Cups specialCup = new Cups(BasisToolMaterial.specialcup, -2.8F);
-    public static final Sickle superSickle = new Sickle(new Item.Properties().maxDamage(2000).group(CreativeTabs.supertools));
+    public static final Sickle superSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_SuperTools.get()).group(CreativeTabs.supertools));
 
 
     @SubscribeEvent
@@ -162,16 +163,20 @@ public class RegisterItems {
         quartzBoots.setRegistryName(Constants.modid, "quartzboots");
         registry.registerAll(quartzHelmet,quartzChestplate,quartzLeggings,quartzBoots);
 
-        boneMealTool.setRegistryName(Constants.modid, "bonemealtool");
-        superHoe.setRegistryName(Constants.modid, "superhoe");
-        superAxe.setRegistryName(Constants.modid, "superaxe");
-        superPickaxe.setRegistryName(Constants.modid, "superpickaxe");
-        superShovel.setRegistryName(Constants.modid, "supershovel");
-        superSword.setRegistryName(Constants.modid, "supersword");
-        itemCup.setRegistryName(Constants.modid, "itemcup");
-        specialCup.setRegistryName(Constants.modid, "specialcup");
-        superSickle.setRegistryName(Constants.modid, "supersickle");
-        registry.registerAll(boneMealTool,superHoe,superAxe,superPickaxe,superShovel,superSword,itemCup,specialCup,superSickle);
+        if(Config.enable_SuperTools.get()){
+            boneMealTool.setRegistryName(Constants.modid, "bonemealtool");
+            superHoe.setRegistryName(Constants.modid, "superhoe");
+            superAxe.setRegistryName(Constants.modid, "superaxe");
+            superPickaxe.setRegistryName(Constants.modid, "superpickaxe");
+            superShovel.setRegistryName(Constants.modid, "supershovel");
+            superSword.setRegistryName(Constants.modid, "supersword");
+            itemCup.setRegistryName(Constants.modid, "itemcup");
+            specialCup.setRegistryName(Constants.modid, "specialcup");
+            superSickle.setRegistryName(Constants.modid, "supersickle");
+            registry.registerAll(boneMealTool,superHoe,superAxe,superPickaxe,superShovel,superSword,itemCup,specialCup,superSickle);
+        }
+
+
 
 
     }
