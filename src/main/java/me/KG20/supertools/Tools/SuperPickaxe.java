@@ -108,7 +108,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -126,7 +126,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                     world.destroyBlock(newBlockPos, true);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -139,7 +139,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -151,7 +151,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -164,7 +164,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -172,7 +172,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                     world.destroyBlock(newBlockPos, true);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -183,7 +183,7 @@ public class SuperPickaxe extends PickaxeItem {
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, true);
                                             BlockState blockState = world.getBlockState(newBlockPos);
-                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if(amount != 0){
                                                 world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                             }
@@ -192,7 +192,7 @@ public class SuperPickaxe extends PickaxeItem {
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                         world.destroyBlock(newBlockPos, true);
                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                         if(amount != 0){
                                             world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                         }
@@ -201,18 +201,30 @@ public class SuperPickaxe extends PickaxeItem {
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }
                                     }else{
                                         stack.setDamage(stack.getDamage() + 1);
+                                        if(stack.getDamage() >= stack.getMaxDamage()){
+                                            stack.shrink(1);
+                                        }
                                     }
                                 }
                             }
@@ -265,7 +277,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -283,7 +295,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                     world.destroyBlock(newBlockPos, true);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -296,7 +308,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -308,7 +320,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -321,7 +333,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -329,7 +341,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                     world.destroyBlock(newBlockPos, true);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -340,7 +352,7 @@ public class SuperPickaxe extends PickaxeItem {
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, true);
                                             BlockState blockState = world.getBlockState(newBlockPos);
-                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if(amount != 0){
                                                 world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                             }
@@ -349,7 +361,7 @@ public class SuperPickaxe extends PickaxeItem {
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                         world.destroyBlock(newBlockPos, true);
                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                         if(amount != 0){
                                             world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                         }
@@ -358,18 +370,30 @@ public class SuperPickaxe extends PickaxeItem {
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }
                                     }else{
                                         stack.setDamage(stack.getDamage() + 1);
+                                        if(stack.getDamage() >= stack.getMaxDamage()){
+                                            stack.shrink(1);
+                                        }
                                     }
                                 }
                             }
@@ -420,7 +444,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -438,7 +462,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                     world.destroyBlock(newBlockPos, true);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -451,7 +475,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -463,7 +487,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -476,7 +500,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     Block.spawnDrops(state, world, newBlockPos, tileentity);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -484,7 +508,7 @@ public class SuperPickaxe extends PickaxeItem {
                                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                     world.destroyBlock(newBlockPos, true);
                                                     BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                     if(amount != 0){
                                                         world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                                     }
@@ -495,7 +519,7 @@ public class SuperPickaxe extends PickaxeItem {
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, true);
                                             BlockState blockState = world.getBlockState(newBlockPos);
-                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if(amount != 0){
                                                 world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                             }
@@ -504,7 +528,7 @@ public class SuperPickaxe extends PickaxeItem {
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                         world.destroyBlock(newBlockPos, true);
                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                         if(amount != 0){
                                             world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                         }
@@ -513,18 +537,30 @@ public class SuperPickaxe extends PickaxeItem {
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }
                                     }else{
                                         stack.setDamage(stack.getDamage() + 1);
+                                        if(stack.getDamage() >= stack.getMaxDamage()){
+                                            stack.shrink(1);
+                                        }
                                     }
                                 }
                             }
@@ -535,6 +571,9 @@ public class SuperPickaxe extends PickaxeItem {
 
             }else{
                 stack.setDamage(stack.getDamage() + 1);
+                if(stack.getDamage() >= stack.getMaxDamage()){
+                    stack.shrink(1);
+                }
             }
 
         }

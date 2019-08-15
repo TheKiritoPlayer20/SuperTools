@@ -62,18 +62,30 @@ public class SuperHoe extends HoeItem {
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }
                                     }else{
                                         stack.setDamage(stack.getDamage() + 1);
+                                        if(stack.getDamage() >= stack.getMaxDamage()){
+                                            stack.shrink(1);
+                                        }
                                     }
                                 }
 
@@ -84,18 +96,30 @@ public class SuperHoe extends HoeItem {
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
                                                 stack.setDamage(stack.getDamage() + 1);
+                                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                                    stack.shrink(1);
+                                                }
                                             }
                                         }
                                     }else{
                                         stack.setDamage(stack.getDamage() + 1);
+                                        if(stack.getDamage() >= stack.getMaxDamage()){
+                                            stack.shrink(1);
+                                        }
                                     }
                                 }
                             }
