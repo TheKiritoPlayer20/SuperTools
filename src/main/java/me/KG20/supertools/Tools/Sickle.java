@@ -99,11 +99,12 @@ public class Sickle extends Item {
 
                     }
                 }
-                stack.setDamage(stack.getDamage() + 1);
-                if(stack.getDamage() >= stack.getMaxDamage()){
-                    stack.shrink(1);
+                if(!context.getPlayer().isCreative()){
+                    stack.setDamage(stack.getDamage() + 1);
+                    if(stack.getDamage() >= stack.getMaxDamage()){
+                        stack.shrink(1);
+                    }
                 }
-
         }
 
         return super.onItemUse(context);

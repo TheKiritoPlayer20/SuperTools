@@ -64,6 +64,11 @@ public class SuperShovel extends ShovelItem {
                 if (entityLiving.getLookVec().y <= -0.50f || entityLiving.getLookVec().y >= 0.50f) {
                     for (int x = -1; x < 2; x++) {
                         for (int z = -1; z < 2; z++) {
+                            if(stack.getDamage() >= stack.getMaxDamage()){
+                                stack.shrink(1);
+                               break;
+                            }
+
 
                             BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
@@ -79,30 +84,18 @@ public class SuperShovel extends ShovelItem {
                                     if (unbreakingEnchantment.contains("lvl:1")) {
                                         if (random.nextInt(100) + 1 <= 50) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     } else if (unbreakingEnchantment.contains("lvl:2")) {
                                         if (random.nextInt(100) + 1 <= 33) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     } else if (unbreakingEnchantment.contains("lvl:3")) {
                                         if (random.nextInt(100) + 1 <= 25) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     }
                                 } else {
                                     stack.setDamage(stack.getDamage() + 1);
-                                    if(stack.getDamage() >= stack.getMaxDamage()){
-                                        stack.shrink(1);
-                                    }
                                 }
                             }
 
@@ -111,6 +104,10 @@ public class SuperShovel extends ShovelItem {
                 } else if (headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)) {
                     for (int x = -1; x < 2; x++) {
                         for (int y = -1; y < 2; y++) {
+                            if(stack.getDamage() >= stack.getMaxDamage()){
+                                stack.shrink(1);
+                                break;
+                            }
 
                             BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
 
@@ -126,30 +123,18 @@ public class SuperShovel extends ShovelItem {
                                     if (unbreakingEnchantment.contains("lvl:1")) {
                                         if (random.nextInt(100) + 1 <= 50) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     } else if (unbreakingEnchantment.contains("lvl:2")) {
                                         if (random.nextInt(100) + 1 <= 33) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     } else if (unbreakingEnchantment.contains("lvl:3")) {
                                         if (random.nextInt(100) + 1 <= 25) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     }
                                 } else {
                                     stack.setDamage(stack.getDamage() + 1);
-                                    if(stack.getDamage() >= stack.getMaxDamage()){
-                                        stack.shrink(1);
-                                    }
                                 }
                             }
 
@@ -158,6 +143,11 @@ public class SuperShovel extends ShovelItem {
                 } else if (headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)) {
                     for (int z = -1; z < 2; z++) {
                         for (int y = -1; y < 2; y++) {
+                            if(stack.getDamage() >= stack.getMaxDamage()){
+                                stack.shrink(1);
+                                break;
+                            }
+
 
                             BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
 
@@ -173,30 +163,18 @@ public class SuperShovel extends ShovelItem {
                                     if (unbreakingEnchantment.contains("lvl:1")) {
                                         if (random.nextInt(100) + 1 <= 50) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     } else if (unbreakingEnchantment.contains("lvl:2")) {
                                         if (random.nextInt(100) + 1 <= 33) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     } else if (unbreakingEnchantment.contains("lvl:3")) {
                                         if (random.nextInt(100) + 1 <= 25) {
                                             stack.setDamage(stack.getDamage() + 1);
-                                            if(stack.getDamage() >= stack.getMaxDamage()){
-                                                stack.shrink(1);
-                                            }
                                         }
                                     }
                                 } else {
                                     stack.setDamage(stack.getDamage() + 1);
-                                    if(stack.getDamage() >= stack.getMaxDamage()){
-                                        stack.shrink(1);
-                                    }
                                 }
                             }
 
@@ -206,9 +184,6 @@ public class SuperShovel extends ShovelItem {
 
             }else{
                 stack.setDamage(stack.getDamage() + 1);
-                if(stack.getDamage() >= stack.getMaxDamage()){
-                    stack.shrink(1);
-                }
             }
 
 
@@ -250,6 +225,11 @@ public class SuperShovel extends ShovelItem {
             if(world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK) {
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
+                        if(stack.getDamage() >= stack.getMaxDamage()){
+                            stack.shrink(1);
+                            break;
+                        }
+
                         if (world.getBlockState(new BlockPos(bx + x, by + 1, bz + z)).getBlock() == Blocks.AIR) {
                             if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK) {
                                 world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.GRASS_PATH.getDefaultState());
@@ -258,30 +238,18 @@ public class SuperShovel extends ShovelItem {
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }
                                     }else{
                                         stack.setDamage(stack.getDamage() + 1);
-                                        if(stack.getDamage() >= stack.getMaxDamage()){
-                                            stack.shrink(1);
-                                        }
                                     }
                                 }
 

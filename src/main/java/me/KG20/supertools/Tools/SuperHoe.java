@@ -54,6 +54,10 @@ public class SuperHoe extends HoeItem {
             if(world.getBlockState(pos).getBlock() == Blocks.DIRT || world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK){
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
+                        if(stack.getDamage() >= stack.getMaxDamage()){
+                            stack.shrink(1);
+                            break;
+                        }
                         if(world.getBlockState(new BlockPos(bx + x,by + 1,bz + z)).getBlock() == Blocks.AIR){
                             if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.DIRT || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK) {
                                 world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.FARMLAND.getDefaultState());
@@ -62,30 +66,18 @@ public class SuperHoe extends HoeItem {
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }
                                     }else{
                                         stack.setDamage(stack.getDamage() + 1);
-                                        if(stack.getDamage() >= stack.getMaxDamage()){
-                                            stack.shrink(1);
-                                        }
                                     }
                                 }
 
@@ -96,30 +88,18 @@ public class SuperHoe extends HoeItem {
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
                                                 stack.setDamage(stack.getDamage() + 1);
-                                                if(stack.getDamage() >= stack.getMaxDamage()){
-                                                    stack.shrink(1);
-                                                }
                                             }
                                         }
                                     }else{
                                         stack.setDamage(stack.getDamage() + 1);
-                                        if(stack.getDamage() >= stack.getMaxDamage()){
-                                            stack.shrink(1);
-                                        }
                                     }
                                 }
                             }
