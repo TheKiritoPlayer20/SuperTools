@@ -65,7 +65,7 @@ public class SuperPickaxe extends PickaxeItem {
                 if(entityLiving.getLookVec().y <= -0.52f || entityLiving.getLookVec().y >= 0.52f){
                     for(int x = -1; x < 2; x++){
                         for(int z = -1; z < 2; z++){
-                            if(stack.getDamage() >= stack.getMaxDamage()){
+                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
                                 stack.shrink(1);
                                 break;
                             }
@@ -229,7 +229,7 @@ public class SuperPickaxe extends PickaxeItem {
                 else if(headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)){
                     for(int x = -1; x< 2; x++){
                         for(int y = -1; y<2; y++){
-                            if(stack.getDamage() >= stack.getMaxDamage()){
+                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
                                 stack.shrink(1);
                                 break;
                             }
@@ -391,7 +391,7 @@ public class SuperPickaxe extends PickaxeItem {
                 }else if(headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)){
                     for(int z = -1; z< 2; z++){
                         for(int y = -1; y<2; y++){
-                            if(stack.getDamage() >= stack.getMaxDamage()){
+                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
                                 stack.shrink(1);
                                 break;
                             }

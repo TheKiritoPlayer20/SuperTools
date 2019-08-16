@@ -95,16 +95,19 @@ public class Sickle extends Item {
 
                         if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.TALL_PLANTS || world.getBlockState(newBlockPos).getMaterial() == Material.OCEAN_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.SEA_GRASS) {
                             world.destroyBlock(newBlockPos, true);
+
+                            if(!context.getPlayer().isCreative()){
+                                stack.setDamage(stack.getDamage() + 1);
+                                if(stack.getDamage() >= stack.getMaxDamage()){
+                                    stack.shrink(1);
+                                }
+                            }
+
                         }
 
                     }
                 }
-                if(!context.getPlayer().isCreative()){
-                    stack.setDamage(stack.getDamage() + 1);
-                    if(stack.getDamage() >= stack.getMaxDamage()){
-                        stack.shrink(1);
-                    }
-                }
+
         }
 
         return super.onItemUse(context);

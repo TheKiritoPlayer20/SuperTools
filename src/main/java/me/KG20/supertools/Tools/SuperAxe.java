@@ -1,5 +1,6 @@
 package me.KG20.supertools.Tools;
 
+import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Init.CreativeTabs;
 import me.KG20.supertools.Init.RegisterItems;
 import net.minecraft.block.Block;
@@ -55,8 +56,8 @@ public class SuperAxe extends AxeItem {
 
         if(RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("logs") || RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("log")){
             brokenBlocks.add(pos);
-            while(stack.getDamage() != stack.getMaxDamage() && blocksHarvested <= 64){
-                ArrayList<BlockPos> logNeighbours = getWoodNeighbours(world,currentPos,startLog);
+            while(stack.getDamage() != stack.getMaxDamage() && blocksHarvested <= Config.max_wood_logs.get()){
+                ArrayList<BlockPos> logNeighbours = getWoodNeighbours(world,currentPos,startLog, stack);
                 logNeighbours.removeAll(brokenBlocks);
                 if(logNeighbours.size() > 0){
                     for(BlockPos blockPos : logNeighbours){
@@ -93,17 +94,30 @@ public class SuperAxe extends AxeItem {
 
 
         }else{
-            stack.setDamage(stack.getDamage() + 1);
+            //stack.setDamage(stack.getDamage() + 1);
         }
 
         return super.onBlockDestroyed(stack, world, state, pos, entityLiving);
     }
 
-    private ArrayList<BlockPos> getWoodNeighbours(World world, BlockPos blockPos, Block block) {
+    private ArrayList<BlockPos> getWoodNeighbours(World world, BlockPos blockPos, Block block, ItemStack stack) {
         ArrayList<BlockPos> list = new ArrayList<>();
         for(int x=-1; x<=1; x++){
+            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                stack.shrink(1);
+                break;
+            }
             for(int y=-1; y<=1; y++){
+                if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                    stack.shrink(1);
+                    break;
+                }
                 for(int z=-1; z<=1; z++) {
+                    if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                        stack.shrink(1);
+                        break;
+                    }
+
                     if(world.getBlockState(blockPos.add(x,y,z)).getBlock().equals(block)) {
                         list.add(blockPos.add(x,y,z));
                     }
