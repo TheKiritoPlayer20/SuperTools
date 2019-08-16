@@ -1,3 +1,9 @@
+Build: 1.5b Fri Aug 16 13:50:15
+	Updated config file.
+	Fixed a bug where the Super Tools woudln't break.
+	
+=========
+
 Build: 1.5 Wed Aug 14 14:36:45
 	Added config file.
 	Updated "updateJSONURL" in "mods.toml"
