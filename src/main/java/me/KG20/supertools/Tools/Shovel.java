@@ -33,4 +33,7 @@ public class Shovel extends ShovelItem {
         super(material, 1.5F, speed, new Properties().group(CreativeTabs.tools).addToolType(ToolType.SHOVEL, material.getHarvestLevel()));
     }
 
+    public Shovel(IItemTier material, float speed, Properties properties) {
+        super(material, 1.5F, speed, properties.addToolType(ToolType.SHOVEL, material.getHarvestLevel()));
+    }
 }

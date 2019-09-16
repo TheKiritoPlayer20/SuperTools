@@ -27,7 +27,7 @@ public class SuperAxe extends AxeItem {
     }
 
 
-    @Override
+    //@Override
     public boolean onBlockDestroyed(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity entityLiving) {
         Block startLog = state.getBlock();
         BlockPos currentPos = pos;

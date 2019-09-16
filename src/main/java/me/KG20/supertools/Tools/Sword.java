@@ -18,4 +18,7 @@ public class Sword extends SwordItem {
         super(material, 3, speed, new Properties().group(CreativeTabs.tools));
     }
 
+    public Sword(IItemTier material, float speed, Properties properties) {
+        super(material, 3, speed, properties);
+    }
 }

@@ -29,4 +29,8 @@ public class Hoe extends HoeItem {
         super(material, speed, new Properties().group(CreativeTabs.tools));
     }
 
+    public Hoe(IItemTier material, float speed, Properties properties) {
+        super(material, speed, properties);
+    }
+
 }

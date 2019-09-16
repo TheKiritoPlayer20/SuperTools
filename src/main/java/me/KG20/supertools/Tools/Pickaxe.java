@@ -31,4 +31,9 @@ public class Pickaxe extends PickaxeItem {
         super(material, 1, speed, new Properties().group(CreativeTabs.tools).addToolType(ToolType.PICKAXE, material.getHarvestLevel()));
     }
 
+    public Pickaxe(IItemTier material, float speed, Properties properties) {
+        super(material, 1, speed, properties.addToolType(ToolType.PICKAXE, material.getHarvestLevel()));
+    }
+
+
 }

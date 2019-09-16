@@ -1,44 +1,123 @@
-package me.KG20.supertools.Tools;
+package me.KG20.supertools.Event;
 
-import me.KG20.supertools.Init.CreativeTabs;
+import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Init.RegisterItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.entity.ExperienceOrbRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.item.IItemTier;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.INBT;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.NoteBlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.function.Consumer;
 
-public class SuperPickaxe extends PickaxeItem {
+@Mod.EventBusSubscriber
+public class EventHandler {
 
-    public SuperPickaxe(IItemTier material, float speed, Properties properties) {
-        super(material, 1, speed, properties.addToolType(ToolType.PICKAXE, material.getHarvestLevel()));
+    @SubscribeEvent
+    public static void SuperAxeDestroyedBlock(BlockEvent.BreakEvent event){
+        World world = (World)event.getWorld();
+        PlayerEntity player = event.getPlayer();
+        BlockPos pos = event.getPos();
+        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+        BlockState state = world.getBlockState(pos);
+
+        Block startLog = state.getBlock();
+        BlockPos currentPos = pos;
+        ArrayList<BlockPos> brokenBlocks = new ArrayList<>();
+        ArrayList<BlockPos> nextPos = new ArrayList<>();
+        int blocksHarvested = 0;
+
+        ArrayList<INBT> enchantments = new ArrayList<>();
+        Random random = new Random();
+        String unbreakingEnchantment = "";
+
+        enchantments.add(INBT.create((byte) 0));
+
+        for(INBT enchantment : stack.getEnchantmentTagList()){
+            enchantments.add(enchantment);
+        }
+
+        for(int i=0;i<enchantments.size(); i++){
+            if(enchantments.get(i).toString().contains("minecraft:unbreaking")){
+                unbreakingEnchantment = enchantments.get(i).toString();
+            }
+        }
+
+        if(RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("logs") || RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("log")){
+            brokenBlocks.add(pos);
+            while(stack.getDamage() != stack.getMaxDamage() && blocksHarvested <= Config.max_wood_logs.get()){
+                ArrayList<BlockPos> logNeighbours = getWoodNeighbours(world,currentPos,startLog, stack);
+                logNeighbours.removeAll(brokenBlocks);
+                if(logNeighbours.size() > 0){
+                    for(BlockPos blockPos : logNeighbours){
+                        brokenBlocks.add(blockPos);
+                        nextPos.add(blockPos);
+                        world.destroyBlock(blockPos, true);
+                        blocksHarvested += 1;
+                        if(!player.isCreative()){
+                            if(unbreakingEnchantment.length() != 0){
+                                if(unbreakingEnchantment.contains("lvl:1")){
+                                    if(random.nextInt(100) + 1 <= 50){
+                                        stack.setDamage(stack.getDamage() + 1);
+                                    }
+                                }else if(unbreakingEnchantment.contains("lvl:2")){
+                                    if(random.nextInt(100) + 1 <= 33){
+                                        stack.setDamage(stack.getDamage() + 1);
+                                    }
+                                }else if(unbreakingEnchantment.contains("lvl:3")){
+                                    if(random.nextInt(100) + 1 <= 25){
+                                        stack.setDamage(stack.getDamage() + 1);
+                                    }
+                                }
+                            }else{
+                                stack.setDamage(stack.getDamage() + 1);
+                            }
+                        }
+                    }
+                }
+                if(nextPos.size() > 0){
+                    currentPos = nextPos.get(0);
+                    nextPos.remove(currentPos);
+                }else
+                    break;
+            }
+        }
     }
 
-    @Override
-    public boolean onBlockDestroyed(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-        Material blockMaterial = world.getBlockState(pos).getMaterial();
+    @SubscribeEvent
+    public static void SuperPickaxeDestroyedBlock(BlockEvent.BreakEvent event){
+        World world = (World)event.getWorld();
+        PlayerEntity player = event.getPlayer();
+        BlockPos pos = event.getPos();
+        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+        BlockState state = world.getBlockState(pos);
+        boolean firstUse = true;
+
         if(RegisterItems.superPickaxe.equals(stack.getItem())){
             int bx = pos.getX();
             int by = pos.getY();
             int bz = pos.getZ();
 
-            Direction headRot = entityLiving.getHorizontalFacing();
+            Direction headRot = player.getHorizontalFacing();
             ArrayList<INBT> enchantments = new ArrayList<>();
             Random random = new Random();
             String unbreakingEnchantment = "";
@@ -62,7 +141,7 @@ public class SuperPickaxe extends PickaxeItem {
             }
 
             if(world.getBlockState(pos).getMaterial() == Material.ROCK || world.getBlockState(pos).getMaterial() == Material.IRON || world.getBlockState(pos).getMaterial() == Material.ANVIL || world.getBlockState(pos).getMaterial() == Material.GLASS || world.getBlockState(pos).getMaterial() == Material.ICE || world.getBlockState(pos).getMaterial() == Material.PACKED_ICE){
-                if(entityLiving.getLookVec().y <= -0.52f || entityLiving.getLookVec().y >= 0.52f){
+                if(player.getLookVec().y <= -0.52f || player.getLookVec().y >= 0.52f){
                     for(int x = -1; x < 2; x++){
                         for(int z = -1; z < 2; z++){
                             if(stack.getDamage() >= stack.getMaxDamage() - 1){
@@ -203,22 +282,28 @@ public class SuperPickaxe extends PickaxeItem {
                                             world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                         }
                                     }
-                                    if(unbreakingEnchantment.length() != 0){
-                                        if(unbreakingEnchantment.contains("lvl:1")){
-                                            if(random.nextInt(100) + 1 <= 50){
-                                                stack.setDamage(stack.getDamage() + 1);
-                                            }
-                                        }else if(unbreakingEnchantment.contains("lvl:2")){
-                                            if(random.nextInt(100) + 1 <= 33){
-                                                stack.setDamage(stack.getDamage() + 1);
-                                            }
-                                        }else if(unbreakingEnchantment.contains("lvl:3")){
-                                            if(random.nextInt(100) + 1 <= 25){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                    if(!player.isCreative()){
+                                        if(firstUse){
+                                            firstUse = false;
+                                        }else{
+                                            if(unbreakingEnchantment.length() != 0){
+                                                if(unbreakingEnchantment.contains("lvl:1")){
+                                                    if(random.nextInt(100) + 1 <= 50){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }else if(unbreakingEnchantment.contains("lvl:2")){
+                                                    if(random.nextInt(100) + 1 <= 33){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }else if(unbreakingEnchantment.contains("lvl:3")){
+                                                    if(random.nextInt(100) + 1 <= 25){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }
+                                            }else{
+                                                stack.damageItem(1, player, PlayerEntity::tick);
                                             }
                                         }
-                                    }else{
-                                        stack.setDamage(stack.getDamage() + 1);
                                     }
                                 }
                             }
@@ -367,22 +452,28 @@ public class SuperPickaxe extends PickaxeItem {
                                             world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                         }
                                     }
-                                    if(unbreakingEnchantment.length() != 0){
-                                        if(unbreakingEnchantment.contains("lvl:1")){
-                                            if(random.nextInt(100) + 1 <= 50){
-                                                stack.setDamage(stack.getDamage() + 1);
-                                            }
-                                        }else if(unbreakingEnchantment.contains("lvl:2")){
-                                            if(random.nextInt(100) + 1 <= 33){
-                                                stack.setDamage(stack.getDamage() + 1);
-                                            }
-                                        }else if(unbreakingEnchantment.contains("lvl:3")){
-                                            if(random.nextInt(100) + 1 <= 25){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                    if(!player.isCreative()){
+                                        if(firstUse){
+                                            firstUse = false;
+                                        }else{
+                                            if(unbreakingEnchantment.length() != 0){
+                                                if(unbreakingEnchantment.contains("lvl:1")){
+                                                    if(random.nextInt(100) + 1 <= 50){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }else if(unbreakingEnchantment.contains("lvl:2")){
+                                                    if(random.nextInt(100) + 1 <= 33){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }else if(unbreakingEnchantment.contains("lvl:3")){
+                                                    if(random.nextInt(100) + 1 <= 25){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }
+                                            }else{
+                                                stack.damageItem(1, player, PlayerEntity::tick);
                                             }
                                         }
-                                    }else{
-                                        stack.setDamage(stack.getDamage() + 1);
                                     }
                                 }
                             }
@@ -395,8 +486,6 @@ public class SuperPickaxe extends PickaxeItem {
                                 stack.shrink(1);
                                 break;
                             }
-
-
 
                             int randomNumber = random.nextInt(100) + 1;
                             BlockPos newBlockPos = new BlockPos(bx ,by + y, bz + z);
@@ -530,6 +619,339 @@ public class SuperPickaxe extends PickaxeItem {
                                             world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
                                         }
                                     }
+                                    if(!player.isCreative()){
+                                        if(firstUse){
+                                            firstUse = false;
+                                        }else{
+                                            if(unbreakingEnchantment.length() != 0){
+                                                if(unbreakingEnchantment.contains("lvl:1")){
+                                                    if(random.nextInt(100) + 1 <= 50){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }else if(unbreakingEnchantment.contains("lvl:2")){
+                                                    if(random.nextInt(100) + 1 <= 33){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }else if(unbreakingEnchantment.contains("lvl:3")){
+                                                    if(random.nextInt(100) + 1 <= 25){
+                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                    }
+                                                }
+                                            }else{
+                                                stack.damageItem(1, player, PlayerEntity::tick);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void SuperShovelDestroyedBlock(BlockEvent.BreakEvent event){
+        World world = (World)event.getWorld();
+        PlayerEntity player = event.getPlayer();
+        BlockPos pos = event.getPos();
+        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+        Direction headRot = player.getHorizontalFacing();
+        boolean firstUse = true;
+
+        if(RegisterItems.superShovel.equals(stack.getItem())) {
+            int bx = pos.getX();
+            int by = pos.getY();
+            int bz = pos.getZ();
+
+            ArrayList<INBT> enchantments = new ArrayList<>();
+            Random random = new Random();
+            String unbreakingEnchantment = "";
+            String silktouchEnchantment = "";
+
+            enchantments.add(INBT.create((byte) 0));
+
+            for (INBT enchantment : stack.getEnchantmentTagList()) {
+                enchantments.add(enchantment);
+            }
+
+            for (int i = 0; i < enchantments.size(); i++) {
+                if (enchantments.get(i).toString().contains("minecraft:unbreaking")) {
+                    unbreakingEnchantment = enchantments.get(i).toString();
+                }else if(enchantments.get(i).toString().contains("minecraft:silk_touch")) {
+                    silktouchEnchantment = enchantments.get(i).toString();
+                }
+            }
+
+            if(world.getBlockState(pos).getMaterial() == Material.EARTH || world.getBlockState(pos).getMaterial() == Material.SAND || world.getBlockState(pos).getMaterial() == Material.ORGANIC || world.getBlockState(pos).getMaterial() == Material.SNOW || world.getBlockState(pos).getMaterial() == Material.SNOW_BLOCK){
+                if (player.getLookVec().y <= -0.50f || player.getLookVec().y >= 0.50f) {
+                    for (int x = -1; x < 2; x++) {
+                        for (int z = -1; z < 2; z++) {
+                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                                stack.shrink(1);
+                                break;
+                            }
+                            BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
+
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
+                                if(silktouchEnchantment.length() != 0) {
+                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                    world.destroyBlock(newBlockPos, false);
+                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                }else{
+                                    world.destroyBlock(newBlockPos, true);
+                                }
+                                if(!player.isCreative()){
+                                    if(firstUse){
+                                        firstUse = false;
+                                    }else{
+                                        if(unbreakingEnchantment.length() != 0){
+                                            if(unbreakingEnchantment.contains("lvl:1")){
+                                                if(random.nextInt(100) + 1 <= 50){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }else if(unbreakingEnchantment.contains("lvl:2")){
+                                                if(random.nextInt(100) + 1 <= 33){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }else if(unbreakingEnchantment.contains("lvl:3")){
+                                                if(random.nextInt(100) + 1 <= 25){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }
+                                        }else{
+                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)) {
+                    for (int x = -1; x < 2; x++) {
+                        for (int y = -1; y < 2; y++) {
+                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                                stack.shrink(1);
+                                break;
+                            }
+                            BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
+
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
+                                if(silktouchEnchantment.length() != 0) {
+                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                    world.destroyBlock(newBlockPos, false);
+                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                }else{
+                                    world.destroyBlock(newBlockPos, true);
+                                }
+                                if(!player.isCreative()){
+                                    if(firstUse){
+                                        firstUse = false;
+                                    }else{
+                                        if(unbreakingEnchantment.length() != 0){
+                                            if(unbreakingEnchantment.contains("lvl:1")){
+                                                if(random.nextInt(100) + 1 <= 50){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }else if(unbreakingEnchantment.contains("lvl:2")){
+                                                if(random.nextInt(100) + 1 <= 33){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }else if(unbreakingEnchantment.contains("lvl:3")){
+                                                if(random.nextInt(100) + 1 <= 25){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }
+                                        }else{
+                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)) {
+                    for (int z = -1; z < 2; z++) {
+                        for (int y = -1; y < 2; y++) {
+                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                                stack.shrink(1);
+                                break;
+                            }
+                            BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
+
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
+                                if(silktouchEnchantment.length() != 0) {
+                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                    world.destroyBlock(newBlockPos, false);
+                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                }else{
+                                    world.destroyBlock(newBlockPos, true);
+                                }
+                                if(!player.isCreative()){
+                                    if(firstUse){
+                                        firstUse = false;
+                                    }else{
+                                        if(unbreakingEnchantment.length() != 0){
+                                            if(unbreakingEnchantment.contains("lvl:1")){
+                                                if(random.nextInt(100) + 1 <= 50){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }else if(unbreakingEnchantment.contains("lvl:2")){
+                                                if(random.nextInt(100) + 1 <= 33){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }else if(unbreakingEnchantment.contains("lvl:3")){
+                                                if(random.nextInt(100) + 1 <= 25){
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }
+                                        }else{
+                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void SuperShovelRightClickBlock(PlayerInteractEvent.RightClickBlock event){
+        World world = event.getWorld();
+        PlayerEntity player = event.getPlayer();
+        BlockPos pos = event.getPos();
+        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+
+        if (RegisterItems.superShovel.equals(stack.getItem())) {
+            int bx = pos.getX();
+            int by = pos.getY();
+            int bz = pos.getZ();
+
+            ArrayList<INBT> enchantments = new ArrayList<>();
+            Random random = new Random();
+            String unbreakingEnchantment = "";
+
+            enchantments.add(INBT.create((byte) 0));
+
+            for(INBT enchantment : stack.getEnchantmentTagList()){
+                enchantments.add(enchantment);
+            }
+
+            for(int i=0;i<enchantments.size(); i++){
+                if(enchantments.get(i).toString().contains("minecraft:unbreaking")){
+                    unbreakingEnchantment = enchantments.get(i).toString();
+                }
+            }
+
+
+
+            if(world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK) {
+                for (int x = -1; x < 2; x++) {
+                    for (int z = -1; z < 2; z++) {
+                        if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                            stack.shrink(1);
+                            break;
+                        }
+
+                        if (world.getBlockState(new BlockPos(bx + x, by + 1, bz + z)).getBlock() == Blocks.AIR) {
+                            if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK) {
+                                world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.GRASS_PATH.getDefaultState());
+                                if (!player.isCreative()) {
+                                    if(unbreakingEnchantment.length() != 0){
+                                        if(unbreakingEnchantment.contains("lvl:1")){
+                                            if(random.nextInt(100) + 1 <= 50){
+                                                stack.setDamage(stack.getDamage() + 1);
+                                            }
+                                        }else if(unbreakingEnchantment.contains("lvl:2")){
+                                            if(random.nextInt(100) + 1 <= 33){
+                                                stack.setDamage(stack.getDamage() + 1);
+                                            }
+                                        }else if(unbreakingEnchantment.contains("lvl:3")){
+                                            if(random.nextInt(100) + 1 <= 25){
+                                                stack.setDamage(stack.getDamage() + 1);
+                                            }
+                                        }
+                                    }else{
+                                        stack.setDamage(stack.getDamage() + 1);
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void SuperHoeRightClickBlock(PlayerInteractEvent.RightClickBlock event){
+        World world = event.getWorld();
+        PlayerEntity player = event.getPlayer();
+        BlockPos pos = event.getPos();
+        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+
+        if (RegisterItems.superHoe.equals(stack.getItem())) {
+            int bx = pos.getX();
+            int by = pos.getY();
+            int bz = pos.getZ();
+
+            ArrayList<INBT> enchantments = new ArrayList<>();
+            Random random = new Random();
+            String unbreakingEnchantment = "";
+
+            enchantments.add(INBT.create((byte) 0));
+
+            for(INBT enchantment : stack.getEnchantmentTagList()){
+                enchantments.add(enchantment);
+            }
+
+            for(int i=0;i<enchantments.size(); i++){
+                if(enchantments.get(i).toString().contains("minecraft:unbreaking")){
+                    unbreakingEnchantment = enchantments.get(i).toString();
+                }
+            }
+
+
+
+            if(world.getBlockState(pos).getBlock() == Blocks.DIRT || world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK || world.getBlockState(pos).getBlock() == Blocks.GRASS_PATH){
+                for (int x = -1; x < 2; x++) {
+                    for (int z = -1; z < 2; z++) {
+                        if(stack.getDamage() >= stack.getMaxDamage()){
+                            stack.shrink(1);
+                            break;
+                        }
+                        if(world.getBlockState(new BlockPos(bx + x,by + 1,bz + z)).getBlock() == Blocks.AIR){
+                            if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.DIRT || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_PATH ) {
+                                world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.FARMLAND.getDefaultState());
+                                if(!player.isCreative()){
+                                    if(unbreakingEnchantment.length() != 0){
+                                        if(unbreakingEnchantment.contains("lvl:1")){
+                                            if(random.nextInt(100) + 1 <= 50){
+                                                stack.setDamage(stack.getDamage() + 1);
+                                            }
+                                        }else if(unbreakingEnchantment.contains("lvl:2")){
+                                            if(random.nextInt(100) + 1 <= 33){
+                                                stack.setDamage(stack.getDamage() + 1);
+                                            }
+                                        }else if(unbreakingEnchantment.contains("lvl:3")){
+                                            if(random.nextInt(100) + 1 <= 25){
+                                                stack.setDamage(stack.getDamage() + 1);
+                                            }
+                                        }
+                                    }else{
+                                        stack.setDamage(stack.getDamage() + 1);
+                                    }
+                                }
+
+                            }else if(world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.COARSE_DIRT){
+                                world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.DIRT.getDefaultState());
+                                if(!player.isCreative()){
                                     if(unbreakingEnchantment.length() != 0){
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
@@ -549,18 +971,94 @@ public class SuperPickaxe extends PickaxeItem {
                                     }
                                 }
                             }
-
                         }
                     }
                 }
-
-            }else{
-                stack.setDamage(stack.getDamage() + 1);
             }
+        }
+    }
 
+    @SubscribeEvent
+    public static void SuperSwordHitEntity(LivingHurtEvent event){
+        if(event.getSource().getTrueSource() instanceof PlayerEntity){
+            LivingEntity target = event.getEntityLiving();
+            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+            ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+
+            if(RegisterItems.superSword.equals(stack.getItem())){
+                target.addPotionEffect(new EffectInstance(Effect.get(18), 60, 1));
+                target.addPotionEffect(new EffectInstance(Effect.get(19), 60, 1));
+                target.addPotionEffect(new EffectInstance(Effect.get(24), 60, 1));
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void ItemCupHitEntity(LivingHurtEvent event){
+        if(event.getSource().getTrueSource() instanceof PlayerEntity){
+            LivingEntity target = event.getEntityLiving();
+            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+            ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+
+            if(RegisterItems.itemCup.equals(stack.getItem())){
+                if(target instanceof PlayerEntity){
+                    PlayerEntity playerTarget = (PlayerEntity)event.getEntityLiving();
+                    if(!playerTarget.getActivePotionEffects().toString().contains("effect.minecraft.fire_resistance")){
+                        if(!playerTarget.isCreative()){
+                            playerTarget.setFire(3);
+                        }
+                    }
+                }else{
+                    target.setFire(5);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void SpecialCupHitEntity(LivingHurtEvent event){
+        if(event.getSource().getTrueSource() instanceof PlayerEntity){
+            LivingEntity target = event.getEntityLiving();
+            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
+            ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+
+            if(RegisterItems.specialCup.equals(stack.getItem())){
+                target.addPotionEffect(new EffectInstance(Effect.get(20), 100, 5));
+                target.addPotionEffect(new EffectInstance(Effect.get(24), 100, 1));
+            }
         }
 
 
-        return false;
     }
+
+
+    private static ArrayList<BlockPos> getWoodNeighbours(World world, BlockPos blockPos, Block block, ItemStack stack) {
+        ArrayList<BlockPos> list = new ArrayList<>();
+        for(int x=-1; x<=1; x++){
+            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                stack.shrink(1);
+                break;
+            }
+            for(int y=-1; y<=1; y++){
+                if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                    stack.shrink(1);
+                    break;
+                }
+                for(int z=-1; z<=1; z++) {
+                    if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                        stack.shrink(1);
+                        break;
+                    }
+
+                    if(world.getBlockState(blockPos.add(x,y,z)).getBlock().equals(block)) {
+                        list.add(blockPos.add(x,y,z));
+                    }
+                }
+            }
+        }
+
+        return list;
+    }
+
+
 }
