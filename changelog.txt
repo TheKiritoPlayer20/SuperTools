@@ -1,5 +1,5 @@
-Build: 1.5b Sat Sep 21 20:54:23
-	Updated the way the Super Axe,Pickaxe and Shovel mining event will trigger, as it will work now in creative mode
+Build: 1.6 Sat Sep 21 19:08:53
+	Updated the way the Super Axe,Pickaxe and Shovel mining event will trigger, as it will work now in creative mode.
 	Also updated the ItemCup event, as it wont set you onfire if you have fire resistance.
 	
 =========
