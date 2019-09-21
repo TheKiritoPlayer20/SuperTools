@@ -1,3 +1,9 @@
+Build: 1.5b Sat Sep 21 20:54:23
+	Updated the way the Super Axe,Pickaxe and Shovel mining event will trigger, as it will work now in creative mode
+	Also updated the ItemCup event, as it wont set you onfire if you have fire resistance.
+	
+=========
+
 Build: 1.5b Fri Aug 16 13:50:15
 	Updated config file.
 	Fixed a bug where the Super Tools woudln't break.
