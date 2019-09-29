@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,7 +21,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -71,7 +69,12 @@ public class EventHandler {
                     for(BlockPos blockPos : logNeighbours){
                         brokenBlocks.add(blockPos);
                         nextPos.add(blockPos);
-                        world.destroyBlock(blockPos, true);
+                        if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                            world.destroyBlock(blockPos, true);
+                        }else{
+                            world.destroyBlock(blockPos, false);
+                        }
+
                         blocksHarvested += 1;
                         if(!player.isCreative()){
                             if(unbreakingEnchantment.length() != 0){
@@ -104,15 +107,14 @@ public class EventHandler {
     }
 
     @SubscribeEvent
-    public static void SuperPickaxeDestroyedBlock(BlockEvent.BreakEvent event){
-        World world = (World)event.getWorld();
+    public static void SuperPickaxeDestroyedBlock(BlockEvent.BreakEvent event) {
+        World world = (World) event.getWorld();
         PlayerEntity player = event.getPlayer();
         BlockPos pos = event.getPos();
         ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
-        BlockState state = world.getBlockState(pos);
         boolean firstUse = true;
 
-        if(RegisterItems.superPickaxe.equals(stack.getItem())){
+        if (RegisterItems.superPickaxe.equals(stack.getItem())) {
             int bx = pos.getX();
             int by = pos.getY();
             int bz = pos.getZ();
@@ -126,25 +128,25 @@ public class EventHandler {
 
             enchantments.add(INBT.create((byte) 0));
 
-            for(INBT enchantment : stack.getEnchantmentTagList()){
+            for (INBT enchantment : stack.getEnchantmentTagList()) {
                 enchantments.add(enchantment);
             }
 
-            for(int i=0;i<enchantments.size(); i++){
-                if(enchantments.get(i).toString().contains("minecraft:unbreaking")){
+            for (int i = 0; i < enchantments.size(); i++) {
+                if (enchantments.get(i).toString().contains("minecraft:unbreaking")) {
                     unbreakingEnchantment = enchantments.get(i).toString();
-                }else if(enchantments.get(i).toString().contains("minecraft:silk_touch")){
+                } else if (enchantments.get(i).toString().contains("minecraft:silk_touch")) {
                     silktouchEnchantment = enchantments.get(i).toString();
-                }else if(enchantments.get(i).toString().contains("minecraft:fortune")){
+                } else if (enchantments.get(i).toString().contains("minecraft:fortune")) {
                     fortuneEnchantment = enchantments.get(i).toString();
                 }
             }
 
-            if(world.getBlockState(pos).getMaterial() == Material.ROCK || world.getBlockState(pos).getMaterial() == Material.IRON || world.getBlockState(pos).getMaterial() == Material.ANVIL || world.getBlockState(pos).getMaterial() == Material.GLASS || world.getBlockState(pos).getMaterial() == Material.ICE || world.getBlockState(pos).getMaterial() == Material.PACKED_ICE){
-                if(player.getLookVec().y <= -0.52f || player.getLookVec().y >= 0.52f){
-                    for(int x = -1; x < 2; x++){
-                        for(int z = -1; z < 2; z++){
-                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+            if (world.getBlockState(pos).getMaterial() == Material.ROCK || world.getBlockState(pos).getMaterial() == Material.IRON || world.getBlockState(pos).getMaterial() == Material.ANVIL || world.getBlockState(pos).getMaterial() == Material.GLASS || world.getBlockState(pos).getMaterial() == Material.ICE || world.getBlockState(pos).getMaterial() == Material.PACKED_ICE) {
+                if (player.getLookVec().y <= -0.52f || player.getLookVec().y >= 0.52f) {
+                    for (int x = -1; x < 2; x++) {
+                        for (int z = -1; z < 2; z++) {
+                            if (stack.getDamage() >= stack.getMaxDamage() - 1) {
                                 stack.shrink(1);
                                 break;
                             }
@@ -153,493 +155,633 @@ public class EventHandler {
                             BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
 
-                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE){
-                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME){
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE) {
+                                if (world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME) {
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
-                                    if(silktouchEnchantment.length() != 0){
-                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, false);
-                                        Block.spawnAsEntity(world,newBlockPos, new ItemStack(destroyedBlock));
-                                    }else if(fortuneEnchantment.length() != 0){
-                                        if(blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE){
-                                            if(fortuneEnchantment.contains("lvl:1")){
-                                                if(randomNumber <= 33){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }else if(fortuneEnchantment.contains("lvl:2")){
-                                                if(randomNumber <= 25){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 50 && randomNumber > 25){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }else if(fortuneEnchantment.contains("lvl:3")){
-                                                if(randomNumber <= 20){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 40 && randomNumber > 20){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 60 && randomNumber > 40){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else{
+                                    if (silktouchEnchantment.length() != 0) {
+                                        if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                            world.destroyBlock(newBlockPos, true);
-                                            BlockState blockState = world.getBlockState(newBlockPos);
-                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                            if(amount != 0){
-                                                world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                            }
-                                        }
-                                    }else{
-                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, true);
-                                        BlockState blockState = world.getBlockState(newBlockPos);
-                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                        if(amount != 0){
-                                            world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                        }
-                                    }
-                                    if(!player.isCreative()){
-                                        if(firstUse){
-                                            firstUse = false;
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
                                         }else{
-                                            if(unbreakingEnchantment.length() != 0){
-                                                if(unbreakingEnchantment.contains("lvl:1")){
-                                                    if(random.nextInt(100) + 1 <= 50){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                            world.destroyBlock(newBlockPos, false);
+                                        }
+                                    }else if (fortuneEnchantment.length() != 0) {
+                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                            if (fortuneEnchantment.contains("lvl:1")) {
+                                                if (randomNumber <= 33) {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
-                                                }else if(unbreakingEnchantment.contains("lvl:2")){
-                                                    if(random.nextInt(100) + 1 <= 33){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
-                                                }else if(unbreakingEnchantment.contains("lvl:3")){
-                                                    if(random.nextInt(100) + 1 <= 25){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (fortuneEnchantment.contains("lvl:2")) {
+                                                if (randomNumber <= 25) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
+                                                } else if (randomNumber <= 50 && randomNumber > 25) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                }
+                                            } else if (fortuneEnchantment.contains("lvl:3")) {
+                                                if (randomNumber <= 20) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else if (randomNumber <= 40 && randomNumber > 20) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else if (randomNumber <= 60 && randomNumber > 40) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                BlockState blockState = world.getBlockState(newBlockPos);
+                                                world.destroyBlock(newBlockPos, true);
+                                                int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                if (amount != 0) {
+                                                    world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
                                                 }
                                             }else{
-                                                stack.damageItem(1, player, PlayerEntity::tick);
+                                                world.destroyBlock(newBlockPos, false);
                                             }
+                                        }
+                                    } else {
+                                        if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                            Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                            BlockState blockState = world.getBlockState(newBlockPos);
+                                            world.destroyBlock(newBlockPos, true);
+                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                            if (amount != 0) {
+                                                world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                            }
+                                        }else{
+                                            world.destroyBlock(newBlockPos, false);
+                                        }
+                                    }
+                                }
+                                if (!player.isCreative()) {
+                                    if (firstUse) {
+                                        firstUse = false;
+                                    } else {
+                                        if (unbreakingEnchantment.length() != 0) {
+                                            if (unbreakingEnchantment.contains("lvl:1")) {
+                                                if (random.nextInt(100) + 1 <= 50) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (unbreakingEnchantment.contains("lvl:2")) {
+                                                if (random.nextInt(100) + 1 <= 33) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (unbreakingEnchantment.contains("lvl:3")) {
+                                                if (random.nextInt(100) + 1 <= 25) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }
+                                        } else {
+                                            stack.damageItem(1, player, PlayerEntity::tick);
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }
-
-                else if(headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)){
-                    for(int x = -1; x< 2; x++){
-                        for(int y = -1; y<2; y++){
-                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                }else if (headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)) {
+                    for (int x = -1; x < 2; x++) {
+                        for (int y = -1; y < 2; y++) {
+                            if (stack.getDamage() >= stack.getMaxDamage() - 1) {
                                 stack.shrink(1);
                                 break;
                             }
 
 
                             int randomNumber = random.nextInt(100) + 1;
-                            BlockPos newBlockPos = new BlockPos(bx + x,by + y, bz);
+                            BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
 
-                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE){
-                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME){
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE) {
+                                if (world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME) {
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
-                                    if(silktouchEnchantment.length() != 0){
-                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, false);
-                                        Block.spawnAsEntity(world,newBlockPos, new ItemStack(destroyedBlock));
-                                    }else if(fortuneEnchantment.length() != 0){
-                                        if(blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE){
-                                            if(fortuneEnchantment.contains("lvl:1")){
-                                                if(randomNumber <= 33){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }else if(fortuneEnchantment.contains("lvl:2")){
-                                                if(randomNumber <= 25){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 50 && randomNumber > 25){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }else if(fortuneEnchantment.contains("lvl:3")){
-                                                if(randomNumber <= 20){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 40 && randomNumber > 20){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 60 && randomNumber > 40){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else{
+                                    if (silktouchEnchantment.length() != 0) {
+                                        if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                            world.destroyBlock(newBlockPos, true);
-                                            BlockState blockState = world.getBlockState(newBlockPos);
-                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                            if(amount != 0){
-                                                world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                            }
-                                        }
-                                    }else{
-                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, true);
-                                        BlockState blockState = world.getBlockState(newBlockPos);
-                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                        if(amount != 0){
-                                            world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                        }
-                                    }
-                                    if(!player.isCreative()){
-                                        if(firstUse){
-                                            firstUse = false;
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
                                         }else{
-                                            if(unbreakingEnchantment.length() != 0){
-                                                if(unbreakingEnchantment.contains("lvl:1")){
-                                                    if(random.nextInt(100) + 1 <= 50){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                            world.destroyBlock(newBlockPos, false);
+                                        }
+                                    }else if (fortuneEnchantment.length() != 0) {
+                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                            if (fortuneEnchantment.contains("lvl:1")) {
+                                                if (randomNumber <= 33) {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
-                                                }else if(unbreakingEnchantment.contains("lvl:2")){
-                                                    if(random.nextInt(100) + 1 <= 33){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
-                                                }else if(unbreakingEnchantment.contains("lvl:3")){
-                                                    if(random.nextInt(100) + 1 <= 25){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (fortuneEnchantment.contains("lvl:2")) {
+                                                if (randomNumber <= 25) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
+                                                } else if (randomNumber <= 50 && randomNumber > 25) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                }
+                                            } else if (fortuneEnchantment.contains("lvl:3")) {
+                                                if (randomNumber <= 20) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else if (randomNumber <= 40 && randomNumber > 20) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else if (randomNumber <= 60 && randomNumber > 40) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                BlockState blockState = world.getBlockState(newBlockPos);
+                                                world.destroyBlock(newBlockPos, true);
+                                                int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                if (amount != 0) {
+                                                    world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
                                                 }
                                             }else{
-                                                stack.damageItem(1, player, PlayerEntity::tick);
+                                                world.destroyBlock(newBlockPos, false);
                                             }
+                                        }
+                                    } else {
+                                        if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                            Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                            BlockState blockState = world.getBlockState(newBlockPos);
+                                            world.destroyBlock(newBlockPos, true);
+                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                            if (amount != 0) {
+                                                world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                            }
+                                        }else{
+                                            world.destroyBlock(newBlockPos, false);
+                                        }
+                                    }
+                                }
+                                if (!player.isCreative()) {
+                                    if (firstUse) {
+                                        firstUse = false;
+                                    } else {
+                                        if (unbreakingEnchantment.length() != 0) {
+                                            if (unbreakingEnchantment.contains("lvl:1")) {
+                                                if (random.nextInt(100) + 1 <= 50) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (unbreakingEnchantment.contains("lvl:2")) {
+                                                if (random.nextInt(100) + 1 <= 33) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (unbreakingEnchantment.contains("lvl:3")) {
+                                                if (random.nextInt(100) + 1 <= 25) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }
+                                        } else {
+                                            stack.damageItem(1, player, PlayerEntity::tick);
                                         }
                                     }
                                 }
                             }
                         }
                     }
-                }else if(headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)){
-                    for(int z = -1; z< 2; z++){
-                        for(int y = -1; y<2; y++){
-                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+
+                }else if (headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)) {
+                    for (int z = -1; z < 2; z++) {
+                        for (int y = -1; y < 2; y++) {
+                            if (stack.getDamage() >= stack.getMaxDamage() - 1) {
                                 stack.shrink(1);
                                 break;
                             }
 
                             int randomNumber = random.nextInt(100) + 1;
-                            BlockPos newBlockPos = new BlockPos(bx ,by + y, bz + z);
+                            BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
 
-                            if(world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE){
-                                if(world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME){
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE) {
+                                if (world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME) {
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
-                                    if(silktouchEnchantment.length() != 0){
-                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, false);
-                                        Block.spawnAsEntity(world,newBlockPos, new ItemStack(destroyedBlock));
-                                    }else if(fortuneEnchantment.length() != 0){
-                                        if(blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE){
-                                            if(fortuneEnchantment.contains("lvl:1")){
-                                                if(randomNumber <= 33){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }else if(fortuneEnchantment.contains("lvl:2")){
-                                                if(randomNumber <= 25){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 50 && randomNumber > 25){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 2, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }else if(fortuneEnchantment.contains("lvl:3")){
-                                                if(randomNumber <= 20){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 40 && randomNumber > 20){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else if(randomNumber <= 60 && randomNumber > 40){
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, false);
-                                                    TileEntity tileentity = state.hasTileEntity() ? world.getTileEntity(pos) : null;
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    Block.spawnDrops(state, world, newBlockPos, tileentity);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }else{
-                                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                                    world.destroyBlock(newBlockPos, true);
-                                                    BlockState blockState = world.getBlockState(newBlockPos);
-                                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                                    if(amount != 0){
-                                                        world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        else{
+                                    if (silktouchEnchantment.length() != 0) {
+                                        if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                            world.destroyBlock(newBlockPos, true);
-                                            BlockState blockState = world.getBlockState(newBlockPos);
-                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                            if(amount != 0){
-                                                world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                            }
-                                        }
-                                    }else{
-                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, true);
-                                        BlockState blockState = world.getBlockState(newBlockPos);
-                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
-                                        if(amount != 0){
-                                            world.addEntity(new ExperienceOrbEntity(world, (double)newBlockPos.getX() + 0.5D, (double)newBlockPos.getY() + 0.5D, (double)newBlockPos.getZ() + 0.5D, amount));
-                                        }
-                                    }
-                                    if(!player.isCreative()){
-                                        if(firstUse){
-                                            firstUse = false;
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
                                         }else{
-                                            if(unbreakingEnchantment.length() != 0){
-                                                if(unbreakingEnchantment.contains("lvl:1")){
-                                                    if(random.nextInt(100) + 1 <= 50){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                            world.destroyBlock(newBlockPos, false);
+                                        }
+                                    }else if (fortuneEnchantment.length() != 0) {
+                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                            if (fortuneEnchantment.contains("lvl:1")) {
+                                                if (randomNumber <= 33) {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
-                                                }else if(unbreakingEnchantment.contains("lvl:2")){
-                                                    if(random.nextInt(100) + 1 <= 33){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
-                                                }else if(unbreakingEnchantment.contains("lvl:3")){
-                                                    if(random.nextInt(100) + 1 <= 25){
-                                                        stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (fortuneEnchantment.contains("lvl:2")) {
+                                                if (randomNumber <= 25) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
                                                     }
+                                                } else if (randomNumber <= 50 && randomNumber > 25) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                }
+                                            } else if (fortuneEnchantment.contains("lvl:3")) {
+                                                if (randomNumber <= 20) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else if (randomNumber <= 40 && randomNumber > 20) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else if (randomNumber <= 60 && randomNumber > 40) {
+                                                    if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        world.destroyBlock(newBlockPos, false);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                } else {
+                                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                                        world.destroyBlock(newBlockPos, true);
+                                                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                        if (amount != 0) {
+                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                        }
+                                                    }else{
+                                                        world.destroyBlock(newBlockPos, false);
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                                Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                                BlockState blockState = world.getBlockState(newBlockPos);
+                                                world.destroyBlock(newBlockPos, true);
+                                                int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                                if (amount != 0) {
+                                                    world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
                                                 }
                                             }else{
-                                                stack.damageItem(1, player, PlayerEntity::tick);
+                                                world.destroyBlock(newBlockPos, false);
                                             }
+                                        }
+                                    } else {
+                                        if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
+                                            Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                            BlockState blockState = world.getBlockState(newBlockPos);
+                                            world.destroyBlock(newBlockPos, true);
+                                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                            if (amount != 0) {
+                                                world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                            }
+                                        }else{
+                                            world.destroyBlock(newBlockPos, false);
+                                        }
+                                    }
+                                }
+                                if (!player.isCreative()) {
+                                    if (firstUse) {
+                                        firstUse = false;
+                                    } else {
+                                        if (unbreakingEnchantment.length() != 0) {
+                                            if (unbreakingEnchantment.contains("lvl:1")) {
+                                                if (random.nextInt(100) + 1 <= 50) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (unbreakingEnchantment.contains("lvl:2")) {
+                                                if (random.nextInt(100) + 1 <= 33) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            } else if (unbreakingEnchantment.contains("lvl:3")) {
+                                                if (random.nextInt(100) + 1 <= 25) {
+                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                }
+                                            }
+                                        } else {
+                                            stack.damageItem(1, player, PlayerEntity::tick);
                                         }
                                     }
                                 }
@@ -696,11 +838,20 @@ public class EventHandler {
 
                             if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
                                 if(silktouchEnchantment.length() != 0) {
-                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                    world.destroyBlock(newBlockPos, false);
-                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                        world.destroyBlock(newBlockPos, false);
+                                        Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                    }else{
+                                        world.destroyBlock(newBlockPos, false);
+                                    }
                                 }else{
-                                    world.destroyBlock(newBlockPos, true);
+                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        world.destroyBlock(newBlockPos, true);
+                                    }else{
+                                        world.destroyBlock(newBlockPos, false);
+                                    }
+
                                 }
                                 if(!player.isCreative()){
                                     if(firstUse){
@@ -739,11 +890,20 @@ public class EventHandler {
 
                             if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
                                 if(silktouchEnchantment.length() != 0) {
-                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                    world.destroyBlock(newBlockPos, false);
-                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                        world.destroyBlock(newBlockPos, false);
+                                        Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                    }else{
+                                        world.destroyBlock(newBlockPos, false);
+                                    }
                                 }else{
-                                    world.destroyBlock(newBlockPos, true);
+                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        world.destroyBlock(newBlockPos, true);
+                                    }else{
+                                        world.destroyBlock(newBlockPos, false);
+                                    }
+
                                 }
                                 if(!player.isCreative()){
                                     if(firstUse){
@@ -782,11 +942,20 @@ public class EventHandler {
 
                             if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK) {
                                 if(silktouchEnchantment.length() != 0) {
-                                    Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                    world.destroyBlock(newBlockPos, false);
-                                    Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
+                                        world.destroyBlock(newBlockPos, false);
+                                        Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                    }else{
+                                        world.destroyBlock(newBlockPos, false);
+                                    }
                                 }else{
-                                    world.destroyBlock(newBlockPos, true);
+                                    if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        world.destroyBlock(newBlockPos, true);
+                                    }else{
+                                        world.destroyBlock(newBlockPos, false);
+                                    }
+
                                 }
                                 if(!player.isCreative()){
                                     if(firstUse){
@@ -1009,7 +1178,7 @@ public class EventHandler {
                         }
                     }
                 }else{
-                    target.setFire(5);
+                    target.setFire(3);
                 }
             }
         }
