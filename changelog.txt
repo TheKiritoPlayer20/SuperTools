@@ -1,16 +1,23 @@
-Build: 1.6 Sat Sep 21 19:08:53
+Build: 1.6b Sun Sep 29 14:06:44 GMT 2019
+	Fixed a bug, where the Fortune on the aoe of the Super Pickaxe wouldn't function right, as you could duplicate blocks.
+	Added 6 config variables, for the Armor Potion Effects. You can disable them completly, only the quartz or obsidian armor and
+	only level 1 or 2 of the obsidian armor.
+	
+=========
+
+Build: 1.6 Sat Sep 21 19:08:53 GMT 2019
 	Updated the way the Super Axe,Pickaxe and Shovel mining event will trigger, as it will work now in creative mode.
 	Also updated the ItemCup event, as it wont set you onfire if you have fire resistance.
 	
 =========
 
-Build: 1.5b Fri Aug 16 13:50:15
+Build: 1.5b Fri Aug 16 13:50:15 GMT 2019
 	Updated config file.
 	Fixed a bug where the Super Tools woudln't break.
 	
 =========
 
-Build: 1.5 Wed Aug 14 14:36:45
+Build: 1.5 Wed Aug 14 14:36:45 GMT 2019
 	Added config file.
 	Updated "updateJSONURL" in "mods.toml"
 	
