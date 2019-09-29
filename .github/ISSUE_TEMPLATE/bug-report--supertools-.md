@@ -3,7 +3,7 @@ name: Bug report (SuperTools)
 about: Create a report to help us improve
 title: ''
 labels: SuperTools, bug
-assignees: ''
+assignees: KiritoGames20
 
 ---
 
