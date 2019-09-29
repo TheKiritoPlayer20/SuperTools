@@ -2,6 +2,7 @@ Build: 1.6b Sun Sep 29 14:06:44 GMT 2019
 	Fixed a bug, where the Fortune on the aoe of the Super Pickaxe wouldn't function right, as you could duplicate blocks.
 	Added 6 config variables, for the Armor Potion Effects. You can disable them completly, only the quartz or obsidian armor and
 	only level 1 or 2 of the obsidian armor.
+	You can also disable that the Super Tools drop blocks when you are in creative mode.
 	
 =========
 
