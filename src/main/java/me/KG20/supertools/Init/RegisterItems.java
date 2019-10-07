@@ -7,6 +7,7 @@ import me.KG20.supertools.Main.Constants;
 import me.KG20.supertools.Tools.*;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -21,6 +22,7 @@ public class RegisterItems {
     public static final Sickle ironSickle = new Sickle(new Item.Properties().maxDamage(250).group(CreativeTabs.tools));
     public static final Sickle goldenSickle = new Sickle(new Item.Properties().maxDamage(32).group(CreativeTabs.tools));
     public static final Sickle diamondSickle = new Sickle(new Item.Properties().maxDamage(1561).group(CreativeTabs.tools));
+    public static final Sickle plantinumSickle = new Sickle(new Item.Properties().maxDamage(753).group(ItemGroup.TOOLS));
 
     public static final Hoe quartzHoe = new Hoe(BasisToolMaterial.quartz, -1F);
     public static final Axe quartzAxe = new Axe(BasisToolMaterial.quartz, -3.1F);
@@ -97,7 +99,8 @@ public class RegisterItems {
         ironSickle.setRegistryName(Constants.modid, "ironsickle");
         goldenSickle.setRegistryName(Constants.modid, "goldensickle");
         diamondSickle.setRegistryName(Constants.modid, "diamondsickle");
-        registry.registerAll(woodenSickle,stoneSickle,ironSickle,goldenSickle,diamondSickle);
+        plantinumSickle.setRegistryName(Constants.modid, "platinumsickle");
+        registry.registerAll(woodenSickle,stoneSickle,ironSickle,goldenSickle,diamondSickle,plantinumSickle);
 
         quartzHoe.setRegistryName(Constants.modid, "quartzhoe");
         quartzAxe.setRegistryName(Constants.modid, "quartzaxe");
