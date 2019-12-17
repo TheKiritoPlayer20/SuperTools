@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "  #",
+        "/# "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:redstone"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "supertools:redstonesickle",
+        "count": 1
+    },
+    "group": "redstonetools"
+}

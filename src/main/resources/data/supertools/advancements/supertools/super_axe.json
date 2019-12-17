@@ -1,0 +1,35 @@
+{
+  "parent": "supertools:supertools/root",
+  "display": {
+    "icon": {
+      "item": "supertools:superaxe"
+    },
+    "title": {
+      "translate": "advancements.supertools.superaxe.title"
+    },
+    "description": {
+      "translate": "advancements.supertools.superaxe.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "super_axe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "supertools:superaxe"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "super_axe"
+    ]
+  ]
+}

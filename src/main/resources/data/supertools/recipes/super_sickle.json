@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " G ",
+        "  G",
+        "/# "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:diamond"
+        },
+		"G": {
+            "item": "minecraft:gold_ingot"
+        },
+        "/": {
+            "item": "minecraft:blaze_rod"
+        }
+    },
+    "result": {
+        "item": "supertools:supersickle",
+        "count": 1
+    },
+    "group": "supertools"
+}

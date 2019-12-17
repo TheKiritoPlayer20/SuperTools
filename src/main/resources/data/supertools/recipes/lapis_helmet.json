@@ -1,0 +1,17 @@
+﻿{
+    "type": "crafting_shaped",
+    "pattern": [
+        "LLL",
+        "L L",
+        "   "
+    ],
+    "key": {
+        "L": {
+            "item": "minecraft:lapis_lazuli"
+        }
+    },
+    "result": {
+        "item": "supertools:lapishelmet"
+    },
+    "group": "lapisarmor"
+}

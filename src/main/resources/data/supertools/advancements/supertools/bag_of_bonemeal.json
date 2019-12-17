@@ -1,0 +1,35 @@
+{
+  "parent": "supertools:supertools/root",
+  "display": {
+    "icon": {
+      "item": "supertools:bonemealtool"
+    },
+    "title": {
+      "translate": "advancements.supertools.bonemealtool.title"
+    },
+    "description": {
+      "translate": "advancements.supertools.bonemealtool.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "bone_meal_tool": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "supertools:bonemealtool"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "bone_meal_tool"
+    ]
+  ]
+}

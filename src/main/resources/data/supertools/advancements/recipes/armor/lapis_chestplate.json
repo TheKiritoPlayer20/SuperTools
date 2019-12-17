@@ -1,0 +1,32 @@
+{
+  "parent": "supertools:recipes/root",
+  "rewards": {
+    "recipes": [
+      "supertools:lapis_chestplate"
+    ]
+  },
+  "criteria": {
+    "has_lapis": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:lapis_lazuli"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "supertools:lapis_chestplate"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_lapis",
+      "has_the_recipe"
+    ]
+  ]
+}

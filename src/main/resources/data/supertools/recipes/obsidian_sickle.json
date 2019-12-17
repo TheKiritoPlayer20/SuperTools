@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        "  #",
+        "/# "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:obsidian"
+        },
+        "/": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "supertools:obsidiansickle",
+        "count": 1
+    },
+    "group": "obsidiantools"
+}

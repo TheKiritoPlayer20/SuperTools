@@ -1,0 +1,35 @@
+{
+  "parent": "supertools:supertools/root",
+  "display": {
+    "icon": {
+      "item": "supertools:supersickle"
+    },
+    "title": {
+      "translate": "advancements.supertools.supersickle.title"
+    },
+    "description": {
+      "translate": "advancements.supertools.supersickle.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "super_sickle": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "supertools:supersickle"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "super_sickle"
+    ]
+  ]
+}
