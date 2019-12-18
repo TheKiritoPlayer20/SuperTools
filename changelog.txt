@@ -1,3 +1,8 @@
+Build: 1.0b Wed Dec 18 16:11:33 GMT 2019
+	Updated to 1.15.1
+	Fixed the BoneMealTool
+=========
+
 Build: 1.0 Tue Dec 17 16:50:23 GMT 2019
 	First 1.15 release
 	Added Brazilian Portuguese language(thanks louiswdg)
