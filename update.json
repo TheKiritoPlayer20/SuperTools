@@ -12,12 +12,12 @@
     		"1.14.2-latest": "1.1b",
 		"1.14.2-recommended": "1.1b"
   	},
-		"1.15.1": {
-		"1.0b": "https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/1.15/changelog.txt",
+	"1.15.1": {
+		"1.0b": "https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/1.15/changelog.txt"
   	},
-		"1.15": {
+	"1.15": {
 		"1.0b": "https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/1.15/changelog.txt",
-		"1.0": "https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/1.15/changelog.txt",
+		"1.0": "https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/1.15/changelog.txt"
   	},
 	"1.14.4": {
 		"1.6b": "https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/SuperTools_1.14/changelog.txt",
