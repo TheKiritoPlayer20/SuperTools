@@ -3,6 +3,7 @@ package me.KG20.supertools.Tools;
 import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.block.*;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -42,7 +43,7 @@ public class BonemealTool extends Item {
         } else {
             BlockState blockstate = world.getBlockState(blockpos);
             boolean flag = blockstate.func_224755_d(world, blockpos, context.getFace());
-            if (flag && growSeagrass(context.getItem(), world, blockpos1, context.getFace())) {
+            if (flag && growSeagrass(context.getItem(), world, blockpos1, context.getFace(), context.getPlayer())) {
                 if (!world.isRemote) {
                     world.playEvent(2005, blockpos1, 0);
                 }
@@ -88,7 +89,7 @@ public class BonemealTool extends Item {
         return false;
     }
 
-    public static boolean growSeagrass(ItemStack stack, World worldIn, BlockPos pos, @Nullable Direction side) {
+    public static boolean growSeagrass(ItemStack stack, World worldIn, BlockPos pos, @Nullable Direction side, PlayerEntity player) {
         if (worldIn.getBlockState(pos).getBlock() == Blocks.WATER && worldIn.getFluidState(pos).getLevel() == 8) {
             if (!(worldIn instanceof ServerWorld)) {
                 return true;
@@ -134,10 +135,12 @@ public class BonemealTool extends Item {
                 }
 
 
+                if(!player.isCreative()) {
                     stack.setDamage(stack.getDamage() + 1);
                     if(stack.getDamage() >= stack.getMaxDamage()){
                         stack.shrink(1);
                     }
+                }
 
                 return true;
             }
