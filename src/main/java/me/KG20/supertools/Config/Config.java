@@ -4,6 +4,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class Config {
 
+    public  static ForgeConfigSpec.ConfigValue<String> string;
     public static ForgeConfigSpec.BooleanValue enable_SuperTools;
     public static ForgeConfigSpec.BooleanValue enable_ArmorStatusEffect;
     public static ForgeConfigSpec.BooleanValue enable_QuartzStatusEffects;
@@ -67,14 +68,17 @@ public class Config {
         durability_Cup = Builder.comment("Cup durabilty (Default: 1700)").defineInRange("cup_durabilty", 1700, 0, 999999999);
         durability_SpecialCup = Builder.comment("SpecialCup durabilty (Default: 2000)").defineInRange("special_cup_durabilty", 2000, 0, 999999999);
         Builder.pop();
+        Builder.push("Tool Attack Damage");
+        Builder.push("DONT CHANGE THE STRINGS!");
+        string = Builder.define("dontchange", "Base Axe damage: 6");
+        string = Builder.define("dontchange2", "Base Sword damage: 3");
+        string = Builder.define("dontchange3", "Base Shovel damage: 1.5");
+        string = Builder.define("dontchange4", "Base Pickaxe damage: 1");
+        string = Builder.define("dontchange5", "Base Hoe damage: 0");
+        string = Builder.define("dontchange6", "Base Cup damage: 1");
+        string = Builder.define("dontchange7", "To get the damage you want add the base damage of the Tool and the base attack damage of the material.");
+        Builder.pop();
         Builder.push("Attack Damage");
-        Builder.comment("Base Axe damage: 6");
-        Builder.comment("Base Sword damage: 3");
-        Builder.comment("Base Shovel damage: 1.5");
-        Builder.comment("Base Pickaxe damage: 1");
-        Builder.comment("Base Hoe damage: 0");
-        Builder.comment("Base Cup damage: 1");
-        Builder.comment("To get the damage you want add the base damage of the Tool and the base attack damage of the material.");
         attackdamage_Quartz = Builder.comment("Quartz base attack damage").defineInRange("attackdamage_quartz", 2.0,0.0, 999999999);
         attackdamage_Obsidian = Builder.comment("Obsidian base attack damage").defineInRange("attackdamage_obsidian", 3.5,0.0, 999999999);
         attackdamage_Emerald = Builder.comment("Emerald base attack damage").defineInRange("attackdamage_emerald", 3.5,0.0, 999999999);
@@ -83,7 +87,7 @@ public class Config {
         attackdamage_SuperTools = Builder.comment("Super Tools base attack damage").defineInRange("attackdamage_supertools", 3.5,0.0, 999999999);
         attackdamage_Cup = Builder.comment("Cup base attack damage").defineInRange("attackdamage_cup", 3.5,0.0, 999999999);
         attackdamage_SpecialCup = Builder.comment("Special Cup base attack damage").defineInRange("attackdamage_specialcup", 4.0,0.0, 999999999);
-        Builder.pop();
+        Builder.pop(2);
 
         Builder.push("Super Axe");
         max_wood_logs = Builder.comment("Set the Maxmium amount of Wood Logs being chopped with the Super Axe").defineInRange("max_wood_logs", 64, 0, 999999999);
