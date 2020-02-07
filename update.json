@@ -1,6 +1,8 @@
 {
   	"homepage": "https://www.curseforge.com/minecraft/mc-mods/super-tools/files",
   	"promos": {
+		"1.15.1-latest": "1.1",
+		"1.15.1-recommended": "1.1",
 		"1.15.1-latest": "1.0b",
 		"1.15.1-recommended": "1.0b",
 		"1.15-latest": "1.0b",
@@ -11,6 +13,9 @@
 		"1.14.3-recommended": "1.2",
     		"1.14.2-latest": "1.1b",
 		"1.14.2-recommended": "1.1b"
+  	},
+	"1.15.2": {
+		"1.1": "https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/1.15/changelog.txt"
   	},
 	"1.15.1": {
 		"1.0b": "https://raw.githubusercontent.com/TheKiritoPlayer20/SuperTools/1.15/changelog.txt"
