@@ -11,7 +11,7 @@ assignees: KiritoGames20
 A clear and concise description of what the bug is.
 
 **Versions**
-Forge version: 28.*.*
+Forge version: 31.*.*
 Supertools version: 1.*
 
 **To Reproduce**
