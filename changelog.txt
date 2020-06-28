@@ -1,20 +1,2 @@
-Build: 1.1 Fri Feb 07 23:00:47 GMT 2020
-	Updated to 1.15.2
-	Fixed Cups not working on Wood crafted Blocks
-	Super Shovel now also does 3x3 on Clay
-	Added Config Option for the Super Tools Damage
-	
-=========
-
-Build: 1.0b Wed Dec 18 16:11:33 GMT 2019
-	Updated to 1.15.1
-	Fixed the BoneMealTool
-=========
-
-Build: 1.0 Tue Dec 17 16:50:23 GMT 2019
-	First 1.15 release
-	Added Brazilian Portuguese language(thanks louiswdg)
-	
-	Known issues:
-	BoneMeanTool takes damage when using it on seagrass in creative.
-=========
+Build: 1.0 Sun Jun 28 18:22:29 GMT 2020
+	Initial Update to 1.16.1
