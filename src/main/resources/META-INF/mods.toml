@@ -28,6 +28,6 @@ The SuperTools Mod. It adds Lapis, Redstone, Quartz, Emerald & Obsidian Tools an
 [[dependencies.supertools]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2]"
+    versionRange="[1.16.1]"
     ordering="NONE"
     side="BOTH"

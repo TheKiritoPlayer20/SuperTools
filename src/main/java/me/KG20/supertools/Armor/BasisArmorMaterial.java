@@ -79,6 +79,13 @@ public class BasisArmorMaterial {
         public float getToughness() {
             return toughness;
         }
+
+        @Override
+        public float getKnockbackResistance() {
+            // The scale of the amount of knockback resisted from attacks and projectiles.
+            // Does not affect explosions. 1.0 is 100% knockback resistance.
+            return 0;
+        }
     }
 
 

@@ -24,35 +24,35 @@ public class RegisterItems {
     public static final Sickle diamondSickle = new Sickle(new Item.Properties().maxDamage(1561).group(CreativeTabs.tools));
     public static final Sickle plantinumSickle = new Sickle(new Item.Properties().maxDamage(753).group(ItemGroup.TOOLS));
 
-    public static final Hoe quartzHoe = new Hoe(BasisToolMaterial.quartz, -1F);
+    public static final Hoe quartzHoe = new Hoe(BasisToolMaterial.quartz,Config.attackdamage_Quartz, -1F);
     public static final Axe quartzAxe = new Axe(BasisToolMaterial.quartz, -3.1F);
     public static final Pickaxe quartzPickaxe = new Pickaxe(BasisToolMaterial.quartz, -2.8F);
     public static final Shovel quartzShovel = new Shovel(BasisToolMaterial.quartz, -3F);
     public static final Sword quartzSword = new Sword(BasisToolMaterial.quartz, -2.4F);
     public static final Sickle quartzSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_Quartz.get()).group(CreativeTabs.tools));
 
-    public static final Hoe emeraldHoe = new Hoe(BasisToolMaterial.emerald, -1F);
+    public static final Hoe emeraldHoe = new Hoe(BasisToolMaterial.emerald,Config.attackdamage_Emerald, -1F);
     public static final Axe emeraldAxe = new Axe(BasisToolMaterial.emerald, -3.1F);
     public static final Pickaxe emeraldPickaxe = new Pickaxe(BasisToolMaterial.emerald, -2.8F);
     public static final Shovel emeraldShovel = new Shovel(BasisToolMaterial.emerald, -3F);
     public static final Sword emeraldSword = new Sword(BasisToolMaterial.emerald, -2.4F);
     public static final Sickle emeraldSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_Emerald.get()).group(CreativeTabs.tools));
 
-    public static final Hoe obsidianHoe = new Hoe(BasisToolMaterial.obsidian, -1F);
+    public static final Hoe obsidianHoe = new Hoe(BasisToolMaterial.obsidian, Config.attackdamage_Obsidian, -1F);
     public static final Axe obsidianAxe = new Axe(BasisToolMaterial.obsidian, -3.1F);
     public static final Pickaxe obsidianPickaxe = new Pickaxe(BasisToolMaterial.obsidian, -2.8F);
     public static final Shovel obsidianShovel = new Shovel(BasisToolMaterial.obsidian, -3F);
     public static final Sword obsidianSword = new Sword(BasisToolMaterial.obsidian, -2.4F);
     public static final Sickle obsidianSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_Obsidian.get()).group(CreativeTabs.tools));
 
-    public static final Hoe lapisHoe = new Hoe(BasisToolMaterial.lapis, -1F);
+    public static final Hoe lapisHoe = new Hoe(BasisToolMaterial.lapis, Config.attackdamage_Lapis, -1F);
     public static final Axe lapisAxe = new Axe(BasisToolMaterial.lapis, -3.1F);
     public static final Pickaxe lapisPickaxe = new Pickaxe(BasisToolMaterial.lapis, -2.8F);
     public static final Shovel lapisShovel = new Shovel(BasisToolMaterial.lapis, -3F);
     public static final Sword lapisSword = new Sword(BasisToolMaterial.lapis, -2.4F);
     public static final Sickle lapisSickle = new Sickle(new Item.Properties().maxDamage(Config.durability_Lapis.get()).group(CreativeTabs.tools));
 
-    public static final Hoe redstoneHoe = new Hoe(BasisToolMaterial.redstone, -0.5F);
+    public static final Hoe redstoneHoe = new Hoe(BasisToolMaterial.redstone, Config.attackdamage_Redstone, -0.5F);
     public static final Axe redstoneAxe = new Axe(BasisToolMaterial.redstone, -2.6F);
     public static final Pickaxe redstonePickaxe = new Pickaxe(BasisToolMaterial.redstone, -2.3F);
     public static final Shovel redstoneShovel = new Shovel(BasisToolMaterial.redstone, -2.5F);
@@ -80,7 +80,7 @@ public class RegisterItems {
     public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.FEET);
 
     public static final BonemealTool boneMealTool = new BonemealTool();
-    public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, -1F, new Item.Properties().group(CreativeTabs.supertools));
+    public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, Config.attackdamage_SuperTools,-1F, new Item.Properties().group(CreativeTabs.supertools));
     public static final Axe superAxe = new Axe(BasisToolMaterial.supertools, -3.1F, new Item.Properties().group(CreativeTabs.supertools));
     public static final Pickaxe superPickaxe = new Pickaxe(BasisToolMaterial.supertools, -2.8F, new Item.Properties().group(CreativeTabs.supertools));
     public static final Shovel superShovel = new Shovel(BasisToolMaterial.supertools, -3F, new Item.Properties().group(CreativeTabs.supertools));
