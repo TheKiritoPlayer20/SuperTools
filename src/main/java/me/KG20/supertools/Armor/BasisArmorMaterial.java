@@ -16,10 +16,10 @@ import java.util.function.Supplier;
 
 public class BasisArmorMaterial {
 
-    public final static IArmorMaterial emerald = new ArmorMaterial(Constants.modid + ":emerald",33, new int[]{4, 5, 8, 3}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,() -> Ingredient.fromItems(Items.EMERALD));
-    public final static IArmorMaterial obsidian = new ArmorMaterial(Constants.modid + ":obsidian", 33, new int[]{2, 6, 10, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,() -> Ingredient.fromItems(Blocks.OBSIDIAN));
-    public final static IArmorMaterial quartz = new ArmorMaterial(Constants.modid + ":quartz", 33, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,() -> Ingredient.fromItems(Items.QUARTZ));
-    public final static IArmorMaterial lapis = new ArmorMaterial(Constants.modid + ":lapis",10, new int[]{2, 3, 4, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F,() -> Ingredient.fromItems(Items.LAPIS_LAZULI));
+    public final static IArmorMaterial emerald = new ArmorMaterial(Constants.modid + ":emerald",33, new int[]{4, 5, 8, 3}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.fromItems(Items.EMERALD));
+    public final static IArmorMaterial obsidian = new ArmorMaterial(Constants.modid + ":obsidian", 33, new int[]{2, 6, 10, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.fromItems(Blocks.OBSIDIAN));
+    public final static IArmorMaterial quartz = new ArmorMaterial(Constants.modid + ":quartz", 33, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.fromItems(Items.QUARTZ));
+    public final static IArmorMaterial lapis = new ArmorMaterial(Constants.modid + ":lapis",10, new int[]{2, 3, 4, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F,0.0F,() -> Ingredient.fromItems(Items.LAPIS_LAZULI));
 
     private static class ArmorMaterial implements IArmorMaterial{
 
@@ -28,21 +28,21 @@ public class BasisArmorMaterial {
         private final int maxDamageFactor;
         private final int[] damageReductionAmountArray;
         private final int enchantability;
+        private final SoundEvent soundEvent;
+        private final float toughness;
+        private final float field_234660_o_;
+        private final LazyValue<Ingredient> repairMaterial;
 
-        public ArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, float toughness, Supplier<Ingredient> supplier) {
+        public ArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, double toughness, float p_i231593_9_, Supplier<Ingredient> supplier) {
             this.name = name;
             this.maxDamageFactor = maxDamageFactor;
             this.damageReductionAmountArray = damageReductionAmountArray;
             this.enchantability = enchantability;
             this.soundEvent = soundEvent;
-            this.toughness = toughness;
+            this.toughness = (float)toughness;
+            this.field_234660_o_ = p_i231593_9_;
             this.repairMaterial = new LazyValue<Ingredient>(supplier);
         }
-
-        private final SoundEvent soundEvent;
-        private final float toughness;
-        private final LazyValue<Ingredient> repairMaterial;
-
 
         @Override
         public int getDurability(EquipmentSlotType slotIn) {
@@ -78,6 +78,11 @@ public class BasisArmorMaterial {
         @Override
         public float getToughness() {
             return toughness;
+        }
+
+        @Override
+        public float func_230304_f_() {
+            return this.field_234660_o_;
         }
     }
 

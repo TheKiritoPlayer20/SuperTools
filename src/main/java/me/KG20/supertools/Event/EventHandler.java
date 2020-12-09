@@ -49,7 +49,7 @@ public class EventHandler {
         Random random = new Random();
         String unbreakingEnchantment = "";
 
-        enchantments.add(IntNBT.func_229692_a_(0));
+        enchantments.add(IntNBT.valueOf(0));
 
         for(INBT enchantment : stack.getEnchantmentTagList()){
             enchantments.add(enchantment);
@@ -127,7 +127,7 @@ public class EventHandler {
             String silktouchEnchantment = "";
             String fortuneEnchantment = "";
 
-            enchantments.add(IntNBT.func_229692_a_(0));
+            enchantments.add(IntNBT.valueOf(0));
 
             for (INBT enchantment : stack.getEnchantmentTagList()) {
                 enchantments.add(enchantment);
@@ -813,7 +813,7 @@ public class EventHandler {
             String unbreakingEnchantment = "";
             String silktouchEnchantment = "";
 
-            enchantments.add(IntNBT.func_229692_a_(0));
+            enchantments.add(IntNBT.valueOf(0));
 
             for (INBT enchantment : stack.getEnchantmentTagList()) {
                 enchantments.add(enchantment);
@@ -1006,7 +1006,7 @@ public class EventHandler {
             Random random = new Random();
             String unbreakingEnchantment = "";
 
-            enchantments.add(IntNBT.func_229692_a_(0));
+            enchantments.add(IntNBT.valueOf(0));
 
             for(INBT enchantment : stack.getEnchantmentTagList()){
                 enchantments.add(enchantment);
@@ -1075,7 +1075,7 @@ public class EventHandler {
             Random random = new Random();
             String unbreakingEnchantment = "";
 
-            enchantments.add(IntNBT.func_229692_a_(0));
+            enchantments.add(IntNBT.valueOf(0));
 
             for(INBT enchantment : stack.getEnchantmentTagList()){
                 enchantments.add(enchantment);

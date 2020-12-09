@@ -1,0 +1,35 @@
+{
+  "parent": "supertools:recipes/root",
+  "rewards": {
+    "recipes": [
+      "supertools:netherite_sickle"
+    ]
+  },
+  "criteria": {
+    "has_items": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:netherite_ingot"
+          },
+          {
+            "item": "supertools:diamond_sickle"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "supertools:netherite_sickle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_items",
+      "has_the_recipe"
+    ]
+  ]
+}

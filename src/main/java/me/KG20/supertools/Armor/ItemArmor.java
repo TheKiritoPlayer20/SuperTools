@@ -14,8 +14,8 @@ import net.minecraft.world.World;
 public class ItemArmor extends ArmorItem {
 
 
-    public ItemArmor(IArmorMaterial materialIn, EquipmentSlotType slots) {
-        super(materialIn, slots, new Properties().group(CreativeTabs.armor));
+    public ItemArmor(IArmorMaterial materialIn, EquipmentSlotType slots, Properties properties) {
+        super(materialIn, slots, properties);
     }
 
     @Override
