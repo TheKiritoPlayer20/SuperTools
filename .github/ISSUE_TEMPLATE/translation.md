@@ -3,7 +3,7 @@ name: Translation
 about: Translate Super Tools
 title: "[TRANSLATION]"
 labels: SuperTools, Translation
-assignees: KiritoGames20
+assignees: realKG20
 
 ---
 
