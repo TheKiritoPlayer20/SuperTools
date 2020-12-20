@@ -23,7 +23,7 @@ public class RegisterItems {
     public static final Sickle goldenSickle = new Sickle(new Item.Properties().maxDamage(32).group(CreativeTabs.tools));
     public static final Sickle diamondSickle = new Sickle(new Item.Properties().maxDamage(1561).group(CreativeTabs.tools));
     public static final Sickle plantinumSickle = new Sickle(new Item.Properties().maxDamage(753).group(ItemGroup.TOOLS));
-    public static final Sickle netheriteSickle = new Sickle(new Item.Properties().maxDamage(2031).group(CreativeTabs.tools).func_234689_a_());
+    public static final Sickle netheriteSickle = new Sickle(new Item.Properties().maxDamage(2031).group(CreativeTabs.tools).isImmuneToFire());
 
     public static final Hoe quartzHoe = new Hoe(BasisToolMaterial.quartz, -3, -1F);
     public static final Axe quartzAxe = new Axe(BasisToolMaterial.quartz, -3.1F);
@@ -65,20 +65,20 @@ public class RegisterItems {
     public static final ItemArmor emeraldLeggings = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.LEGS, new Item.Properties().group(CreativeTabs.armor));
     public static final ItemArmor emeraldBoots = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.FEET, new Item.Properties().group(CreativeTabs.armor));
 
-    public static final ItemArmor obsidianHelmet = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.HEAD, new Item.Properties().group(CreativeTabs.armor).func_234689_a_());
-    public static final ItemArmor obsidianChestplate = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.CHEST, new Item.Properties().group(CreativeTabs.armor).func_234689_a_());
-    public static final ItemArmor obsidianLeggings = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.LEGS, new Item.Properties().group(CreativeTabs.armor).func_234689_a_());
-    public static final ItemArmor obsidianBoots = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.FEET, new Item.Properties().group(CreativeTabs.armor).func_234689_a_());
+    public static final ItemArmor obsidianHelmet = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.HEAD, new Item.Properties().group(CreativeTabs.armor).isImmuneToFire());
+    public static final ItemArmor obsidianChestplate = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.CHEST, new Item.Properties().group(CreativeTabs.armor).isImmuneToFire());
+    public static final ItemArmor obsidianLeggings = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.LEGS, new Item.Properties().group(CreativeTabs.armor).isImmuneToFire());
+    public static final ItemArmor obsidianBoots = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.FEET, new Item.Properties().group(CreativeTabs.armor).isImmuneToFire());
 
     public static final ItemArmor lapisHelmet = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlotType.HEAD, new Item.Properties().group(CreativeTabs.armor));
     public static final ItemArmor lapisChestplate = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlotType.CHEST, new Item.Properties().group(CreativeTabs.armor));
     public static final ItemArmor lapisLeggings = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlotType.LEGS, new Item.Properties().group(CreativeTabs.armor));
     public static final ItemArmor lapisBoots = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlotType.FEET, new Item.Properties().group(CreativeTabs.armor));
 
-    public static final ItemArmor quartzHelmet = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.HEAD, new Item.Properties().group(CreativeTabs.armor).func_234689_a_());
-    public static final ItemArmor quartzChestplate = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.CHEST, new Item.Properties().group(CreativeTabs.armor).func_234689_a_());
-    public static final ItemArmor quartzLeggings = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.LEGS, new Item.Properties().group(CreativeTabs.armor).func_234689_a_());
-    public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.FEET, new Item.Properties().group(CreativeTabs.armor).func_234689_a_());
+    public static final ItemArmor quartzHelmet = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.HEAD, new Item.Properties().group(CreativeTabs.armor).isImmuneToFire());
+    public static final ItemArmor quartzChestplate = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.CHEST, new Item.Properties().group(CreativeTabs.armor).isImmuneToFire());
+    public static final ItemArmor quartzLeggings = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.LEGS, new Item.Properties().group(CreativeTabs.armor).isImmuneToFire());
+    public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.FEET, new Item.Properties().group(CreativeTabs.armor).isImmuneToFire());
 
     public static final BonemealTool boneMealTool = new BonemealTool();
     public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, -3, -1F, new Item.Properties().group(CreativeTabs.supertools));

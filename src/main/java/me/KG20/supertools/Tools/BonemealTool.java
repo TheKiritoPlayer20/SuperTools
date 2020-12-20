@@ -11,6 +11,7 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -21,6 +22,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
+import java.util.Optional;
 
 public class BonemealTool extends Item {
     public BonemealTool() {
@@ -39,7 +42,7 @@ public class BonemealTool extends Item {
                 world.playEvent(2005, blockpos, 0);
             }
 
-            return ActionResultType.SUCCESS;
+            return ActionResultType.func_233537_a_(world.isRemote);
         } else {
             BlockState blockstate = world.getBlockState(blockpos);
             boolean flag = blockstate.isSolidSide(world, blockpos, context.getFace());
@@ -48,12 +51,13 @@ public class BonemealTool extends Item {
                     world.playEvent(2005, blockpos1, 0);
                 }
 
-                return ActionResultType.SUCCESS;
+                return ActionResultType.func_233537_a_(world.isRemote);
             } else {
                 return ActionResultType.PASS;
             }
         }
     }
+
 
     @Deprecated //Forge: Use Player/Hand version
     public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos pos) {
@@ -90,27 +94,24 @@ public class BonemealTool extends Item {
     }
 
     public static boolean growSeagrass(ItemStack stack, World worldIn, BlockPos pos, @Nullable Direction side, PlayerEntity player) {
-        if (worldIn.getBlockState(pos).getBlock() == Blocks.WATER && worldIn.getFluidState(pos).getLevel() == 8) {
+        if (worldIn.getBlockState(pos).isIn(Blocks.WATER) && worldIn.getFluidState(pos).getLevel() == 8) {
             if (!(worldIn instanceof ServerWorld)) {
                 return true;
             } else {
                 label80:
                 for(int i = 0; i < 128; ++i) {
                     BlockPos blockpos = pos;
-                    Biome biome = worldIn.getBiome(pos);
                     BlockState blockstate = Blocks.SEAGRASS.getDefaultState();
 
                     for(int j = 0; j < i / 16; ++j) {
                         blockpos = blockpos.add(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-                        biome = worldIn.getBiome(blockpos);
-                        if (worldIn.getBlockState(blockpos).func_235785_r_(worldIn, blockpos)) {
+                        if (worldIn.getBlockState(blockpos).hasOpaqueCollisionShape(worldIn, blockpos)) {
                             continue label80;
                         }
                     }
 
-                    // FORGE: Use BiomeDictionary here to allow modded warm ocean biomes to spawn coral from bonemeal
-                    if (net.minecraftforge.common.BiomeDictionary.hasType(biome, net.minecraftforge.common.BiomeDictionary.Type.OCEAN)
-                            && net.minecraftforge.common.BiomeDictionary.hasType(biome, net.minecraftforge.common.BiomeDictionary.Type.HOT)) {
+                    Optional<RegistryKey<Biome>> optional = worldIn.func_242406_i(blockpos);
+                    if (Objects.equals(optional, Optional.of(Biomes.WARM_OCEAN)) || Objects.equals(optional, Optional.of(Biomes.DEEP_WARM_OCEAN))) {
                         if (i == 0 && side != null && side.getAxis().isHorizontal()) {
                             blockstate = BlockTags.WALL_CORALS.getRandomElement(worldIn.rand).getDefaultState().with(DeadCoralWallFanBlock.FACING, side);
                         } else if (random.nextInt(4) == 0) {
@@ -126,9 +127,9 @@ public class BonemealTool extends Item {
 
                     if (blockstate.isValidPosition(worldIn, blockpos)) {
                         BlockState blockstate1 = worldIn.getBlockState(blockpos);
-                        if (blockstate1.getBlock() == Blocks.WATER && worldIn.getFluidState(blockpos).getLevel() == 8) {
+                        if (blockstate1.isIn(Blocks.WATER) && worldIn.getFluidState(blockpos).getLevel() == 8) {
                             worldIn.setBlockState(blockpos, blockstate, 3);
-                        } else if (blockstate1.getBlock() == Blocks.SEAGRASS && random.nextInt(10) == 0) {
+                        } else if (blockstate1.isIn(Blocks.SEAGRASS) && random.nextInt(10) == 0) {
                             ((IGrowable)Blocks.SEAGRASS).grow((ServerWorld)worldIn, random, blockpos, blockstate1);
                         }
                     }
@@ -157,11 +158,34 @@ public class BonemealTool extends Item {
 
         BlockState blockstate = worldIn.getBlockState(posIn);
         if (!blockstate.isAir(worldIn, posIn)) {
+            double d0 = 0.5D;
+            double d1;
+            if (blockstate.isIn(Blocks.WATER)) {
+                data *= 3;
+                d1 = 1.0D;
+                d0 = 3.0D;
+            } else if (blockstate.isOpaqueCube(worldIn, posIn)) {
+                posIn = posIn.up();
+                data *= 3;
+                d0 = 3.0D;
+                d1 = 1.0D;
+            } else {
+                d1 = blockstate.getShape(worldIn, posIn).getEnd(Direction.Axis.Y);
+            }
+
+            worldIn.addParticle(ParticleTypes.HAPPY_VILLAGER, (double)posIn.getX() + 0.5D, (double)posIn.getY() + 0.5D, (double)posIn.getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
+
             for(int i = 0; i < data; ++i) {
-                double d0 = random.nextGaussian() * 0.02D;
-                double d1 = random.nextGaussian() * 0.02D;
                 double d2 = random.nextGaussian() * 0.02D;
-                worldIn.addParticle(ParticleTypes.HAPPY_VILLAGER, (double)((float)posIn.getX() + random.nextFloat()), (double)posIn.getY() + (double)random.nextFloat() * blockstate.getShape(worldIn, posIn).getEnd(Direction.Axis.Y), (double)((float)posIn.getZ() + random.nextFloat()), d0, d1, d2);
+                double d3 = random.nextGaussian() * 0.02D;
+                double d4 = random.nextGaussian() * 0.02D;
+                double d5 = 0.5D - d0;
+                double d6 = (double)posIn.getX() + d5 + random.nextDouble() * d0 * 2.0D;
+                double d7 = (double)posIn.getY() + random.nextDouble() * d1;
+                double d8 = (double)posIn.getZ() + d5 + random.nextDouble() * d0 * 2.0D;
+                if (!worldIn.getBlockState((new BlockPos(d6, d7, d8)).down()).isAir()) {
+                    worldIn.addParticle(ParticleTypes.HAPPY_VILLAGER, d6, d7, d8, d2, d3, d4);
+                }
             }
 
         }

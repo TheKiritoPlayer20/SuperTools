@@ -30,17 +30,17 @@ public class BasisArmorMaterial {
         private final int enchantability;
         private final SoundEvent soundEvent;
         private final float toughness;
-        private final float field_234660_o_;
+        private final float knochbackResistance;
         private final LazyValue<Ingredient> repairMaterial;
 
-        public ArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, double toughness, float p_i231593_9_, Supplier<Ingredient> supplier) {
+        public ArmorMaterial(String name, int maxDamageFactor, int[] damageReductionAmountArray, int enchantability, SoundEvent soundEvent, double toughness, float knochbackResistance, Supplier<Ingredient> supplier) {
             this.name = name;
             this.maxDamageFactor = maxDamageFactor;
             this.damageReductionAmountArray = damageReductionAmountArray;
             this.enchantability = enchantability;
             this.soundEvent = soundEvent;
             this.toughness = (float)toughness;
-            this.field_234660_o_ = p_i231593_9_;
+            this.knochbackResistance = knochbackResistance;
             this.repairMaterial = new LazyValue<Ingredient>(supplier);
         }
 
@@ -81,8 +81,8 @@ public class BasisArmorMaterial {
         }
 
         @Override
-        public float func_230304_f_() {
-            return this.field_234660_o_;
+        public float getKnockbackResistance() {
+            return this.knochbackResistance;
         }
     }
 
