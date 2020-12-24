@@ -1,2 +1,7 @@
+Build: 1.1 Thu Dec 24 19:07:22 GMT 2020
+	Updated to 1.16.4
+	Added Netherite Sickle
+	
+=========
 Build: 1.0 Sun Jun 28 18:22:29 GMT 2020
 	Initial Update to 1.16.1
