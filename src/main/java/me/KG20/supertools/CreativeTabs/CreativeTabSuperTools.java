@@ -15,7 +15,7 @@ public class CreativeTabSuperTools extends ItemGroup {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public ItemStack createIcon(){
+    public ItemStack makeIcon(){
         return new ItemStack(RegisterItems.specialCup);
     }
 

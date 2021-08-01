@@ -26,7 +26,7 @@ import java.util.Random;
 public class Hoe extends HoeItem {
 
     public Hoe(IItemTier material, int p_i231595_2_, float speed) {
-        super(material, p_i231595_2_, speed, new Properties().group(CreativeTabs.tools));
+        super(material, p_i231595_2_, speed, new Properties().tab(CreativeTabs.tools));
     }
 
     public Hoe(IItemTier material, int p_i231595_2_, float speed, Properties properties) {

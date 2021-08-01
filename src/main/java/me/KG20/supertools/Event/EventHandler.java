@@ -19,6 +19,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -36,7 +37,7 @@ public class EventHandler {
         World world = (World)event.getWorld();
         PlayerEntity player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
         BlockState state = world.getBlockState(pos);
 
         Block startLog = state.getBlock();
@@ -51,7 +52,7 @@ public class EventHandler {
 
         enchantments.add(IntNBT.valueOf(0));
 
-        for(INBT enchantment : stack.getEnchantmentTagList()){
+        for(INBT enchantment : stack.getEnchantmentTags()){
             enchantments.add(enchantment);
         }
 
@@ -63,7 +64,7 @@ public class EventHandler {
 
         if(RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("logs") || RegisterItems.superAxe.equals(stack.getItem()) && startLog.getTags().toString().contains("log")){
             brokenBlocks.add(pos);
-            while(stack.getDamage() != stack.getMaxDamage() && blocksHarvested <= Config.max_wood_logs.get()){
+            while(stack.getDamageValue() != stack.getMaxDamage() && blocksHarvested <= Config.max_wood_logs.get()){
                 ArrayList<BlockPos> logNeighbours = getWoodNeighbours(world,currentPos,startLog, stack);
                 logNeighbours.removeAll(brokenBlocks);
                 if(logNeighbours.size() > 0){
@@ -81,19 +82,19 @@ public class EventHandler {
                             if(unbreakingEnchantment.length() != 0){
                                 if(unbreakingEnchantment.contains("lvl:1")){
                                     if(random.nextInt(100) + 1 <= 50){
-                                        stack.setDamage(stack.getDamage() + 1);
+                                        stack.setDamageValue(stack.getDamageValue() + 1);
                                     }
                                 }else if(unbreakingEnchantment.contains("lvl:2")){
                                     if(random.nextInt(100) + 1 <= 33){
-                                        stack.setDamage(stack.getDamage() + 1);
+                                        stack.setDamageValue(stack.getDamageValue() + 1);
                                     }
                                 }else if(unbreakingEnchantment.contains("lvl:3")){
                                     if(random.nextInt(100) + 1 <= 25){
-                                        stack.setDamage(stack.getDamage() + 1);
+                                        stack.setDamageValue(stack.getDamageValue() + 1);
                                     }
                                 }
                             }else{
-                                stack.setDamage(stack.getDamage() + 1);
+                                stack.setDamageValue(stack.getDamageValue() + 1);
                             }
                         }
                     }
@@ -112,7 +113,7 @@ public class EventHandler {
         World world = (World) event.getWorld();
         PlayerEntity player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
         boolean firstUse = true;
 
         if (RegisterItems.superPickaxe.equals(stack.getItem())) {
@@ -120,7 +121,8 @@ public class EventHandler {
             int by = pos.getY();
             int bz = pos.getZ();
 
-            Direction headRot = player.getHorizontalFacing();
+            //Direction headRot = player.getHorizontalFacing();
+            Direction headRot = player.getMotionDirection();
             ArrayList<INBT> enchantments = new ArrayList<>();
             Random random = new Random();
             String unbreakingEnchantment = "";
@@ -129,7 +131,7 @@ public class EventHandler {
 
             enchantments.add(IntNBT.valueOf(0));
 
-            for (INBT enchantment : stack.getEnchantmentTagList()) {
+            for (INBT enchantment : stack.getEnchantmentTags()) {
                 enchantments.add(enchantment);
             }
 
@@ -143,11 +145,11 @@ public class EventHandler {
                 }
             }
 
-            if (world.getBlockState(pos).getMaterial() == Material.ROCK || world.getBlockState(pos).getMaterial() == Material.IRON || world.getBlockState(pos).getMaterial() == Material.ANVIL || world.getBlockState(pos).getMaterial() == Material.GLASS || world.getBlockState(pos).getMaterial() == Material.ICE || world.getBlockState(pos).getMaterial() == Material.PACKED_ICE) {
-                if (player.getLookVec().y <= -0.52f || player.getLookVec().y >= 0.52f) {
+            if (world.getBlockState(pos).getMaterial() == Material.STONE || world.getBlockState(pos).getMaterial() == Material.METAL || world.getBlockState(pos).getMaterial() == Material.HEAVY_METAL || world.getBlockState(pos).getMaterial() == Material.GLASS || world.getBlockState(pos).getMaterial() == Material.ICE || world.getBlockState(pos).getMaterial() == Material.ICE_SOLID) {
+                if (player.getLookAngle().y <= -0.52f || player.getLookAngle().y >= 0.52f) {
                     for (int x = -1; x < 2; x++) {
                         for (int z = -1; z < 2; z++) {
-                            if (stack.getDamage() >= stack.getMaxDamage() - 1) {
+                            if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
                                 stack.shrink(1);
                                 break;
                             }
@@ -156,14 +158,15 @@ public class EventHandler {
                             BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.STONE || world.getBlockState(newBlockPos).getMaterial() == Material.METAL || world.getBlockState(newBlockPos).getMaterial() == Material.HEAVY_METAL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.ICE_SOLID) {
                                 if (world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME) {
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
                                     if (silktouchEnchantment.length() != 0) {
                                         if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, false);
-                                            Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                            //Block.dropResources(world, newBlockPos, new ItemStack(destroyedBlock));
+                                            Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
                                         }
@@ -174,13 +177,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
+                                                        Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
+
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -192,7 +197,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -203,13 +210,14 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -218,14 +226,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -237,7 +246,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -248,13 +259,14 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -263,14 +275,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -279,15 +292,16 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -299,7 +313,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -313,7 +329,9 @@ public class EventHandler {
                                                 world.destroyBlock(newBlockPos, true);
                                                 int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                 if (amount != 0) {
-                                                    world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                    //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                    ServerWorld sWorld = (ServerWorld)world;
+                                                    destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                 }
                                             }else{
                                                 world.destroyBlock(newBlockPos, false);
@@ -326,7 +344,9 @@ public class EventHandler {
                                             world.destroyBlock(newBlockPos, true);
                                             int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if (amount != 0) {
-                                                world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                ServerWorld sWorld = (ServerWorld)world;
+                                                destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                             }
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
@@ -340,19 +360,19 @@ public class EventHandler {
                                         if (unbreakingEnchantment.length() != 0) {
                                             if (unbreakingEnchantment.contains("lvl:1")) {
                                                 if (random.nextInt(100) + 1 <= 50) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             } else if (unbreakingEnchantment.contains("lvl:2")) {
                                                 if (random.nextInt(100) + 1 <= 33) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             } else if (unbreakingEnchantment.contains("lvl:3")) {
                                                 if (random.nextInt(100) + 1 <= 25) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }
                                         } else {
-                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                            stack.setDamageValue(stack.getDamageValue() + 1);
                                         }
                                     }
                                 }
@@ -362,7 +382,7 @@ public class EventHandler {
                 }else if (headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)) {
                     for (int x = -1; x < 2; x++) {
                         for (int y = -1; y < 2; y++) {
-                            if (stack.getDamage() >= stack.getMaxDamage() - 1) {
+                            if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
                                 stack.shrink(1);
                                 break;
                             }
@@ -371,14 +391,15 @@ public class EventHandler {
                             int randomNumber = random.nextInt(100) + 1;
                             BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.STONE || world.getBlockState(newBlockPos).getMaterial() == Material.METAL || world.getBlockState(newBlockPos).getMaterial() == Material.HEAVY_METAL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.ICE_SOLID) {
                                 if (world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME) {
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
                                     if (silktouchEnchantment.length() != 0) {
                                         if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, false);
-                                            Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                            //Block.dropResources(world, newBlockPos, new ItemStack(destroyedBlock));
+                                            Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
                                         }
@@ -389,13 +410,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
+                                                        Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
+
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -407,7 +430,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -418,13 +443,14 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -433,14 +459,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -452,7 +479,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -463,13 +492,14 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -478,14 +508,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -494,15 +525,16 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -514,7 +546,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -528,7 +562,9 @@ public class EventHandler {
                                                 world.destroyBlock(newBlockPos, true);
                                                 int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                 if (amount != 0) {
-                                                    world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                    //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                    ServerWorld sWorld = (ServerWorld)world;
+                                                    destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                 }
                                             }else{
                                                 world.destroyBlock(newBlockPos, false);
@@ -541,7 +577,9 @@ public class EventHandler {
                                             world.destroyBlock(newBlockPos, true);
                                             int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if (amount != 0) {
-                                                world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                ServerWorld sWorld = (ServerWorld)world;
+                                                destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                             }
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
@@ -555,19 +593,19 @@ public class EventHandler {
                                         if (unbreakingEnchantment.length() != 0) {
                                             if (unbreakingEnchantment.contains("lvl:1")) {
                                                 if (random.nextInt(100) + 1 <= 50) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             } else if (unbreakingEnchantment.contains("lvl:2")) {
                                                 if (random.nextInt(100) + 1 <= 33) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             } else if (unbreakingEnchantment.contains("lvl:3")) {
                                                 if (random.nextInt(100) + 1 <= 25) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }
                                         } else {
-                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                            stack.setDamageValue(stack.getDamageValue() + 1);
                                         }
                                     }
                                 }
@@ -578,7 +616,7 @@ public class EventHandler {
                 }else if (headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)) {
                     for (int z = -1; z < 2; z++) {
                         for (int y = -1; y < 2; y++) {
-                            if (stack.getDamage() >= stack.getMaxDamage() - 1) {
+                            if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
                                 stack.shrink(1);
                                 break;
                             }
@@ -586,14 +624,15 @@ public class EventHandler {
                             int randomNumber = random.nextInt(100) + 1;
                             BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.ROCK || world.getBlockState(newBlockPos).getMaterial() == Material.IRON || world.getBlockState(newBlockPos).getMaterial() == Material.ANVIL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.PACKED_ICE) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.STONE || world.getBlockState(newBlockPos).getMaterial() == Material.METAL || world.getBlockState(newBlockPos).getMaterial() == Material.HEAVY_METAL || world.getBlockState(newBlockPos).getMaterial() == Material.GLASS || world.getBlockState(newBlockPos).getMaterial() == Material.ICE || world.getBlockState(newBlockPos).getMaterial() == Material.ICE_SOLID) {
                                 if (world.getBlockState(newBlockPos).getBlock() != Blocks.BEDROCK && world.getBlockState(newBlockPos).getBlock() != Blocks.END_PORTAL_FRAME) {
                                     Block blockToDestroy = world.getBlockState(newBlockPos).getBlock();
                                     if (silktouchEnchantment.length() != 0) {
                                         if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, false);
-                                            Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                            //Block.dropResources(world, newBlockPos, new ItemStack(destroyedBlock));
+                                            Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
                                         }
@@ -604,13 +643,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
+                                                        Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
+
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -622,7 +663,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -633,13 +676,14 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -648,14 +692,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -667,7 +712,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -678,13 +725,14 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -693,14 +741,15 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -709,15 +758,16 @@ public class EventHandler {
                                                     if(Config.enable_BlockDropsInCreative.get() ||!player.isCreative()){
                                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                                         BlockState blockState = world.getBlockState(newBlockPos);
-                                                        TileEntity tileentity = blockState.hasTileEntity() ? world.getTileEntity(newBlockPos) : null;
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
-                                                        Block.spawnDrops(blockState, world, newBlockPos, tileentity);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
+                                                        Block.dropResources(blockState, world, newBlockPos);
                                                         world.destroyBlock(newBlockPos, false);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -729,7 +779,9 @@ public class EventHandler {
                                                         world.destroyBlock(newBlockPos, true);
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
-                                                            world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
                                                         world.destroyBlock(newBlockPos, false);
@@ -743,7 +795,9 @@ public class EventHandler {
                                                 world.destroyBlock(newBlockPos, true);
                                                 int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                 if (amount != 0) {
-                                                    world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                    //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                    ServerWorld sWorld = (ServerWorld)world;
+                                                    destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                 }
                                             }else{
                                                 world.destroyBlock(newBlockPos, false);
@@ -756,7 +810,9 @@ public class EventHandler {
                                             world.destroyBlock(newBlockPos, true);
                                             int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if (amount != 0) {
-                                                world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
+                                                ServerWorld sWorld = (ServerWorld)world;
+                                                destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                             }
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
@@ -770,19 +826,19 @@ public class EventHandler {
                                         if (unbreakingEnchantment.length() != 0) {
                                             if (unbreakingEnchantment.contains("lvl:1")) {
                                                 if (random.nextInt(100) + 1 <= 50) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             } else if (unbreakingEnchantment.contains("lvl:2")) {
                                                 if (random.nextInt(100) + 1 <= 33) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             } else if (unbreakingEnchantment.contains("lvl:3")) {
                                                 if (random.nextInt(100) + 1 <= 25) {
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }
                                         } else {
-                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                            stack.setDamageValue(stack.getDamageValue() + 1);
                                         }
                                     }
                                 }
@@ -799,8 +855,8 @@ public class EventHandler {
         World world = (World)event.getWorld();
         PlayerEntity player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
-        Direction headRot = player.getHorizontalFacing();
+        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+        Direction headRot = player.getMotionDirection();
         boolean firstUse = true;
 
         if(RegisterItems.superShovel.equals(stack.getItem())) {
@@ -815,7 +871,7 @@ public class EventHandler {
 
             enchantments.add(IntNBT.valueOf(0));
 
-            for (INBT enchantment : stack.getEnchantmentTagList()) {
+            for (INBT enchantment : stack.getEnchantmentTags()) {
                 enchantments.add(enchantment);
             }
 
@@ -827,22 +883,24 @@ public class EventHandler {
                 }
             }
 
-            if(world.getBlockState(pos).getMaterial() == Material.EARTH || world.getBlockState(pos).getMaterial() == Material.SAND || world.getBlockState(pos).getMaterial() == Material.ORGANIC || world.getBlockState(pos).getMaterial() == Material.SNOW || world.getBlockState(pos).getMaterial() == Material.SNOW_BLOCK || world.getBlockState(pos).getMaterial() == Material.CLAY){
-                if (player.getLookVec().y <= -0.50f || player.getLookVec().y >= 0.50f) {
+            if(world.getBlockState(pos).getMaterial() == Material.DIRT || world.getBlockState(pos).getMaterial() == Material.SAND || world.getBlockState(pos).getMaterial() == Material.PLANT || world.getBlockState(pos).getMaterial() == Material.GRASS || world.getBlockState(pos).getMaterial() == Material.SNOW || world.getBlockState(pos).getMaterial() == Material.CLAY || world.getBlockState(pos).getMaterial() == Material.TOP_SNOW){
+                if (player.getLookAngle().y <= -0.50f || player.getLookAngle().y >= 0.50f) {
                     for (int x = -1; x < 2; x++) {
                         for (int z = -1; z < 2; z++) {
-                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                            if(stack.getDamageValue() >= stack.getMaxDamage() - 1){
                                 stack.shrink(1);
                                 break;
                             }
                             BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.GRASS || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
                                 if(silktouchEnchantment.length() != 0) {
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                         world.destroyBlock(newBlockPos, false);
-                                        Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                        //Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                        Block.dropResources(blockState, world, newBlockPos);
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
                                     }
@@ -861,19 +919,19 @@ public class EventHandler {
                                         if(unbreakingEnchantment.length() != 0){
                                             if(unbreakingEnchantment.contains("lvl:1")){
                                                 if(random.nextInt(100) + 1 <= 50){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }else if(unbreakingEnchantment.contains("lvl:2")){
                                                 if(random.nextInt(100) + 1 <= 33){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }else if(unbreakingEnchantment.contains("lvl:3")){
                                                 if(random.nextInt(100) + 1 <= 25){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }
                                         }else{
-                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                            stack.setDamageValue(stack.getDamageValue() + 1);
                                         }
                                     }
                                 }
@@ -883,18 +941,20 @@ public class EventHandler {
                 } else if (headRot.equals(Direction.NORTH) || headRot.equals(Direction.SOUTH)) {
                     for (int x = -1; x < 2; x++) {
                         for (int y = -1; y < 2; y++) {
-                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                            if(stack.getDamageValue() >= stack.getMaxDamage() - 1){
                                 stack.shrink(1);
                                 break;
                             }
                             BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
                                 if(silktouchEnchantment.length() != 0) {
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                         world.destroyBlock(newBlockPos, false);
-                                        Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                        //Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                        Block.dropResources(blockState, world, newBlockPos);
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
                                     }
@@ -913,19 +973,19 @@ public class EventHandler {
                                         if(unbreakingEnchantment.length() != 0){
                                             if(unbreakingEnchantment.contains("lvl:1")){
                                                 if(random.nextInt(100) + 1 <= 50){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }else if(unbreakingEnchantment.contains("lvl:2")){
                                                 if(random.nextInt(100) + 1 <= 33){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }else if(unbreakingEnchantment.contains("lvl:3")){
                                                 if(random.nextInt(100) + 1 <= 25){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }
                                         }else{
-                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                            stack.setDamageValue(stack.getDamageValue() + 1);
                                         }
                                     }
                                 }
@@ -935,18 +995,20 @@ public class EventHandler {
                 } else if (headRot.equals(Direction.WEST) || headRot.equals(Direction.EAST)) {
                     for (int z = -1; z < 2; z++) {
                         for (int y = -1; y < 2; y++) {
-                            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                            if(stack.getDamageValue() >= stack.getMaxDamage() - 1){
                                 stack.shrink(1);
                                 break;
                             }
                             BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.EARTH || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.ORGANIC || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW_BLOCK || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
                                 if(silktouchEnchantment.length() != 0) {
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                         world.destroyBlock(newBlockPos, false);
-                                        Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                        //Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
+                                        BlockState blockState = world.getBlockState(newBlockPos);
+                                        Block.dropResources(blockState, world, newBlockPos);
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
                                     }
@@ -965,24 +1027,23 @@ public class EventHandler {
                                         if(unbreakingEnchantment.length() != 0){
                                             if(unbreakingEnchantment.contains("lvl:1")){
                                                 if(random.nextInt(100) + 1 <= 50){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }else if(unbreakingEnchantment.contains("lvl:2")){
                                                 if(random.nextInt(100) + 1 <= 33){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }else if(unbreakingEnchantment.contains("lvl:3")){
                                                 if(random.nextInt(100) + 1 <= 25){
-                                                    stack.damageItem(1, player, PlayerEntity::tick);
+                                                    stack.setDamageValue(stack.getDamageValue() + 1);
                                                 }
                                             }
                                         }else{
-                                            stack.damageItem(1, player, PlayerEntity::tick);
+                                            stack.setDamageValue(stack.getDamageValue() + 1);
                                         }
                                     }
                                 }
                             }
-
                         }
                     }
                 }
@@ -995,7 +1056,7 @@ public class EventHandler {
         World world = event.getWorld();
         PlayerEntity player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
 
         if (RegisterItems.superShovel.equals(stack.getItem())) {
             int bx = pos.getX();
@@ -1008,7 +1069,7 @@ public class EventHandler {
 
             enchantments.add(IntNBT.valueOf(0));
 
-            for(INBT enchantment : stack.getEnchantmentTagList()){
+            for(INBT enchantment : stack.getEnchantmentTags()){
                 enchantments.add(enchantment);
             }
 
@@ -1023,31 +1084,31 @@ public class EventHandler {
             if(world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK) {
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
-                        if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                        if(stack.getDamageValue() >= stack.getMaxDamage() - 1){
                             stack.shrink(1);
                             break;
                         }
 
                         if (world.getBlockState(new BlockPos(bx + x, by + 1, bz + z)).getBlock() == Blocks.AIR) {
                             if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK) {
-                                world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.GRASS_PATH.getDefaultState());
+                                world.setBlockAndUpdate(new BlockPos(bx + x, by, bz + z), Blocks.GRASS_PATH.defaultBlockState());
                                 if (!player.isCreative()) {
                                     if(unbreakingEnchantment.length() != 0){
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }
                                     }else{
-                                        stack.setDamage(stack.getDamage() + 1);
+                                        stack.setDamageValue(stack.getDamageValue() + 1);
                                     }
                                 }
 
@@ -1064,7 +1125,7 @@ public class EventHandler {
         World world = event.getWorld();
         PlayerEntity player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
 
         if (RegisterItems.superHoe.equals(stack.getItem())) {
             int bx = pos.getX();
@@ -1077,7 +1138,7 @@ public class EventHandler {
 
             enchantments.add(IntNBT.valueOf(0));
 
-            for(INBT enchantment : stack.getEnchantmentTagList()){
+            for(INBT enchantment : stack.getEnchantmentTags()){
                 enchantments.add(enchantment);
             }
 
@@ -1092,52 +1153,52 @@ public class EventHandler {
             if(world.getBlockState(pos).getBlock() == Blocks.DIRT || world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK || world.getBlockState(pos).getBlock() == Blocks.GRASS_PATH){
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
-                        if(stack.getDamage() >= stack.getMaxDamage()){
+                        if(stack.getDamageValue() >= stack.getMaxDamage()){
                             stack.shrink(1);
                             break;
                         }
                         if(world.getBlockState(new BlockPos(bx + x,by + 1,bz + z)).getBlock() == Blocks.AIR){
                             if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.DIRT || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_PATH ) {
-                                world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.FARMLAND.getDefaultState());
+                                world.setBlockAndUpdate(new BlockPos(bx + x, by, bz + z), Blocks.FARMLAND.defaultBlockState());
                                 if(!player.isCreative()){
                                     if(unbreakingEnchantment.length() != 0){
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }
                                     }else{
-                                        stack.setDamage(stack.getDamage() + 1);
+                                        stack.setDamageValue(stack.getDamageValue() + 1);
                                     }
                                 }
 
                             }else if(world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.COARSE_DIRT){
-                                world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.DIRT.getDefaultState());
+                                //world.setBlockState(new BlockPos(bx + x, by, bz + z), Blocks.DIRT.getDefaultState());
                                 if(!player.isCreative()){
                                     if(unbreakingEnchantment.length() != 0){
                                         if(unbreakingEnchantment.contains("lvl:1")){
                                             if(random.nextInt(100) + 1 <= 50){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:2")){
                                             if(random.nextInt(100) + 1 <= 33){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }else if(unbreakingEnchantment.contains("lvl:3")){
                                             if(random.nextInt(100) + 1 <= 25){
-                                                stack.setDamage(stack.getDamage() + 1);
+                                                stack.setDamageValue(stack.getDamageValue() + 1);
                                             }
                                         }
                                     }else{
-                                        stack.setDamage(stack.getDamage() + 1);
+                                        stack.setDamageValue(stack.getDamageValue() + 1);
                                     }
                                 }
                             }
@@ -1150,36 +1211,36 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperSwordHitEntity(LivingHurtEvent event){
-        if(event.getSource().getTrueSource() instanceof PlayerEntity){
+        if(event.getSource().getDirectEntity() instanceof PlayerEntity){
             LivingEntity target = event.getEntityLiving();
-            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-            ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+            PlayerEntity player = (PlayerEntity) event.getSource().getDirectEntity();
+            ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
 
             if(RegisterItems.superSword.equals(stack.getItem())){
-                target.addPotionEffect(new EffectInstance(Effect.get(18), 60, 1));
-                target.addPotionEffect(new EffectInstance(Effect.get(19), 60, 1));
-                target.addPotionEffect(new EffectInstance(Effect.get(24), 60, 1));
+                target.addEffect(new EffectInstance(Effect.byId(18), 60, 1));
+                target.addEffect(new EffectInstance(Effect.byId(19), 60, 1));
+                target.addEffect(new EffectInstance(Effect.byId(24), 60, 1));
             }
         }
     }
 
     @SubscribeEvent
     public static void ItemCupHitEntity(LivingHurtEvent event){
-        if(event.getSource().getTrueSource() instanceof PlayerEntity){
+        if(event.getSource().getDirectEntity() instanceof PlayerEntity){
             LivingEntity target = event.getEntityLiving();
-            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-            ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+            PlayerEntity player = (PlayerEntity) event.getSource().getDirectEntity();
+            ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
 
             if(RegisterItems.itemCup.equals(stack.getItem())){
                 if(target instanceof PlayerEntity){
                     PlayerEntity playerTarget = (PlayerEntity)event.getEntityLiving();
-                    if(!playerTarget.getActivePotionEffects().toString().contains("effect.minecraft.fire_resistance")){
+                    if(!playerTarget.getActiveEffects().toString().contains("effect.minecraft.fire_resistance")){
                         if(!playerTarget.isCreative()){
-                            playerTarget.setFire(3);
+                            playerTarget.setSecondsOnFire(3);
                         }
                     }
                 }else{
-                    target.setFire(3);
+                    target.setSecondsOnFire(3);
                 }
             }
         }
@@ -1187,14 +1248,14 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SpecialCupHitEntity(LivingHurtEvent event){
-        if(event.getSource().getTrueSource() instanceof PlayerEntity){
+        if(event.getSource().getDirectEntity() instanceof PlayerEntity){
             LivingEntity target = event.getEntityLiving();
-            PlayerEntity player = (PlayerEntity) event.getSource().getTrueSource();
-            ItemStack stack = player.getHeldItem(Hand.MAIN_HAND);
+            PlayerEntity player = (PlayerEntity) event.getSource().getDirectEntity();
+            ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
 
             if(RegisterItems.specialCup.equals(stack.getItem())){
-                target.addPotionEffect(new EffectInstance(Effect.get(20), 100, 5));
-                target.addPotionEffect(new EffectInstance(Effect.get(24), 100, 1));
+                target.addEffect(new EffectInstance(Effect.byId(20), 100, 5));
+                target.addEffect(new EffectInstance(Effect.byId(24), 100, 1));
             }
         }
 
@@ -1205,23 +1266,23 @@ public class EventHandler {
     private static ArrayList<BlockPos> getWoodNeighbours(World world, BlockPos blockPos, Block block, ItemStack stack) {
         ArrayList<BlockPos> list = new ArrayList<>();
         for(int x=-1; x<=1; x++){
-            if(stack.getDamage() >= stack.getMaxDamage() - 1){
+            if(stack.getDamageValue() >= stack.getMaxDamage() - 1){
                 stack.shrink(1);
                 break;
             }
             for(int y=-1; y<=1; y++){
-                if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                if(stack.getDamageValue() >= stack.getMaxDamage() - 1){
                     stack.shrink(1);
                     break;
                 }
                 for(int z=-1; z<=1; z++) {
-                    if(stack.getDamage() >= stack.getMaxDamage() - 1){
+                    if(stack.getDamageValue() >= stack.getMaxDamage() - 1){
                         stack.shrink(1);
                         break;
                     }
-
-                    if(world.getBlockState(blockPos.add(x,y,z)).getBlock().equals(block)) {
-                        list.add(blockPos.add(x,y,z));
+                    BlockPos newBlockPos = new BlockPos(blockPos.getX() + x, blockPos.getY() + y, blockPos.getZ() + z);
+                    if(world.getBlockState(newBlockPos).getBlock().equals(block)) {
+                        list.add(newBlockPos);
                     }
                 }
             }

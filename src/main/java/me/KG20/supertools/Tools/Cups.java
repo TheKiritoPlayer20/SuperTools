@@ -29,74 +29,23 @@ public class Cups extends ToolItem {
 
     public boolean canHarvestBlock(BlockState blockIn) {
         Block block = blockIn.getBlock();
-        int i = this.getTier().getHarvestLevel();
+        int i = this.getTier().getLevel();
         if (blockIn.getHarvestTool() == net.minecraftforge.common.ToolType.PICKAXE) {
             return i >= blockIn.getHarvestLevel();
         }
         Material material = blockIn.getMaterial();
-        return material == Material.ROCK || material == Material.IRON || material == Material.ANVIL || block == Blocks.SNOW || block == Blocks.SNOW_BLOCK;
+        return material == Material.STONE || material == Material.METAL || material == Material.HEAVY_METAL || block == Blocks.SNOW || block == Blocks.SNOW_BLOCK;
     }
 
     protected static final Map<Block, Block> BLOCK_STRIPPING_MAP = (new ImmutableMap.Builder<Block, Block>()).put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD).put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG).put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD).put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG).put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD).put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG).put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD).put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG).put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD).put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG).put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD).put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG).build();
 
     public Cups(IItemTier tier, float attackSpeedIn) {
-        super(6, attackSpeedIn, tier, EFFECTIVE_ON_ALL, new Properties().group(CreativeTabs.supertools).addToolType(ToolType.AXE, tier.getHarvestLevel()).addToolType(ToolType.PICKAXE, tier.getHarvestLevel()).addToolType(ToolType.SHOVEL, tier.getHarvestLevel()));
+        super(6, attackSpeedIn, tier, EFFECTIVE_ON_ALL, new Properties().tab(CreativeTabs.supertools).addToolType(ToolType.AXE, tier.getLevel()).addToolType(ToolType.PICKAXE, tier.getLevel()).addToolType(ToolType.SHOVEL, tier.getLevel()));
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         Material material = state.getMaterial();
-        return material != Material.WOOD && material != Material.PLANTS && material != Material.TALL_PLANTS && material != Material.BAMBOO && material != Material.IRON && material != Material.ANVIL && material != Material.ROCK ? super.getDestroySpeed(stack, state) : this.efficiency;
+        return material != Material.WOOD && material != Material.PLANT && material != Material.WATER_PLANT && material != Material.BAMBOO && material != Material.METAL && material != Material.HEAVY_METAL && material != Material.STONE ? super.getDestroySpeed(stack, state) : this.speed;
     }
-    /*public ActionResultType onItemUse(ItemUseContext context) {
-        World world = context.getWorld();
-        BlockPos blockpos = context.getPos();
-        BlockState blockstate = world.getBlockState(blockpos);
-        if (context.getFace() == Direction.DOWN) {
-            return ActionResultType.PASS;
-        } else{
-            PlayerEntity playerentity = context.getPlayer();
-            BlockState blockstate1 = field_195955_e.get(blockstate.getBlock());
-            BlockState blockstate2 = null;
-            if (blockstate1 != null && world.isAirBlock(blockpos.up())) {
-                world.playSound(playerentity, blockpos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                blockstate2 = blockstate1;
-            } else if (blockstate.getBlock() instanceof CampfireBlock && blockstate.get(CampfireBlock.LIT)) {
-                world.playEvent((PlayerEntity)null, 1009, blockpos, 0);
-                blockstate2 = blockstate.with(CampfireBlock.LIT, Boolean.valueOf(false));
-            }
 
-            if (blockstate2 != null) {
-                if (!world.isRemote) {
-                    world.setBlockState(blockpos, blockstate2, 11);
-                    if (playerentity != null) {
-                        context.getItem().damageItem(1, playerentity, (p_220041_1_) -> {
-                            p_220041_1_.sendBreakAnimation(context.getHand());
-                        });
-                    }
-                }
-
-                return ActionResultType.SUCCESS;
-            } else {
-                return ActionResultType.PASS;
-            }
-        }
-
-        Block block = BLOCK_STRIPPING_MAP.get(blockstate.getBlock());
-        if (block != null) {
-            PlayerEntity playerentity = context.getPlayer();
-            world.playSound(playerentity, blockpos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            if (!world.isRemote) {
-                world.setBlockState(blockpos, block.getDefaultState().with(RotatedPillarBlock.AXIS, blockstate.get(RotatedPillarBlock.AXIS)), 11);
-                if (playerentity != null) {
-                    context.getItem().damageItem(1, playerentity, (p_220040_1_) -> {
-                        p_220040_1_.sendBreakAnimation(context.getHand());
-                    });
-                }
-            }
-
-            return ActionResultType.SUCCESS;
-        } else {
-            return ActionResultType.PASS;
-        }
-    }*/
 }

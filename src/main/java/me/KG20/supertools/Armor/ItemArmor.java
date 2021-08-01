@@ -36,27 +36,27 @@ public class ItemArmor extends ArmorItem {
             if(Config.enable_ObsidianStatusEffects.get()){
 
                 if(Config.enable_ObsidianStatusEffectsLevel1.get()){
-                    if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(obsidianBoots) || player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(obsidianLeggings) ||
-                            player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(obsidianChestplate) || player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(obsidianHelmet)){
-                        player.addPotionEffect(new EffectInstance(Effect.get(2), 10, 0));
+                    if(player.getItemBySlot(EquipmentSlotType.FEET).getItem().equals(obsidianBoots) || player.getItemBySlot(EquipmentSlotType.LEGS).getItem().equals(obsidianLeggings) ||
+                            player.getItemBySlot(EquipmentSlotType.CHEST).getItem().equals(obsidianChestplate) || player.getItemBySlot(EquipmentSlotType.HEAD).getItem().equals(obsidianHelmet)){
+                        player.addEffect(new EffectInstance(Effect.byId(2), 10, 0));
 
                     }
 
                     if(Config.enable_ObsidianStatusEffectsLevel2.get()){
-                        if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(obsidianBoots) && player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(obsidianLeggings) &&
-                                player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(obsidianChestplate) && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(obsidianHelmet)) {
+                        if(player.getItemBySlot(EquipmentSlotType.FEET).getItem().equals(obsidianBoots) && player.getItemBySlot(EquipmentSlotType.LEGS).getItem().equals(obsidianLeggings) &&
+                                player.getItemBySlot(EquipmentSlotType.CHEST).getItem().equals(obsidianChestplate) && player.getItemBySlot(EquipmentSlotType.HEAD).getItem().equals(obsidianHelmet)) {
 
-                            player.addPotionEffect(new EffectInstance(Effect.get(12), 10, 0));
-                            player.addPotionEffect(new EffectInstance(Effect.get(2), 10, 1));
-                            player.addPotionEffect(new EffectInstance(Effect.get(11), 10, 0));
+                            player.addEffect(new EffectInstance(Effect.byId(12), 10, 0));
+                            player.addEffect(new EffectInstance(Effect.byId(2), 10, 1));
+                            player.addEffect(new EffectInstance(Effect.byId(11), 10, 0));
                         }
                     }
                 }
             }
             if(Config.enable_QuartzStatusEffects.get()){
-                if(player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem().equals(quartzBoots) && player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem().equals(quartzLeggings) &&
-                        player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem().equals(quartzChestplate) && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem().equals(quartzHelmet)) {
-                    player.addPotionEffect(new EffectInstance(Effect.get(12), 10, 0));
+                if(player.getItemBySlot(EquipmentSlotType.FEET).getItem().equals(quartzBoots) && player.getItemBySlot(EquipmentSlotType.LEGS).getItem().equals(quartzLeggings) &&
+                        player.getItemBySlot(EquipmentSlotType.CHEST).getItem().equals(quartzChestplate) && player.getItemBySlot(EquipmentSlotType.HEAD).getItem().equals(quartzHelmet)) {
+                    player.addEffect(new EffectInstance(Effect.byId(12), 10, 0));
                 }
             }
         }

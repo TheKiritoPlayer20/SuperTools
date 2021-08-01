@@ -16,10 +16,10 @@ import java.util.function.Supplier;
 
 public class BasisArmorMaterial {
 
-    public final static IArmorMaterial emerald = new ArmorMaterial(Constants.modid + ":emerald",33, new int[]{4, 5, 8, 3}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.fromItems(Items.EMERALD));
-    public final static IArmorMaterial obsidian = new ArmorMaterial(Constants.modid + ":obsidian", 33, new int[]{2, 6, 10, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.fromItems(Blocks.OBSIDIAN));
-    public final static IArmorMaterial quartz = new ArmorMaterial(Constants.modid + ":quartz", 33, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.fromItems(Items.QUARTZ));
-    public final static IArmorMaterial lapis = new ArmorMaterial(Constants.modid + ":lapis",10, new int[]{2, 3, 4, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F,0.0F,() -> Ingredient.fromItems(Items.LAPIS_LAZULI));
+    public final static IArmorMaterial emerald = new ArmorMaterial(Constants.modid + ":emerald",33, new int[]{4, 5, 8, 3}, 12, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.of(Items.EMERALD));
+    public final static IArmorMaterial obsidian = new ArmorMaterial(Constants.modid + ":obsidian", 33, new int[]{2, 6, 10, 2}, 12, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.of(Blocks.OBSIDIAN));
+    public final static IArmorMaterial quartz = new ArmorMaterial(Constants.modid + ":quartz", 33, new int[]{2, 5, 6, 2}, 12, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.of(Items.QUARTZ));
+    public final static IArmorMaterial lapis = new ArmorMaterial(Constants.modid + ":lapis",10, new int[]{2, 3, 4, 2}, 25, SoundEvents.ARMOR_EQUIP_DIAMOND, 0.0F,0.0F,() -> Ingredient.of(Items.LAPIS_LAZULI));
 
     private static class ArmorMaterial implements IArmorMaterial{
 
@@ -45,28 +45,28 @@ public class BasisArmorMaterial {
         }
 
         @Override
-        public int getDurability(EquipmentSlotType slotIn) {
+        public int getDurabilityForSlot(EquipmentSlotType slotIn) {
             return Max_Damage_Array[slotIn.getIndex()] * maxDamageFactor;
         }
 
         @Override
-        public int getDamageReductionAmount(EquipmentSlotType slotIn) {
+        public int getDefenseForSlot(EquipmentSlotType slotIn) {
             return damageReductionAmountArray[slotIn.getIndex()];
         }
 
         @Override
-        public int getEnchantability() {
+        public int getEnchantmentValue() {
             return enchantability;
         }
 
         @Override
-        public SoundEvent getSoundEvent() {
+        public SoundEvent getEquipSound() {
             return soundEvent;
         }
 
         @Override
-        public Ingredient getRepairMaterial() {
-            return repairMaterial.getValue();
+        public Ingredient getRepairIngredient() {
+            return repairMaterial.get();
         }
 
         @OnlyIn(Dist.CLIENT)

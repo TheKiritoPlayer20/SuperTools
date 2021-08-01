@@ -15,7 +15,7 @@ import net.minecraftforge.common.ToolType;
 public class Sword extends SwordItem {
 
     public Sword(IItemTier material, float speed) {
-        super(material, 3, speed, new Properties().group(CreativeTabs.tools));
+        super(material, 3, speed, new Properties().tab(CreativeTabs.tools));
     }
 
     public Sword(IItemTier material, float speed, Properties properties) {

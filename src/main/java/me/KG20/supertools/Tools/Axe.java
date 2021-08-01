@@ -27,10 +27,10 @@ import java.util.Random;
 public class Axe extends AxeItem {
 
     public Axe(IItemTier material, float speed) {
-        super(material, 6, speed, new Properties().group(CreativeTabs.tools).addToolType(ToolType.AXE, material.getHarvestLevel()));
+        super(material, 6, speed, new Properties().tab(CreativeTabs.tools).addToolType(ToolType.AXE, material.getLevel()));
     }
 
     public Axe(IItemTier material, float speed, Properties properties) {
-        super(material, 6, speed, properties.addToolType(ToolType.AXE, material.getHarvestLevel()));
+        super(material, 6, speed, properties.addToolType(ToolType.AXE, material.getLevel()));
     }
 }

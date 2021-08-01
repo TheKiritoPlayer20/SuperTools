@@ -15,7 +15,7 @@ public class CreativeTabTools extends ItemGroup {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public ItemStack createIcon(){
+    public ItemStack makeIcon(){
         return new ItemStack(RegisterItems.quartzAxe);
     }
 
