@@ -5,9 +5,9 @@ import me.KG20.supertools.Armor.ItemArmor;
 import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Main.Constants;
 import me.KG20.supertools.Tools.*;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -22,7 +22,6 @@ public class RegisterItems {
     public static final Sickle ironSickle = new Sickle(new Item.Properties().durability(250).tab(CreativeTabs.tools));
     public static final Sickle goldenSickle = new Sickle(new Item.Properties().durability(32).tab(CreativeTabs.tools));
     public static final Sickle diamondSickle = new Sickle(new Item.Properties().durability(1561).tab(CreativeTabs.tools));
-    public static final Sickle plantinumSickle = new Sickle(new Item.Properties().durability(753).tab(ItemGroup.TAB_TOOLS));
     public static final Sickle netheriteSickle = new Sickle(new Item.Properties().durability(2031).tab(CreativeTabs.tools).fireResistant());
 
     public static final Hoe quartzHoe = new Hoe(BasisToolMaterial.quartz, -3, -1F);
@@ -60,25 +59,25 @@ public class RegisterItems {
     public static final Sword redstoneSword = new Sword(BasisToolMaterial.redstone, -1.9F);
     public static final Sickle redstoneSickle = new Sickle(new Item.Properties().durability(Config.durability_Redstone.get()).tab(CreativeTabs.tools));
 
-    public static final ItemArmor emeraldHelmet = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.HEAD, new Item.Properties().tab(CreativeTabs.armor));
-    public static final ItemArmor emeraldChestplate = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.CHEST, new Item.Properties().tab(CreativeTabs.armor));
-    public static final ItemArmor emeraldLeggings = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.LEGS, new Item.Properties().tab(CreativeTabs.armor));
-    public static final ItemArmor emeraldBoots = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlotType.FEET, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor emeraldHelmet = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor emeraldChestplate = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlot.CHEST, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor emeraldLeggings = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlot.LEGS, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor emeraldBoots = new ItemArmor(BasisArmorMaterial.emerald, EquipmentSlot.FEET, new Item.Properties().tab(CreativeTabs.armor));
 
-    public static final ItemArmor obsidianHelmet = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.HEAD, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
-    public static final ItemArmor obsidianChestplate = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.CHEST, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
-    public static final ItemArmor obsidianLeggings = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.LEGS, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
-    public static final ItemArmor obsidianBoots = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlotType.FEET, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
+    public static final ItemArmor obsidianHelmet = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
+    public static final ItemArmor obsidianChestplate = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlot.CHEST, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
+    public static final ItemArmor obsidianLeggings = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlot.LEGS, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
+    public static final ItemArmor obsidianBoots = new ItemArmor(BasisArmorMaterial.obsidian, EquipmentSlot.FEET, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
 
-    public static final ItemArmor lapisHelmet = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlotType.HEAD, new Item.Properties().tab(CreativeTabs.armor));
-    public static final ItemArmor lapisChestplate = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlotType.CHEST, new Item.Properties().tab(CreativeTabs.armor));
-    public static final ItemArmor lapisLeggings = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlotType.LEGS, new Item.Properties().tab(CreativeTabs.armor));
-    public static final ItemArmor lapisBoots = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlotType.FEET, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor lapisHelmet = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor lapisChestplate = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlot.CHEST, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor lapisLeggings = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlot.LEGS, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor lapisBoots = new ItemArmor(BasisArmorMaterial.lapis, EquipmentSlot.FEET, new Item.Properties().tab(CreativeTabs.armor));
 
-    public static final ItemArmor quartzHelmet = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.HEAD, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
-    public static final ItemArmor quartzChestplate = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.CHEST, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
-    public static final ItemArmor quartzLeggings = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.LEGS, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
-    public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlotType.FEET, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
+    public static final ItemArmor quartzHelmet = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
+    public static final ItemArmor quartzChestplate = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlot.CHEST, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
+    public static final ItemArmor quartzLeggings = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlot.LEGS, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
+    public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlot.FEET, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
 
     public static final BonemealTool boneMealTool = new BonemealTool();
     public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, -3, -1F, new Item.Properties().tab(CreativeTabs.supertools));
@@ -100,9 +99,8 @@ public class RegisterItems {
         ironSickle.setRegistryName(Constants.modid, "ironsickle");
         goldenSickle.setRegistryName(Constants.modid, "goldensickle");
         diamondSickle.setRegistryName(Constants.modid, "diamondsickle");
-        plantinumSickle.setRegistryName(Constants.modid, "platinumsickle");
         netheriteSickle.setRegistryName(Constants.modid, "netheritesickle");
-        registry.registerAll(woodenSickle,stoneSickle,ironSickle,goldenSickle,diamondSickle,plantinumSickle,netheriteSickle);
+        registry.registerAll(woodenSickle,stoneSickle,ironSickle,goldenSickle,diamondSickle,netheriteSickle);
 
         quartzHoe.setRegistryName(Constants.modid, "quartzhoe");
         quartzAxe.setRegistryName(Constants.modid, "quartzaxe");

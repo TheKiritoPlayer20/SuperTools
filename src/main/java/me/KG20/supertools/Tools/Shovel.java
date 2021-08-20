@@ -1,17 +1,35 @@
 package me.KG20.supertools.Tools;
 
 import me.KG20.supertools.Init.CreativeTabs;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ShovelItem;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 public class Shovel extends ShovelItem {
 
-    public Shovel(IItemTier material, float speed) {
-        super(material, 1.5F, speed, new Properties().tab(CreativeTabs.tools).addToolType(ToolType.SHOVEL, material.getLevel()));
+    private final Tag<Block> blocks =  BlockTags.MINEABLE_WITH_PICKAXE;
+
+    public Shovel(Tier material, float speed) {
+        super(material, 1.5F, speed, new Properties().tab(CreativeTabs.tools));
     }
 
-    public Shovel(IItemTier material, float speed, Properties properties) {
-        super(material, 1.5F, speed, properties.addToolType(ToolType.SHOVEL, material.getLevel()));
+    public Shovel(Tier material, float speed, Properties properties) {
+        super(material, 1.5F, speed, properties);
+    }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
+    }
+
+    @Override
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        return state.is(blocks) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
     }
 }

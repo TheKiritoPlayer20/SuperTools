@@ -1,36 +1,37 @@
 package me.KG20.supertools.Tools;
 
 import me.KG20.supertools.Init.CreativeTabs;
-import me.KG20.supertools.Init.RegisterItems;
-import me.KG20.supertools.Main.SuperTools;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.GrassBlock;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.trees.OakTree;
-import net.minecraft.data.BlockTagsProvider;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.nbt.INBT;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.common.ToolType;
-
-import java.util.ArrayList;
-import java.util.Random;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 public class Axe extends AxeItem {
 
-    public Axe(IItemTier material, float speed) {
-        super(material, 6, speed, new Properties().tab(CreativeTabs.tools).addToolType(ToolType.AXE, material.getLevel()));
+    private final Tag<Block> blocks =  BlockTags.MINEABLE_WITH_AXE;
+
+    public Axe(Tier material, float speed) {
+        super(material, 6, speed, new Properties().tab(CreativeTabs.tools));
     }
 
-    public Axe(IItemTier material, float speed, Properties properties) {
-        super(material, 6, speed, properties.addToolType(ToolType.AXE, material.getLevel()));
+    public Axe(Tier material, float speed, Properties properties) {
+        super(material, 6, speed, properties);
     }
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        System.out.println("TEST5");
+        return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
+    }
+
+    @Override
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        return state.is(blocks) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
+    }
+
 }

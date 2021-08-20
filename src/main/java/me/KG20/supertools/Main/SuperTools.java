@@ -2,6 +2,7 @@ package me.KG20.supertools.Main;
 
 import me.KG20.supertools.Config.SuperToolsConfig;
 import me.KG20.supertools.Init.CreativeTabs;
+import me.KG20.supertools.Init.RegisterTier;
 import me.KG20.supertools.Proxy.ClientProxy;
 import me.KG20.supertools.Proxy.CommonProxy;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -36,6 +37,7 @@ public class SuperTools
 
     @SubscribeEvent
     public void ready(FMLLoadCompleteEvent event){
+        new RegisterTier();
         proxy.complete();
     }
 

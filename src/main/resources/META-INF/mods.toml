@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[37,)"
 license="All rights reserved"
 issueTrackerURL="https://github.com/TheKiritoPlayer20/SuperTools/issues"
 #displayURL="http://example.com/"
@@ -21,7 +21,7 @@ The SuperTools Mod. It adds Lapis, Redstone, Quartz, Emerald & Obsidian Tools an
 [[dependencies.supertools]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[36.0.0,)" #mandatory
+    versionRange="[37,)" #mandatory
     ordering="NONE"
     side="BOTH"
 
@@ -29,6 +29,6 @@ The SuperTools Mod. It adds Lapis, Redstone, Quartz, Emerald & Obsidian Tools an
 [[dependencies.supertools]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.5, ]"
+    versionRange="[1.17.1, ]"
     ordering="NONE"
     side="BOTH"

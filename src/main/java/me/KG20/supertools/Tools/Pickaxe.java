@@ -1,18 +1,36 @@
 package me.KG20.supertools.Tools;
 
 import me.KG20.supertools.Init.CreativeTabs;
-import net.minecraft.item.*;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 public class Pickaxe extends PickaxeItem {
 
-    public Pickaxe(IItemTier material, float speed) {
-        super(material, 1, speed, new Properties().tab(CreativeTabs.tools).addToolType(ToolType.PICKAXE, material.getLevel()));
+    private final Tag<Block> blocks =  BlockTags.MINEABLE_WITH_PICKAXE;
+
+    public Pickaxe(Tier material, float speed) {
+        super(material, 1, speed, new Properties().tab(CreativeTabs.tools));
     }
 
-    public Pickaxe(IItemTier material, float speed, Properties properties) {
-        super(material, 1, speed, properties.addToolType(ToolType.PICKAXE, material.getLevel()));
+    public Pickaxe(Tier material, float speed, Properties properties) {
+        super(material, 1, speed, properties);
     }
 
+    @Override
+    public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
+        return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
+    }
+
+    @Override
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        return state.is(blocks) && net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
+    }
 
 }

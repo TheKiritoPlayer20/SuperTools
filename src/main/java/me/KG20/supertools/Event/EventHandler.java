@@ -2,24 +2,21 @@ package me.KG20.supertools.Event;
 
 import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Init.RegisterItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.IntNBT;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -34,10 +31,10 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperAxeDestroyedBlock(BlockEvent.BreakEvent event){
-        World world = (World)event.getWorld();
-        PlayerEntity player = event.getPlayer();
+        Level world = event.getPlayer().level;
+        Player player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+        ItemStack stack = player.getMainHandItem();
         BlockState state = world.getBlockState(pos);
 
         Block startLog = state.getBlock();
@@ -45,20 +42,22 @@ public class EventHandler {
         ArrayList<BlockPos> brokenBlocks = new ArrayList<>();
         ArrayList<BlockPos> nextPos = new ArrayList<>();
         int blocksHarvested = 0;
-
-        ArrayList<INBT> enchantments = new ArrayList<>();
         Random random = new Random();
+
+
+        ArrayList<Tag> enchantments = new ArrayList<>();
         String unbreakingEnchantment = "";
 
-        enchantments.add(IntNBT.valueOf(0));
+        //enchantments.add(Tag.);
 
-        for(INBT enchantment : stack.getEnchantmentTags()){
+        for(Tag enchantment : stack.getEnchantmentTags()){
             enchantments.add(enchantment);
         }
-
-        for(int i=0;i<enchantments.size(); i++){
-            if(enchantments.get(i).toString().contains("minecraft:unbreaking")){
-                unbreakingEnchantment = enchantments.get(i).toString();
+        if(enchantments.size() != 0){
+            for(int i=0;i<enchantments.size(); i++){
+                if(enchantments.get(i).toString().contains("minecraft:unbreaking")){
+                    unbreakingEnchantment = enchantments.get(i).toString();
+                }
             }
         }
 
@@ -110,10 +109,10 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperPickaxeDestroyedBlock(BlockEvent.BreakEvent event) {
-        World world = (World) event.getWorld();
-        PlayerEntity player = event.getPlayer();
+        Level world = event.getPlayer().level;
+        Player player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+        ItemStack stack = player.getMainHandItem();
         boolean firstUse = true;
 
         if (RegisterItems.superPickaxe.equals(stack.getItem())) {
@@ -123,25 +122,27 @@ public class EventHandler {
 
             //Direction headRot = player.getHorizontalFacing();
             Direction headRot = player.getMotionDirection();
-            ArrayList<INBT> enchantments = new ArrayList<>();
+            ArrayList<Tag> enchantments = new ArrayList<>();
             Random random = new Random();
             String unbreakingEnchantment = "";
             String silktouchEnchantment = "";
             String fortuneEnchantment = "";
 
-            enchantments.add(IntNBT.valueOf(0));
 
-            for (INBT enchantment : stack.getEnchantmentTags()) {
+            //enchantments.add(IntNBT.valueOf(0));
+
+            for (Tag enchantment : stack.getEnchantmentTags()) {
                 enchantments.add(enchantment);
             }
-
-            for (int i = 0; i < enchantments.size(); i++) {
-                if (enchantments.get(i).toString().contains("minecraft:unbreaking")) {
-                    unbreakingEnchantment = enchantments.get(i).toString();
-                } else if (enchantments.get(i).toString().contains("minecraft:silk_touch")) {
-                    silktouchEnchantment = enchantments.get(i).toString();
-                } else if (enchantments.get(i).toString().contains("minecraft:fortune")) {
-                    fortuneEnchantment = enchantments.get(i).toString();
+            if(enchantments.size() != 0){
+                for (int i = 0; i < enchantments.size(); i++) {
+                    if (enchantments.get(i).toString().contains("minecraft:unbreaking")) {
+                        unbreakingEnchantment = enchantments.get(i).toString();
+                    } else if (enchantments.get(i).toString().contains("minecraft:silk_touch")) {
+                        silktouchEnchantment = enchantments.get(i).toString();
+                    } else if (enchantments.get(i).toString().contains("minecraft:fortune")) {
+                        fortuneEnchantment = enchantments.get(i).toString();
+                    }
                 }
             }
 
@@ -165,13 +166,13 @@ public class EventHandler {
                                         if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, false);
-                                            //Block.dropResources(world, newBlockPos, new ItemStack(destroyedBlock));
-                                            Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
+                                            Block.popResource(world, newBlockPos, new ItemStack(destroyedBlock.asItem()));
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
                                         }
                                     }else if (fortuneEnchantment.length() != 0) {
-                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                        //if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.ANCIENT_DEBRIS) {
                                             if (fortuneEnchantment.contains("lvl:1")) {
                                                 if (randomNumber <= 33) {
                                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
@@ -183,7 +184,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
 
                                                         }
@@ -198,7 +199,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -216,7 +217,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -233,7 +234,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -247,7 +248,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -265,7 +266,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -282,7 +283,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -300,7 +301,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -314,7 +315,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -330,7 +331,7 @@ public class EventHandler {
                                                 int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                 if (amount != 0) {
                                                     //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                    ServerWorld sWorld = (ServerWorld)world;
+                                                    ServerLevel sWorld = (ServerLevel)world;
                                                     destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                 }
                                             }else{
@@ -345,7 +346,7 @@ public class EventHandler {
                                             int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if (amount != 0) {
                                                 //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                ServerWorld sWorld = (ServerWorld)world;
+                                                ServerLevel sWorld = (ServerLevel)world;
                                                 destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                             }
                                         }else{
@@ -398,13 +399,13 @@ public class EventHandler {
                                         if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, false);
-                                            //Block.dropResources(world, newBlockPos, new ItemStack(destroyedBlock));
-                                            Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
+                                            Block.popResource(world, newBlockPos, new ItemStack(destroyedBlock.asItem()));
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
                                         }
                                     }else if (fortuneEnchantment.length() != 0) {
-                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                        //if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.ANCIENT_DEBRIS) {
                                             if (fortuneEnchantment.contains("lvl:1")) {
                                                 if (randomNumber <= 33) {
                                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
@@ -416,7 +417,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
 
                                                         }
@@ -431,7 +432,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -449,7 +450,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -466,7 +467,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -480,7 +481,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -498,7 +499,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -515,7 +516,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -533,7 +534,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -547,7 +548,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -563,7 +564,7 @@ public class EventHandler {
                                                 int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                 if (amount != 0) {
                                                     //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                    ServerWorld sWorld = (ServerWorld)world;
+                                                    ServerLevel sWorld = (ServerLevel)world;
                                                     destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                 }
                                             }else{
@@ -578,7 +579,7 @@ public class EventHandler {
                                             int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if (amount != 0) {
                                                 //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                ServerWorld sWorld = (ServerWorld)world;
+                                                ServerLevel sWorld = (ServerLevel)world;
                                                 destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                             }
                                         }else{
@@ -631,13 +632,13 @@ public class EventHandler {
                                         if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                             world.destroyBlock(newBlockPos, false);
-                                            //Block.dropResources(world, newBlockPos, new ItemStack(destroyedBlock));
-                                            Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
+                                            Block.popResource(world, newBlockPos, new ItemStack(destroyedBlock.asItem()));
                                         }else{
                                             world.destroyBlock(newBlockPos, false);
                                         }
                                     }else if (fortuneEnchantment.length() != 0) {
-                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                        //if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.IRON_ORE && blockToDestroy != Blocks.GOLD_ORE) {
+                                        if (blockToDestroy.getTags().toString().contains("forge:ores/") && blockToDestroy != Blocks.ANCIENT_DEBRIS) {
                                             if (fortuneEnchantment.contains("lvl:1")) {
                                                 if (randomNumber <= 33) {
                                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
@@ -649,7 +650,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
 
                                                         }
@@ -664,7 +665,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -682,7 +683,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -699,7 +700,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -713,7 +714,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -731,7 +732,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -748,7 +749,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -766,7 +767,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -780,7 +781,7 @@ public class EventHandler {
                                                         int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                         if (amount != 0) {
                                                             //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                            ServerWorld sWorld = (ServerWorld)world;
+                                                            ServerLevel sWorld = (ServerLevel)world;
                                                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                         }
                                                     }else{
@@ -796,7 +797,7 @@ public class EventHandler {
                                                 int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                                 if (amount != 0) {
                                                     //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                    ServerWorld sWorld = (ServerWorld)world;
+                                                    ServerLevel sWorld = (ServerLevel)world;
                                                     destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                                 }
                                             }else{
@@ -811,7 +812,7 @@ public class EventHandler {
                                             int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
                                             if (amount != 0) {
                                                 //world.addEntity(new ExperienceOrbEntity(world, (double) newBlockPos.getX() + 0.5D, (double) newBlockPos.getY() + 0.5D, (double) newBlockPos.getZ() + 0.5D, amount));
-                                                ServerWorld sWorld = (ServerWorld)world;
+                                                ServerLevel sWorld = (ServerLevel)world;
                                                 destroyedBlock.popExperience(sWorld, newBlockPos, amount);
                                             }
                                         }else{
@@ -852,10 +853,10 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperShovelDestroyedBlock(BlockEvent.BreakEvent event){
-        World world = (World)event.getWorld();
-        PlayerEntity player = event.getPlayer();
+        Level world = (Level)event.getWorld();
+        Player player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+        ItemStack stack = player.getMainHandItem();
         Direction headRot = player.getMotionDirection();
         boolean firstUse = true;
 
@@ -864,22 +865,24 @@ public class EventHandler {
             int by = pos.getY();
             int bz = pos.getZ();
 
-            ArrayList<INBT> enchantments = new ArrayList<>();
+            ArrayList<Tag> enchantments = new ArrayList<>();
             Random random = new Random();
             String unbreakingEnchantment = "";
             String silktouchEnchantment = "";
 
-            enchantments.add(IntNBT.valueOf(0));
 
-            for (INBT enchantment : stack.getEnchantmentTags()) {
+            //enchantments.add(IntNBT.valueOf(0));
+
+            for (Tag enchantment : stack.getEnchantmentTags()) {
                 enchantments.add(enchantment);
             }
-
-            for (int i = 0; i < enchantments.size(); i++) {
-                if (enchantments.get(i).toString().contains("minecraft:unbreaking")) {
-                    unbreakingEnchantment = enchantments.get(i).toString();
-                }else if(enchantments.get(i).toString().contains("minecraft:silk_touch")) {
-                    silktouchEnchantment = enchantments.get(i).toString();
+            if(enchantments.size() != 0){
+                for (int i = 0; i < enchantments.size(); i++) {
+                    if (enchantments.get(i).toString().contains("minecraft:unbreaking")) {
+                        unbreakingEnchantment = enchantments.get(i).toString();
+                    } else if (enchantments.get(i).toString().contains("minecraft:silk_touch")) {
+                        silktouchEnchantment = enchantments.get(i).toString();
+                    }
                 }
             }
 
@@ -894,18 +897,24 @@ public class EventHandler {
                             BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
                             if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.GRASS || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
-                                if(silktouchEnchantment.length() != 0) {
+                                if (silktouchEnchantment.length() != 0) {
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, false);
-                                        //Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
-                                        BlockState blockState = world.getBlockState(newBlockPos);
-                                        Block.dropResources(blockState, world, newBlockPos);
+                                        if(destroyedBlock == Blocks.DIRT_PATH){
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.popResource(world, newBlockPos, new ItemStack(Blocks.DIRT));
+                                        }else{
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.popResource(world, newBlockPos, new ItemStack(destroyedBlock.asItem()));
+                                        }
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
                                     }
                                 }else{
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        if(world.getBlockState(newBlockPos).getBlock() == Blocks.SNOW){
+                                            Block.popResource(world, newBlockPos, new ItemStack(Items.SNOWBALL));
+                                        }
                                         world.destroyBlock(newBlockPos, true);
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
@@ -947,19 +956,25 @@ public class EventHandler {
                             }
                             BlockPos newBlockPos = new BlockPos(bx + x, by + y, bz);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
-                                if(silktouchEnchantment.length() != 0) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.GRASS || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
+                                if (silktouchEnchantment.length() != 0) {
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, false);
-                                        //Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
-                                        BlockState blockState = world.getBlockState(newBlockPos);
-                                        Block.dropResources(blockState, world, newBlockPos);
+                                        if(destroyedBlock == Blocks.DIRT_PATH){
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.popResource(world, newBlockPos, new ItemStack(Blocks.DIRT));
+                                        }else{
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.popResource(world, newBlockPos, new ItemStack(destroyedBlock.asItem()));
+                                        }
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
                                     }
                                 }else{
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        if(world.getBlockState(newBlockPos).getBlock() == Blocks.SNOW){
+                                            Block.popResource(world, newBlockPos, new ItemStack(Items.SNOWBALL));
+                                        }
                                         world.destroyBlock(newBlockPos, true);
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
@@ -1001,19 +1016,25 @@ public class EventHandler {
                             }
                             BlockPos newBlockPos = new BlockPos(bx, by + y, bz + z);
 
-                            if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
-                                if(silktouchEnchantment.length() != 0) {
+                            if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.GRASS || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
+                                if (silktouchEnchantment.length() != 0) {
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
-                                        world.destroyBlock(newBlockPos, false);
-                                        //Block.spawnAsEntity(world, newBlockPos, new ItemStack(destroyedBlock));
-                                        BlockState blockState = world.getBlockState(newBlockPos);
-                                        Block.dropResources(blockState, world, newBlockPos);
+                                        if(destroyedBlock == Blocks.DIRT_PATH){
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.popResource(world, newBlockPos, new ItemStack(Blocks.DIRT));
+                                        }else{
+                                            world.destroyBlock(newBlockPos, false);
+                                            Block.popResource(world, newBlockPos, new ItemStack(destroyedBlock.asItem()));
+                                        }
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
                                     }
                                 }else{
                                     if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
+                                        if(world.getBlockState(newBlockPos).getBlock() == Blocks.SNOW){
+                                            Block.popResource(world, newBlockPos, new ItemStack(Items.SNOWBALL));
+                                        }
                                         world.destroyBlock(newBlockPos, true);
                                     }else{
                                         world.destroyBlock(newBlockPos, false);
@@ -1053,23 +1074,23 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperShovelRightClickBlock(PlayerInteractEvent.RightClickBlock event){
-        World world = event.getWorld();
-        PlayerEntity player = event.getPlayer();
+        Level world = event.getPlayer().level;
+        Player player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+        ItemStack stack = player.getMainHandItem();
 
         if (RegisterItems.superShovel.equals(stack.getItem())) {
             int bx = pos.getX();
             int by = pos.getY();
             int bz = pos.getZ();
 
-            ArrayList<INBT> enchantments = new ArrayList<>();
+            ArrayList<Tag> enchantments = new ArrayList<>();
             Random random = new Random();
             String unbreakingEnchantment = "";
 
-            enchantments.add(IntNBT.valueOf(0));
+            //enchantments.add(IntNBT.valueOf(0));
 
-            for(INBT enchantment : stack.getEnchantmentTags()){
+            for(Tag enchantment : stack.getEnchantmentTags()){
                 enchantments.add(enchantment);
             }
 
@@ -1091,7 +1112,7 @@ public class EventHandler {
 
                         if (world.getBlockState(new BlockPos(bx + x, by + 1, bz + z)).getBlock() == Blocks.AIR) {
                             if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK) {
-                                world.setBlockAndUpdate(new BlockPos(bx + x, by, bz + z), Blocks.GRASS_PATH.defaultBlockState());
+                                world.setBlockAndUpdate(new BlockPos(bx + x, by, bz + z), Blocks.DIRT_PATH.defaultBlockState());
                                 if (!player.isCreative()) {
                                     if(unbreakingEnchantment.length() != 0){
                                         if(unbreakingEnchantment.contains("lvl:1")){
@@ -1122,23 +1143,23 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperHoeRightClickBlock(PlayerInteractEvent.RightClickBlock event){
-        World world = event.getWorld();
-        PlayerEntity player = event.getPlayer();
+        Level world = event.getWorld();
+        Player player = event.getPlayer();
         BlockPos pos = event.getPos();
-        ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+        ItemStack stack = player.getMainHandItem();
 
         if (RegisterItems.superHoe.equals(stack.getItem())) {
             int bx = pos.getX();
             int by = pos.getY();
             int bz = pos.getZ();
 
-            ArrayList<INBT> enchantments = new ArrayList<>();
+            ArrayList<Tag> enchantments = new ArrayList<>();
             Random random = new Random();
             String unbreakingEnchantment = "";
 
-            enchantments.add(IntNBT.valueOf(0));
+            //enchantments.add(IntNBT.valueOf(0));
 
-            for(INBT enchantment : stack.getEnchantmentTags()){
+            for(Tag enchantment : stack.getEnchantmentTags()){
                 enchantments.add(enchantment);
             }
 
@@ -1150,7 +1171,7 @@ public class EventHandler {
 
 
 
-            if(world.getBlockState(pos).getBlock() == Blocks.DIRT || world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK || world.getBlockState(pos).getBlock() == Blocks.GRASS_PATH){
+            if(world.getBlockState(pos).getBlock() == Blocks.DIRT || world.getBlockState(pos).getBlock() == Blocks.GRASS_BLOCK || world.getBlockState(pos).getBlock() == Blocks.DIRT_PATH){
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
                         if(stack.getDamageValue() >= stack.getMaxDamage()){
@@ -1158,7 +1179,7 @@ public class EventHandler {
                             break;
                         }
                         if(world.getBlockState(new BlockPos(bx + x,by + 1,bz + z)).getBlock() == Blocks.AIR){
-                            if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.DIRT || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_PATH ) {
+                            if (world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.DIRT || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.GRASS_BLOCK || world.getBlockState(new BlockPos(bx + x, by, bz + z)).getBlock() == Blocks.DIRT_PATH ) {
                                 world.setBlockAndUpdate(new BlockPos(bx + x, by, bz + z), Blocks.FARMLAND.defaultBlockState());
                                 if(!player.isCreative()){
                                     if(unbreakingEnchantment.length() != 0){
@@ -1211,29 +1232,29 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperSwordHitEntity(LivingHurtEvent event){
-        if(event.getSource().getDirectEntity() instanceof PlayerEntity){
+        if(event.getSource().getDirectEntity() instanceof Player){
             LivingEntity target = event.getEntityLiving();
-            PlayerEntity player = (PlayerEntity) event.getSource().getDirectEntity();
-            ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+            Player player = (Player) event.getSource().getDirectEntity();
+            ItemStack stack = player.getMainHandItem();
 
             if(RegisterItems.superSword.equals(stack.getItem())){
-                target.addEffect(new EffectInstance(Effect.byId(18), 60, 1));
-                target.addEffect(new EffectInstance(Effect.byId(19), 60, 1));
-                target.addEffect(new EffectInstance(Effect.byId(24), 60, 1));
+                target.addEffect(new MobEffectInstance(MobEffect.byId(18), 60, 1));
+                target.addEffect(new MobEffectInstance(MobEffect.byId(19), 60, 1));
+                target.addEffect(new MobEffectInstance(MobEffect.byId(24), 60, 1));
             }
         }
     }
 
     @SubscribeEvent
     public static void ItemCupHitEntity(LivingHurtEvent event){
-        if(event.getSource().getDirectEntity() instanceof PlayerEntity){
+        if(event.getSource().getDirectEntity() instanceof Player){
             LivingEntity target = event.getEntityLiving();
-            PlayerEntity player = (PlayerEntity) event.getSource().getDirectEntity();
-            ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+            Player player = (Player) event.getSource().getDirectEntity();
+            ItemStack stack = player.getMainHandItem();
 
             if(RegisterItems.itemCup.equals(stack.getItem())){
-                if(target instanceof PlayerEntity){
-                    PlayerEntity playerTarget = (PlayerEntity)event.getEntityLiving();
+                if(target instanceof Player){
+                    Player playerTarget = (Player)event.getEntityLiving();
                     if(!playerTarget.getActiveEffects().toString().contains("effect.minecraft.fire_resistance")){
                         if(!playerTarget.isCreative()){
                             playerTarget.setSecondsOnFire(3);
@@ -1248,14 +1269,14 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SpecialCupHitEntity(LivingHurtEvent event){
-        if(event.getSource().getDirectEntity() instanceof PlayerEntity){
+        if(event.getSource().getDirectEntity() instanceof Player){
             LivingEntity target = event.getEntityLiving();
-            PlayerEntity player = (PlayerEntity) event.getSource().getDirectEntity();
-            ItemStack stack = player.getItemInHand(Hand.MAIN_HAND);
+            Player player = (Player) event.getSource().getDirectEntity();
+            ItemStack stack = player.getMainHandItem();
 
             if(RegisterItems.specialCup.equals(stack.getItem())){
-                target.addEffect(new EffectInstance(Effect.byId(20), 100, 5));
-                target.addEffect(new EffectInstance(Effect.byId(24), 100, 1));
+                target.addEffect(new MobEffectInstance(MobEffect.byId(20), 100, 5));
+                target.addEffect(new MobEffectInstance(MobEffect.byId(24), 100, 1));
             }
         }
 
@@ -1263,7 +1284,7 @@ public class EventHandler {
     }
 
 
-    private static ArrayList<BlockPos> getWoodNeighbours(World world, BlockPos blockPos, Block block, ItemStack stack) {
+    private static ArrayList<BlockPos> getWoodNeighbours(Level world, BlockPos blockPos, Block block, ItemStack stack) {
         ArrayList<BlockPos> list = new ArrayList<>();
         for(int x=-1; x<=1; x++){
             if(stack.getDamageValue() >= stack.getMaxDamage() - 1){

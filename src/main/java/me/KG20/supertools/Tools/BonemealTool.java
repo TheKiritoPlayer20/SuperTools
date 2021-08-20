@@ -2,28 +2,31 @@ package me.KG20.supertools.Tools;
 
 import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Init.CreativeTabs;
-import net.minecraft.block.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
+import net.minecraft.world.level.block.BaseCoralWallFanBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 
 public class BonemealTool extends Item {
     public BonemealTool() {
@@ -33,54 +36,55 @@ public class BonemealTool extends Item {
     /**
      * Called when this item is used when targetting a Block
      */
-    public ActionResultType useOn(ItemUseContext p_195939_1_) {
-        World world = p_195939_1_.getLevel();
-        BlockPos blockpos = p_195939_1_.getClickedPos();
-        BlockPos blockpos1 = blockpos.relative(p_195939_1_.getClickedFace());
-        if (applyBonemeal(p_195939_1_.getItemInHand(), world, blockpos, p_195939_1_.getPlayer())) {
-            if (!world.isClientSide) {
-                world.levelEvent(2005, blockpos, 0);
+    @Override
+    public InteractionResult useOn(UseOnContext p_40637_) {
+        Level level = p_40637_.getLevel();
+        BlockPos blockpos = p_40637_.getClickedPos();
+        BlockPos blockpos1 = blockpos.relative(p_40637_.getClickedFace());
+        if (applyBonemeal(p_40637_.getItemInHand(), level, blockpos, p_40637_.getPlayer())) {
+            if (!level.isClientSide) {
+                level.levelEvent(1505, blockpos, 0);
             }
 
-            return ActionResultType.sidedSuccess(world.isClientSide);
+            return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
-            BlockState blockstate = world.getBlockState(blockpos);
-            boolean flag = blockstate.isFaceSturdy(world, blockpos, p_195939_1_.getClickedFace());
-            if (flag && growWaterPlant(p_195939_1_.getItemInHand(), world, blockpos1, p_195939_1_.getClickedFace())) {
-                if (!world.isClientSide) {
-                    world.levelEvent(2005, blockpos1, 0);
+            BlockState blockstate = level.getBlockState(blockpos);
+            boolean flag = blockstate.isFaceSturdy(level, blockpos, p_40637_.getClickedFace());
+            if (flag && growWaterPlant(p_40637_.getItemInHand(), level, blockpos1, p_40637_.getClickedFace())) {
+                if (!level.isClientSide) {
+                    level.levelEvent(1505, blockpos1, 0);
                 }
 
-                return ActionResultType.sidedSuccess(world.isClientSide);
+                return InteractionResult.sidedSuccess(level.isClientSide);
             } else {
-                return ActionResultType.PASS;
+                return InteractionResult.PASS;
             }
         }
     }
 
 
     @Deprecated //Forge: Use Player/Hand version
-    public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos pos) {
-        if (worldIn instanceof net.minecraft.world.server.ServerWorld)
-            return applyBonemeal(stack, worldIn, pos, net.minecraftforge.common.util.FakePlayerFactory.getMinecraft((net.minecraft.world.server.ServerWorld)worldIn));
+    public static boolean growCrop(ItemStack stack, Level p_40629_, BlockPos p_40630_) {
+        if (p_40629_ instanceof net.minecraft.server.level.ServerLevel)
+            return applyBonemeal(stack, p_40629_, p_40630_, net.minecraftforge.common.util.FakePlayerFactory.getMinecraft((net.minecraft.server.level.ServerLevel)p_40629_));
         return false;
     }
 
-    public static boolean applyBonemeal(ItemStack p_195966_0_, World p_195966_1_, BlockPos p_195966_2_, net.minecraft.entity.player.PlayerEntity player) {
-        BlockState blockstate = p_195966_1_.getBlockState(p_195966_2_);
-        int hook = net.minecraftforge.event.ForgeEventFactory.onApplyBonemeal(player, p_195966_1_, p_195966_2_, blockstate, p_195966_0_);
+    public static boolean applyBonemeal(ItemStack stack, Level p_40629_, BlockPos p_40630_, net.minecraft.world.entity.player.Player player) {
+        BlockState blockstate = p_40629_.getBlockState(p_40630_);
+        int hook = net.minecraftforge.event.ForgeEventFactory.onApplyBonemeal(player, p_40629_, p_40630_, blockstate, stack);
         if (hook != 0) return hook > 0;
-        if (blockstate.getBlock() instanceof IGrowable) {
-            IGrowable igrowable = (IGrowable)blockstate.getBlock();
-            if (igrowable.isValidBonemealTarget(p_195966_1_, p_195966_2_, blockstate, p_195966_1_.isClientSide)) {
-                if (p_195966_1_ instanceof ServerWorld) {
-                    if (igrowable.isBonemealSuccess(p_195966_1_, p_195966_1_.random, p_195966_2_, blockstate)) {
-                        igrowable.performBonemeal((ServerWorld)p_195966_1_, p_195966_1_.random, p_195966_2_, blockstate);
+        if (blockstate.getBlock() instanceof BonemealableBlock) {
+            BonemealableBlock bonemealableblock = (BonemealableBlock)blockstate.getBlock();
+            if (bonemealableblock.isValidBonemealTarget(p_40629_, p_40630_, blockstate, p_40629_.isClientSide)) {
+                if (p_40629_ instanceof ServerLevel) {
+                    if (bonemealableblock.isBonemealSuccess(p_40629_, p_40629_.random, p_40630_, blockstate)) {
+                        bonemealableblock.performBonemeal((ServerLevel)p_40629_, p_40629_.random, p_40630_, blockstate);
                     }
                     if(!player.isCreative()) {
-                        p_195966_0_.setDamageValue(p_195966_0_.getDamageValue() + 1);
-                        if(p_195966_0_.getDamageValue() >= p_195966_0_.getMaxDamage()){
-                            p_195966_0_.shrink(1);
+                        stack.setDamageValue(stack.getDamageValue() + 1);
+                        if(stack.getDamageValue() >= stack.getMaxDamage()){
+                            stack.shrink(1);
                         }
                     }
 
@@ -93,50 +97,52 @@ public class BonemealTool extends Item {
         return false;
     }
 
-    public static boolean growWaterPlant(ItemStack p_203173_0_, World p_203173_1_, BlockPos p_203173_2_, @Nullable Direction p_203173_3_) {
-        if (p_203173_1_.getBlockState(p_203173_2_).is(Blocks.WATER) && p_203173_1_.getFluidState(p_203173_2_).getAmount() == 8) {
-            if (!(p_203173_1_ instanceof ServerWorld)) {
+    public static boolean growWaterPlant(ItemStack stack, Level p_40633_, BlockPos p_40634_, @Nullable Direction p_40635_) {
+        if (p_40633_.getBlockState(p_40634_).is(Blocks.WATER) && p_40633_.getFluidState(p_40634_).getAmount() == 8) {
+            if (!(p_40633_ instanceof ServerLevel)) {
                 return true;
             } else {
+                Random random = p_40633_.getRandom();
+
                 label80:
                 for(int i = 0; i < 128; ++i) {
-                    BlockPos blockpos = p_203173_2_;
+                    BlockPos blockpos = p_40634_;
                     BlockState blockstate = Blocks.SEAGRASS.defaultBlockState();
 
                     for(int j = 0; j < i / 16; ++j) {
                         blockpos = blockpos.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
-                        if (p_203173_1_.getBlockState(blockpos).isCollisionShapeFullBlock(p_203173_1_, blockpos)) {
+                        if (p_40633_.getBlockState(blockpos).isCollisionShapeFullBlock(p_40633_, blockpos)) {
                             continue label80;
                         }
                     }
 
-                    Optional<RegistryKey<Biome>> optional = p_203173_1_.getBiomeName(blockpos);
+                    Optional<ResourceKey<Biome>> optional = p_40633_.getBiomeName(blockpos);
                     if (Objects.equals(optional, Optional.of(Biomes.WARM_OCEAN)) || Objects.equals(optional, Optional.of(Biomes.DEEP_WARM_OCEAN))) {
-                        if (i == 0 && p_203173_3_ != null && p_203173_3_.getAxis().isHorizontal()) {
-                            blockstate = BlockTags.WALL_CORALS.getRandomElement(p_203173_1_.random).defaultBlockState().setValue(DeadCoralWallFanBlock.FACING, p_203173_3_);
+                        if (i == 0 && p_40635_ != null && p_40635_.getAxis().isHorizontal()) {
+                            blockstate = BlockTags.WALL_CORALS.getRandomElement(p_40633_.random).defaultBlockState().setValue(BaseCoralWallFanBlock.FACING, p_40635_);
                         } else if (random.nextInt(4) == 0) {
                             blockstate = BlockTags.UNDERWATER_BONEMEALS.getRandomElement(random).defaultBlockState();
                         }
                     }
 
-                    if (blockstate.getBlock().is(BlockTags.WALL_CORALS)) {
-                        for(int k = 0; !blockstate.canSurvive(p_203173_1_, blockpos) && k < 4; ++k) {
-                            blockstate = blockstate.setValue(DeadCoralWallFanBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random));
+                    if (blockstate.is(BlockTags.WALL_CORALS)) {
+                        for(int k = 0; !blockstate.canSurvive(p_40633_, blockpos) && k < 4; ++k) {
+                            blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random));
                         }
                     }
 
-                    if (blockstate.canSurvive(p_203173_1_, blockpos)) {
-                        BlockState blockstate1 = p_203173_1_.getBlockState(blockpos);
-                        if (blockstate1.is(Blocks.WATER) && p_203173_1_.getFluidState(blockpos).getAmount() == 8) {
-                            p_203173_1_.setBlock(blockpos, blockstate, 3);
+                    if (blockstate.canSurvive(p_40633_, blockpos)) {
+                        BlockState blockstate1 = p_40633_.getBlockState(blockpos);
+                        if (blockstate1.is(Blocks.WATER) && p_40633_.getFluidState(blockpos).getAmount() == 8) {
+                            p_40633_.setBlock(blockpos, blockstate, 3);
                         } else if (blockstate1.is(Blocks.SEAGRASS) && random.nextInt(10) == 0) {
-                            ((IGrowable)Blocks.SEAGRASS).performBonemeal((ServerWorld)p_203173_1_, random, blockpos, blockstate1);
+                            ((BonemealableBlock)Blocks.SEAGRASS).performBonemeal((ServerLevel)p_40633_, random, blockpos, blockstate1);
                         }
                     }
                 }
-                p_203173_0_.setDamageValue(p_203173_0_.getDamageValue() + 1);
-                    if(p_203173_0_.getDamageValue() >= p_203173_0_.getMaxDamage()){
-                        p_203173_0_.shrink(1);
+                stack.setDamageValue(stack.getDamageValue() + 1);
+                    if(stack.getDamageValue() >= stack.getMaxDamage()){
+                        stack.shrink(1);
                     }
 
                 return true;
@@ -146,41 +152,41 @@ public class BonemealTool extends Item {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static void addGrowthParticles(IWorld p_195965_0_, BlockPos p_195965_1_, int p_195965_2_) {
-        if (p_195965_2_ == 0) {
-            p_195965_2_ = 15;
+    public static void addGrowthParticles(LevelAccessor p_40639_, BlockPos p_40640_, int p_40641_) {
+        if (p_40641_ == 0) {
+            p_40641_ = 15;
         }
 
-        BlockState blockstate = p_195965_0_.getBlockState(p_195965_1_);
-        if (!blockstate.isAir(p_195965_0_, p_195965_1_)) {
+        BlockState blockstate = p_40639_.getBlockState(p_40640_);
+        if (!blockstate.isAir()) {
             double d0 = 0.5D;
             double d1;
             if (blockstate.is(Blocks.WATER)) {
-                p_195965_2_ *= 3;
+                p_40641_ *= 3;
                 d1 = 1.0D;
                 d0 = 3.0D;
-            } else if (blockstate.isSolidRender(p_195965_0_, p_195965_1_)) {
-                p_195965_1_ = p_195965_1_.above();
-                p_195965_2_ *= 3;
+            } else if (blockstate.isSolidRender(p_40639_, p_40640_)) {
+                p_40640_ = p_40640_.above();
+                p_40641_ *= 3;
                 d0 = 3.0D;
                 d1 = 1.0D;
             } else {
-                d1 = blockstate.getShape(p_195965_0_, p_195965_1_).max(Direction.Axis.Y);
+                d1 = blockstate.getShape(p_40639_, p_40640_).max(Direction.Axis.Y);
             }
 
-            p_195965_0_.addParticle(ParticleTypes.HAPPY_VILLAGER, (double)p_195965_1_.getX() + 0.5D, (double)p_195965_1_.getY() + 0.5D, (double)p_195965_1_.getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
+            p_40639_.addParticle(ParticleTypes.HAPPY_VILLAGER, (double)p_40640_.getX() + 0.5D, (double)p_40640_.getY() + 0.5D, (double)p_40640_.getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
+            Random random = p_40639_.getRandom();
 
-            for(int i = 0; i < p_195965_2_; ++i) {
+            for(int i = 0; i < p_40641_; ++i) {
                 double d2 = random.nextGaussian() * 0.02D;
                 double d3 = random.nextGaussian() * 0.02D;
                 double d4 = random.nextGaussian() * 0.02D;
                 double d5 = 0.5D - d0;
-                double d6 = (double)p_195965_1_.getX() + d5 + random.nextDouble() * d0 * 2.0D;
-                double d7 = (double)p_195965_1_.getY() + random.nextDouble() * d1;
-                double d8 = (double)p_195965_1_.getZ() + d5 + random.nextDouble() * d0 * 2.0D;
-                if (!p_195965_0_.getBlockState((new BlockPos(d6, d7, d8)).below()).isAir()) {
-                    p_195965_0_.addParticle(ParticleTypes.HAPPY_VILLAGER, d6, d7, d8, d2, d3, d4);
+                double d6 = (double)p_40640_.getX() + d5 + random.nextDouble() * d0 * 2.0D;
+                double d7 = (double)p_40640_.getY() + random.nextDouble() * d1;
+                double d8 = (double)p_40640_.getZ() + d5 + random.nextDouble() * d0 * 2.0D;
+                if (!p_40639_.getBlockState((new BlockPos(d6, d7, d8)).below()).isAir()) {
+                    p_40639_.addParticle(ParticleTypes.HAPPY_VILLAGER, d6, d7, d8, d2, d3, d4);
                 }
             }
 
