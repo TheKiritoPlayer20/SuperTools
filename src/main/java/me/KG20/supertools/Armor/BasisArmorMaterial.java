@@ -15,12 +15,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.function.Supplier;
 
 public class BasisArmorMaterial {
-
+                                                                                                                                    //Boots,Leggings,Chestplate,Helmet
     public final static ArmorMaterial emerald = new ArmorMaterialBasis(Constants.modid + ":emerald",33, new int[]{4, 5, 8, 3}, 12, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.of(Items.EMERALD));
     public final static ArmorMaterial obsidian = new ArmorMaterialBasis(Constants.modid + ":obsidian", 33, new int[]{2, 6, 10, 2}, 12, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.of(Blocks.OBSIDIAN));
     public final static ArmorMaterial quartz = new ArmorMaterialBasis(Constants.modid + ":quartz", 33, new int[]{2, 5, 6, 2}, 12, SoundEvents.ARMOR_EQUIP_DIAMOND, 2.0F,0.0F,() -> Ingredient.of(Items.QUARTZ));
     public final static ArmorMaterial lapis = new ArmorMaterialBasis(Constants.modid + ":lapis",10, new int[]{2, 3, 4, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 0.0F,0.0F,() -> Ingredient.of(Items.LAPIS_LAZULI));
-    public final static ArmorMaterial copper = new ArmorMaterialBasis(Constants.modid + ":copper",10, new int[]{2, 5, 4, 2}, 12, SoundEvents.ARMOR_EQUIP_IRON, 0.0F,0.0F,() -> Ingredient.of(Items.COPPER_INGOT));
+    public final static ArmorMaterial copper = new ArmorMaterialBasis(Constants.modid + ":copper",10, new int[]{2, 4, 5, 2}, 12, SoundEvents.ARMOR_EQUIP_IRON, 0.0F,0.0F,() -> Ingredient.of(Items.COPPER_INGOT));
 
     private static class ArmorMaterialBasis implements ArmorMaterial{
 

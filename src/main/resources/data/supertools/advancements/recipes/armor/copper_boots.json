@@ -1,0 +1,32 @@
+{
+  "parent": "supertools:recipes/root",
+  "rewards": {
+    "recipes": [
+      "supertools:copper_boots"
+    ]
+  },
+  "criteria": {
+    "has_emerald": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:copper_ingot"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "supertools:copper_boots"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_emerald",
+      "has_the_recipe"
+    ]
+  ]
+}

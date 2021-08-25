@@ -204,10 +204,6 @@ public class RegisterItems {
             superSickle.setRegistryName(Constants.modid, "supersickle");
             registry.registerAll(boneMealTool,superHoe,superAxe,superPickaxe,superShovel,superSword,itemCup,specialCup,superSickle);
         }
-
-
-
-
     }
 
 

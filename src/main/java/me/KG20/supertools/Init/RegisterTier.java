@@ -35,11 +35,11 @@ public class RegisterTier {
         TierSortingRegistry.registerTier(BasisToolMaterial.obsidian, obsidian, List.of(redstone, iron), List.of(netherite, supertools, itemcup, specialcup));
         TierSortingRegistry.registerTier(BasisToolMaterial.emerald, emerald, List.of(redstone, iron), List.of(netherite, supertools, itemcup, specialcup));
         TierSortingRegistry.registerTier(BasisToolMaterial.lapis, lapis, List.of(wood, gold), List.of(iron, redstone));
-        TierSortingRegistry.registerTier(BasisToolMaterial.copper, copper, List.of(wood, gold), List.of(iron, redstone));
+        TierSortingRegistry.registerTier(BasisToolMaterial.copper, copper, List.of(stone, lapis), List.of(quartz, diamond, obsidian, emerald));
         TierSortingRegistry.registerTier(BasisToolMaterial.redstone, redstone, List.of(stone, lapis), List.of(quartz, diamond, obsidian, emerald));
-        TierSortingRegistry.registerTier(BasisToolMaterial.supertools, supertools, List.of(quartz,emerald, obsidian, diamond), List.of());
-        TierSortingRegistry.registerTier(BasisToolMaterial.itemcup, itemcup, List.of(quartz,emerald, obsidian, diamond), List.of());
-        TierSortingRegistry.registerTier(BasisToolMaterial.specialcup, specialcup, List.of(quartz,emerald, obsidian, diamond), List.of());
+        TierSortingRegistry.registerTier(BasisToolMaterial.supertools, supertools, List.of(quartz, emerald, obsidian, diamond), List.of());
+        TierSortingRegistry.registerTier(BasisToolMaterial.itemcup, itemcup, List.of(quartz, emerald, obsidian, diamond), List.of());
+        TierSortingRegistry.registerTier(BasisToolMaterial.specialcup, specialcup, List.of(quartz, emerald, obsidian, diamond), List.of());
     }
 
 }

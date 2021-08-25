@@ -15,7 +15,7 @@ public class BasisToolMaterial {
     public static final Tier obsidian = new ToolMaterial(3, Config.durability_Obsidian.get(), 7F, Config.attackdamage_Obsidian.get(), 10, () -> Ingredient.of(Blocks.OBSIDIAN));
     public static final Tier emerald = new ToolMaterial(3, Config.durability_Emerald.get(), 9.5F, Config.attackdamage_Emerald.get(), 10, () -> Ingredient.of(Items.EMERALD));
     public static final Tier lapis = new ToolMaterial(1, Config.durability_Lapis.get(), 6.0F, Config.attackdamage_Lapis.get(), 20, () -> Ingredient.of(Items.LAPIS_LAZULI));
-    public static final Tier copper = new ToolMaterial(1, Config.durability_Copper.get(), 6.0F, Config.attackdamage_Copper.get(), 10, () -> Ingredient.of(Items.COPPER_INGOT));
+    public static final Tier copper = new ToolMaterial(2, Config.durability_Copper.get(), 6.0F, Config.attackdamage_Copper.get(), 10, () -> Ingredient.of(Items.COPPER_INGOT));
     public static final Tier redstone = new ToolMaterial(2, Config.durability_Redstone.get(), 15.0F, Config.attackdamage_Redstone.get(), 20, () -> Ingredient.of(Items.REDSTONE));
     public static final Tier supertools = new ToolMaterial(4, Config.durability_SuperTools.get(), 10.6F, Config.attackdamage_SuperTools.get(), 16, () -> Ingredient.of(Items.DIAMOND));
     public static final Tier itemcup = new ToolMaterial(4, Config.durability_Cup.get(), 10.6F, Config.attackdamage_Cup.get(),16, () -> Ingredient.of(Items.DIAMOND));

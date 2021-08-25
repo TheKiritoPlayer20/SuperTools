@@ -83,7 +83,7 @@ public class Config {
         Builder.pop();
         Builder.push("Attack Damage");
         attackdamage_Quartz = Builder.comment("Quartz base attack damage").defineInRange("attackdamage_quartz", 2.0,-999999999, 999999999);
-        attackdamage_Copper = Builder.comment("Copper base attack damage").defineInRange("attackdamage_quartz", 1.5,-999999999, 999999999);
+        attackdamage_Copper = Builder.comment("Copper base attack damage").defineInRange("attackdamage_copper", 1.5,-999999999, 999999999);
         attackdamage_Obsidian = Builder.comment("Obsidian base attack damage").defineInRange("attackdamage_obsidian", 3.5,-999999999, 999999999);
         attackdamage_Emerald = Builder.comment("Emerald base attack damage").defineInRange("attackdamage_emerald", 3.5,-999999999, 999999999);
         attackdamage_Lapis = Builder.comment("Lapis base attack damage").defineInRange("attackdamage_lapis", 2.0,-999999999, 999999999);
