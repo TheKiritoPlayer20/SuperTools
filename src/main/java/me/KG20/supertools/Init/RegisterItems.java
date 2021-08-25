@@ -31,6 +31,13 @@ public class RegisterItems {
     public static final Sword quartzSword = new Sword(BasisToolMaterial.quartz, -2.4F);
     public static final Sickle quartzSickle = new Sickle(new Item.Properties().durability(Config.durability_Quartz.get()).tab(CreativeTabs.tools));
 
+    public static final Hoe copperHoe = new Hoe(BasisToolMaterial.copper, -3, -1F);
+    public static final Axe copperAxe = new Axe(BasisToolMaterial.copper, -3.1F);
+    public static final Pickaxe copperPickaxe = new Pickaxe(BasisToolMaterial.copper, -2.8F);
+    public static final Shovel copperShovel = new Shovel(BasisToolMaterial.copper, -3F);
+    public static final Sword copperSword = new Sword(BasisToolMaterial.copper, -2.4F);
+    public static final Sickle copperSickle = new Sickle(new Item.Properties().durability(Config.durability_Copper.get()).tab(CreativeTabs.tools));
+
     public static final Hoe emeraldHoe = new Hoe(BasisToolMaterial.emerald, -3, -1F);
     public static final Axe emeraldAxe = new Axe(BasisToolMaterial.emerald, -3.1F);
     public static final Pickaxe emeraldPickaxe = new Pickaxe(BasisToolMaterial.emerald, -2.8F);
@@ -79,6 +86,11 @@ public class RegisterItems {
     public static final ItemArmor quartzLeggings = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlot.LEGS, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
     public static final ItemArmor quartzBoots = new ItemArmor(BasisArmorMaterial.quartz, EquipmentSlot.FEET, new Item.Properties().tab(CreativeTabs.armor).fireResistant());
 
+    public static final ItemArmor copperHelmet = new ItemArmor(BasisArmorMaterial.copper, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor copperChestplate = new ItemArmor(BasisArmorMaterial.copper, EquipmentSlot.CHEST, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor copperLeggings = new ItemArmor(BasisArmorMaterial.copper, EquipmentSlot.LEGS, new Item.Properties().tab(CreativeTabs.armor));
+    public static final ItemArmor copperBoots = new ItemArmor(BasisArmorMaterial.copper, EquipmentSlot.FEET, new Item.Properties().tab(CreativeTabs.armor));
+
     public static final BonemealTool boneMealTool = new BonemealTool();
     public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, -3, -1F, new Item.Properties().tab(CreativeTabs.supertools));
     public static final Axe superAxe = new Axe(BasisToolMaterial.supertools, -3.1F, new Item.Properties().tab(CreativeTabs.supertools));
@@ -109,6 +121,14 @@ public class RegisterItems {
         quartzSword.setRegistryName(Constants.modid, "quartzsword");
         quartzSickle.setRegistryName(Constants.modid, "quartzsickle");
         registry.registerAll(quartzHoe,quartzAxe,quartzPickaxe,quartzShovel,quartzSword,quartzSickle);
+
+        copperHoe.setRegistryName(Constants.modid, "copperhoe");
+        copperAxe.setRegistryName(Constants.modid, "copperaxe");
+        copperPickaxe.setRegistryName(Constants.modid, "copperpickaxe");
+        copperShovel.setRegistryName(Constants.modid, "coppershovel");
+        copperSword.setRegistryName(Constants.modid, "coppersword");
+        copperSickle.setRegistryName(Constants.modid, "coppersickle");
+        registry.registerAll(copperHoe,copperAxe,copperPickaxe,copperShovel,copperSword,copperSickle);
 
         emeraldHoe.setRegistryName(Constants.modid, "emeraldhoe");
         emeraldAxe.setRegistryName(Constants.modid, "emeraldaxe");
@@ -165,6 +185,12 @@ public class RegisterItems {
         quartzLeggings.setRegistryName(Constants.modid, "quartzleggings");
         quartzBoots.setRegistryName(Constants.modid, "quartzboots");
         registry.registerAll(quartzHelmet,quartzChestplate,quartzLeggings,quartzBoots);
+
+        copperHelmet.setRegistryName(Constants.modid, "copperhelmet");
+        copperChestplate.setRegistryName(Constants.modid, "copperchestplate");
+        copperLeggings.setRegistryName(Constants.modid, "copperleggings");
+        copperBoots.setRegistryName(Constants.modid, "copperboots");
+        registry.registerAll(copperHelmet,copperChestplate,copperLeggings,copperBoots);
 
         if(Config.enable_SuperTools.get()){
             boneMealTool.setRegistryName(Constants.modid, "bonemealtool");

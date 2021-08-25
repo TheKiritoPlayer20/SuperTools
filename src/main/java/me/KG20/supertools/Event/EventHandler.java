@@ -129,8 +129,6 @@ public class EventHandler {
             String fortuneEnchantment = "";
 
 
-            //enchantments.add(IntNBT.valueOf(0));
-
             for (Tag enchantment : stack.getEnchantmentTags()) {
                 enchantments.add(enchantment);
             }

@@ -13,6 +13,7 @@ public class Config {
     public static ForgeConfigSpec.BooleanValue enable_ObsidianStatusEffectsLevel2;
     public static ForgeConfigSpec.BooleanValue enable_BlockDropsInCreative;
     public static ForgeConfigSpec.IntValue durability_Quartz;
+    public static ForgeConfigSpec.IntValue durability_Copper;
     public static ForgeConfigSpec.IntValue durability_Obsidian;
     public static ForgeConfigSpec.IntValue durability_Emerald;
     public static ForgeConfigSpec.IntValue durability_Lapis;
@@ -23,6 +24,7 @@ public class Config {
     public static ForgeConfigSpec.IntValue durability_SpecialCup;
     public static ForgeConfigSpec.IntValue max_wood_logs;
     public static ForgeConfigSpec.DoubleValue attackdamage_Quartz;
+    public static ForgeConfigSpec.DoubleValue attackdamage_Copper;
     public static ForgeConfigSpec.DoubleValue attackdamage_Obsidian;
     public static ForgeConfigSpec.DoubleValue attackdamage_Emerald;
     public static ForgeConfigSpec.DoubleValue attackdamage_Lapis;
@@ -59,6 +61,7 @@ public class Config {
         Builder.pop();
         Builder.push("Durabilities");
         durability_Quartz = Builder.comment("Quartz durabilty (Default: 1000)").defineInRange("quartz_tools_durabilty", 1000, 0, 999999999);
+        durability_Copper = Builder.comment("Copper durabilty (Default: 200)").defineInRange("copper_tools_durabilty", 200, 0, 999999999);
         durability_Obsidian = Builder.comment("Obsidian durabilty (Default: 2000)").defineInRange("obsidian_tools_durabilty", 2000, 0, 999999999);
         durability_Emerald = Builder.comment("Emerald durabilty (Default: 1561)").defineInRange("emerald_tools_durabilty", 1561, 0, 999999999);
         durability_Lapis = Builder.comment("Lapis durabilty (Default: 150)").defineInRange("lapis_tools_durabilty", 150, 0, 999999999);
@@ -79,14 +82,15 @@ public class Config {
         string = Builder.define("dontchange7", "To get the damage you want add the base damage of the Tool and the base attack damage of the material.");
         Builder.pop();
         Builder.push("Attack Damage");
-        attackdamage_Quartz = Builder.comment("Quartz base attack damage").defineInRange("attackdamage_quartz", 2.0,0.0, 999999999);
-        attackdamage_Obsidian = Builder.comment("Obsidian base attack damage").defineInRange("attackdamage_obsidian", 3.5,0.0, 999999999);
-        attackdamage_Emerald = Builder.comment("Emerald base attack damage").defineInRange("attackdamage_emerald", 3.5,0.0, 999999999);
-        attackdamage_Lapis = Builder.comment("Lapis base attack damage").defineInRange("attackdamage_lapis", 2.0,0.0, 999999999);
-        attackdamage_Redstone = Builder.comment("Redstone base attack damage").defineInRange("attackdamage_redstone", -0.5,0.0, 999999999);
-        attackdamage_SuperTools = Builder.comment("Super Tools base attack damage").defineInRange("attackdamage_supertools", 3.5,0.0, 999999999);
-        attackdamage_Cup = Builder.comment("Cup base attack damage").defineInRange("attackdamage_cup", 3.5,0.0, 999999999);
-        attackdamage_SpecialCup = Builder.comment("Special Cup base attack damage").defineInRange("attackdamage_specialcup", 4.0,0.0, 999999999);
+        attackdamage_Quartz = Builder.comment("Quartz base attack damage").defineInRange("attackdamage_quartz", 2.0,-999999999, 999999999);
+        attackdamage_Copper = Builder.comment("Copper base attack damage").defineInRange("attackdamage_quartz", 1.5,-999999999, 999999999);
+        attackdamage_Obsidian = Builder.comment("Obsidian base attack damage").defineInRange("attackdamage_obsidian", 3.5,-999999999, 999999999);
+        attackdamage_Emerald = Builder.comment("Emerald base attack damage").defineInRange("attackdamage_emerald", 3.5,-999999999, 999999999);
+        attackdamage_Lapis = Builder.comment("Lapis base attack damage").defineInRange("attackdamage_lapis", 2.0,-999999999, 999999999);
+        attackdamage_Redstone = Builder.comment("Redstone base attack damage").defineInRange("attackdamage_redstone", -0.5,-999999999, 999999999);
+        attackdamage_SuperTools = Builder.comment("Super Tools base attack damage").defineInRange("attackdamage_supertools", 3.5,-999999999, 999999999);
+        attackdamage_Cup = Builder.comment("Cup base attack damage").defineInRange("attackdamage_cup", 3.5,-999999999, 999999999);
+        attackdamage_SpecialCup = Builder.comment("Special Cup base attack damage").defineInRange("attackdamage_specialcup", 4.0,-999999999, 999999999);
         Builder.pop(2);
 
         Builder.push("Super Axe");
