@@ -19,6 +19,7 @@ public class ItemArmor extends ArmorItem {
         super(materialIn, slots, properties);
     }
 
+    /*
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
 
@@ -62,6 +63,6 @@ public class ItemArmor extends ArmorItem {
             }
         }
 
-
     }
+    */
 }

@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -48,8 +49,6 @@ public class EventHandler {
         ArrayList<Tag> enchantments = new ArrayList<>();
         String unbreakingEnchantment = "";
 
-        //enchantments.add(Tag.);
-
         for(Tag enchantment : stack.getEnchantmentTags()){
             enchantments.add(enchantment);
         }
@@ -76,7 +75,8 @@ public class EventHandler {
                             world.destroyBlock(blockPos, false);
                         }
 
-                        blocksHarvested += 1;
+                        blocksHarvested++;
+
                         if(!player.isCreative()){
                             if(unbreakingEnchantment.length() != 0){
                                 if(unbreakingEnchantment.contains("lvl:1")){
@@ -1280,7 +1280,6 @@ public class EventHandler {
 
 
     }
-
 
     private static ArrayList<BlockPos> getWoodNeighbours(Level world, BlockPos blockPos, Block block, ItemStack stack) {
         ArrayList<BlockPos> list = new ArrayList<>();
