@@ -14,11 +14,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(Constants.modid)
-public class SuperTools
-{
-
+public class SuperTools {
+    
     private static CommonProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-
 
     public SuperTools(){
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
@@ -32,7 +30,6 @@ public class SuperTools
     @SubscribeEvent
     public void setup(FMLCommonSetupEvent event){
         proxy.setup();
-
     }
 
     @SubscribeEvent
