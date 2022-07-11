@@ -4,6 +4,8 @@ import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -113,16 +115,29 @@ public class BonemealTool extends Item {
                         }
                     }
 
-                    Optional<ResourceKey<Biome>> optional = level.getBiomeName(blockpos);
-                    if (Objects.equals(optional, Optional.of(Biomes.WARM_OCEAN))) {
+                    Holder<Biome> holder = level.getBiome(blockpos);
+                    if (holder.is(Biomes.WARM_OCEAN)) {
                         if (i == 0 && direction != null && direction.getAxis().isHorizontal()) {
-                            blockstate = BlockTags.WALL_CORALS.getRandomElement(level.random).defaultBlockState().setValue(BaseCoralWallFanBlock.FACING, direction);
+                            blockstate = Registry.BLOCK.getTag(BlockTags.WALL_CORALS).flatMap((p_204098_) -> {
+                                return p_204098_.getRandomElement(level.random);
+                            }).map((p_204100_) -> {
+                                return p_204100_.value().defaultBlockState();
+                            }).orElse(blockstate);
+                            if (blockstate.hasProperty(BaseCoralWallFanBlock.FACING)) {
+                                blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, direction);
+                            }
                         } else if (random.nextInt(4) == 0) {
-                            blockstate = BlockTags.UNDERWATER_BONEMEALS.getRandomElement(random).defaultBlockState();
+                            blockstate = Registry.BLOCK.getTag(BlockTags.UNDERWATER_BONEMEALS).flatMap((p_204091_) -> {
+                                return p_204091_.getRandomElement(level.random);
+                            }).map((p_204095_) -> {
+                                return p_204095_.value().defaultBlockState();
+                            }).orElse(blockstate);
                         }
                     }
 
-                    if (blockstate.is(BlockTags.WALL_CORALS)) {
+                    if (blockstate.is(BlockTags.WALL_CORALS, (p_204093_) -> {
+                        return p_204093_.hasProperty(BaseCoralWallFanBlock.FACING);
+                    })) {
                         for(int k = 0; !blockstate.canSurvive(level, blockpos) && k < 4; ++k) {
                             blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random));
                         }

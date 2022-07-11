@@ -6,15 +6,11 @@ import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Main.Constants;
 import me.KG20.supertools.Tools.*;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.registries.IForgeRegistry;
 
-@EventBusSubscriber(modid = Constants.modid, bus = Bus.MOD)
 public class RegisterItems {
 
     public static final Sickle woodenSickle = new Sickle(new Item.Properties().durability(59).tab(CreativeTabs.tools));
@@ -103,7 +99,7 @@ public class RegisterItems {
 
 
     @SubscribeEvent
-    public static void register(Register<Item> event) {
+    public static void register(final RegistryEvent.Register<Item> event) {
         IForgeRegistry<Item> registry = event.getRegistry();
 
         woodenSickle.setRegistryName(Constants.modid, "woodensickle");
@@ -205,8 +201,5 @@ public class RegisterItems {
             registry.registerAll(boneMealTool,superHoe,superAxe,superPickaxe,superShovel,superSword,itemCup,specialCup,superSickle);
         }
     }
-
-
-
-    }
+}
 

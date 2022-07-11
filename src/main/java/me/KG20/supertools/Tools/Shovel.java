@@ -2,7 +2,7 @@ package me.KG20.supertools.Tools;
 
 import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.Tier;
@@ -13,7 +13,7 @@ import net.minecraftforge.common.ToolActions;
 
 public class Shovel extends ShovelItem {
 
-    private final Tag<Block> blocks =  BlockTags.MINEABLE_WITH_PICKAXE;
+    private final TagKey<Block> blocks =  BlockTags.MINEABLE_WITH_SHOVEL;
 
     public Shovel(Tier material, float speed) {
         super(material, 1.5F, speed, new Properties().tab(CreativeTabs.tools));

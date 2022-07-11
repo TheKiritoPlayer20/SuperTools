@@ -15,7 +15,6 @@ public class CreativeTabs {
         if(Config.enable_SuperTools.get()){
             supertools = new CreativeTabSuperTools();
         }
-
     }
 
 }

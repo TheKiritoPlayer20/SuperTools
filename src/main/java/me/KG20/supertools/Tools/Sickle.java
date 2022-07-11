@@ -18,8 +18,6 @@ public class Sickle extends Item {
         super(properties);
     }
 
-
-
     @Override
     public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity entityLiving) {
 
@@ -85,26 +83,19 @@ public class Sickle extends Item {
             int by = pos.getY();
             int bz = pos.getZ();
 
-                for (int x = -4; x < 5; x++) {
-                    for (int z = -4; z < 5; z++) {
-
-                        BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
-
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_PLANT) {
-                            world.destroyBlock(newBlockPos, true);
-
-                            if(!context.getPlayer().isCreative()){
-                                stack.setDamageValue(stack.getDamageValue() + 1);
-                                if(stack.getDamageValue() >= stack.getMaxDamage()){
-                                    stack.shrink(1);
-                                }
+            for (int x = -4; x < 5; x++) {
+                for (int z = -4; z < 5; z++) {
+                    BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
+                    if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_PLANT) {world.destroyBlock(newBlockPos, true);
+                        if(!context.getPlayer().isCreative()){
+                            stack.setDamageValue(stack.getDamageValue() + 1);
+                            if(stack.getDamageValue() >= stack.getMaxDamage()){
+                                stack.shrink(1);
                             }
-
                         }
-
                     }
                 }
-
+            }
         }
 
         return super.useOn(context);

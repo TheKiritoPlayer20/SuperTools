@@ -1,16 +1,12 @@
 package me.KG20.supertools.Init;
 
 
-import me.KG20.supertools.Main.Constants;
 import me.KG20.supertools.Tools.BasisToolMaterial;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.TierSortingRegistry;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Constants.modid, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class RegisterTier {
 
     public RegisterTier(){

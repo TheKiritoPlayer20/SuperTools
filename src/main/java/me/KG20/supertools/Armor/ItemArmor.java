@@ -19,7 +19,7 @@ public class ItemArmor extends ArmorItem {
         super(materialIn, slots, properties);
     }
 
-    /*
+
     @Override
     public void onArmorTick(ItemStack stack, Level world, Player player) {
 
@@ -41,7 +41,6 @@ public class ItemArmor extends ArmorItem {
                     if(player.getItemBySlot(EquipmentSlot.FEET).getItem().equals(obsidianBoots) || player.getItemBySlot(EquipmentSlot.LEGS).getItem().equals(obsidianLeggings) ||
                             player.getItemBySlot(EquipmentSlot.CHEST).getItem().equals(obsidianChestplate) || player.getItemBySlot(EquipmentSlot.HEAD).getItem().equals(obsidianHelmet)){
                         player.addEffect(new MobEffectInstance(MobEffect.byId(2), 10, 0));
-
                     }
 
                     if(Config.enable_ObsidianStatusEffectsLevel2.get()){
@@ -64,5 +63,5 @@ public class ItemArmor extends ArmorItem {
         }
 
     }
-    */
+
 }

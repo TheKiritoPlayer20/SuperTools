@@ -2,7 +2,7 @@ package me.KG20.supertools.Tools;
 
 import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -13,7 +13,7 @@ import net.minecraftforge.common.ToolActions;
 
 public class Hoe extends HoeItem {
 
-    private final Tag<Block> blocks =  BlockTags.MINEABLE_WITH_HOE;
+    private final TagKey<Block> blocks =  BlockTags.MINEABLE_WITH_HOE;
 
     public Hoe(Tier material, int p_i231595_2_, float speed) {
         super(material, p_i231595_2_, speed, new Properties().tab(CreativeTabs.tools));
