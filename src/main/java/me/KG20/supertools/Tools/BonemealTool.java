@@ -10,6 +10,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -101,7 +102,7 @@ public class BonemealTool extends Item {
             if (!(level instanceof ServerLevel)) {
                 return true;
             } else {
-                Random random = level.getRandom();
+                RandomSource random = level.getRandom();
 
                 label80:
                 for(int i = 0; i < 128; ++i) {
@@ -187,7 +188,7 @@ public class BonemealTool extends Item {
             }
 
             levelAccessor.addParticle(ParticleTypes.HAPPY_VILLAGER, (double)blockPos.getX() + 0.5D, (double)blockPos.getY() + 0.5D, (double)blockPos.getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
-            Random random = levelAccessor.getRandom();
+            RandomSource random = levelAccessor.getRandom();
 
             for(int i = 0; i < value; ++i) {
                 double d2 = random.nextGaussian() * 0.02D;

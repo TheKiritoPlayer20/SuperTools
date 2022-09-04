@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[40,)"
+loaderVersion="[43,)"
 license="All rights reserved"
 issueTrackerURL="https://github.com/TheKiritoPlayer20/SuperTools/issues"
 
@@ -24,7 +24,7 @@ Make sure to download this mod from Curseforge or Planetminecraft.
 [[dependencies.supertools]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-    versionRange="[40,)" #mandatory
+    versionRange="[43,)" #mandatory
     ordering="NONE"
     side="BOTH"
 
@@ -32,6 +32,6 @@ Make sure to download this mod from Curseforge or Planetminecraft.
 [[dependencies.supertools]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2,1.19)"
+    versionRange="[1.19.2,)"
     ordering="NONE"
     side="BOTH"

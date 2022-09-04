@@ -5,11 +5,13 @@ import me.KG20.supertools.Armor.ItemArmor;
 import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Main.Constants;
 import me.KG20.supertools.Tools.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegisterEvent;
 
 public class RegisterItems {
 
@@ -99,107 +101,100 @@ public class RegisterItems {
 
 
     @SubscribeEvent
-    public static void register(final RegistryEvent.Register<Item> event) {
-        IForgeRegistry<Item> registry = event.getRegistry();
+    public static void register(RegisterEvent event) {
+        IForgeRegistry<Item> registry = event.getForgeRegistry();
+        event.register(ForgeRegistries.Keys.ITEMS, helper ->{
+            registerItem(woodenSickle, "woodensickle", helper);
+            registerItem(stoneSickle, "stonesickle", helper);
+            registerItem(ironSickle, "ironsickle", helper);
+            registerItem(goldenSickle, "goldensickle", helper);
+            registerItem(diamondSickle, "diamondsickle", helper);
+            registerItem(netheriteSickle, "netheritesickle", helper);
 
-        woodenSickle.setRegistryName(Constants.modid, "woodensickle");
-        stoneSickle.setRegistryName(Constants.modid, "stonesickle");
-        ironSickle.setRegistryName(Constants.modid, "ironsickle");
-        goldenSickle.setRegistryName(Constants.modid, "goldensickle");
-        diamondSickle.setRegistryName(Constants.modid, "diamondsickle");
-        netheriteSickle.setRegistryName(Constants.modid, "netheritesickle");
-        registry.registerAll(woodenSickle,stoneSickle,ironSickle,goldenSickle,diamondSickle,netheriteSickle);
+            registerItem(quartzHoe, "quartzhoe", helper);
+            registerItem(quartzAxe, "quartzaxe", helper);
+            registerItem(quartzPickaxe, "quartzpickaxe", helper);
+            registerItem(quartzShovel, "quartzshovel", helper);
+            registerItem(quartzSword, "quartzsword", helper);
+            registerItem(quartzSickle, "quartzsickle", helper);
 
-        quartzHoe.setRegistryName(Constants.modid, "quartzhoe");
-        quartzAxe.setRegistryName(Constants.modid, "quartzaxe");
-        quartzPickaxe.setRegistryName(Constants.modid, "quartzpickaxe");
-        quartzShovel.setRegistryName(Constants.modid, "quartzshovel");
-        quartzSword.setRegistryName(Constants.modid, "quartzsword");
-        quartzSickle.setRegistryName(Constants.modid, "quartzsickle");
-        registry.registerAll(quartzHoe,quartzAxe,quartzPickaxe,quartzShovel,quartzSword,quartzSickle);
+            registerItem(copperHoe, "copperhoe", helper);
+            registerItem(copperAxe, "copperaxe", helper);
+            registerItem(copperPickaxe, "copperpickaxe", helper);
+            registerItem(copperShovel, "coppershovel", helper);
+            registerItem(copperSword, "coppersword", helper);
+            registerItem(copperSickle, "coppersickle", helper);
 
-        copperHoe.setRegistryName(Constants.modid, "copperhoe");
-        copperAxe.setRegistryName(Constants.modid, "copperaxe");
-        copperPickaxe.setRegistryName(Constants.modid, "copperpickaxe");
-        copperShovel.setRegistryName(Constants.modid, "coppershovel");
-        copperSword.setRegistryName(Constants.modid, "coppersword");
-        copperSickle.setRegistryName(Constants.modid, "coppersickle");
-        registry.registerAll(copperHoe,copperAxe,copperPickaxe,copperShovel,copperSword,copperSickle);
+            registerItem(emeraldHoe, "emeraldhoe", helper);
+            registerItem(emeraldAxe, "emeraldaxe", helper);
+            registerItem(emeraldPickaxe, "emeraldpickaxe", helper);
+            registerItem(emeraldShovel, "emeraldshovel", helper);
+            registerItem(emeraldSword, "emeraldsword", helper);
+            registerItem(emeraldSickle, "emeraldsickle", helper);
 
-        emeraldHoe.setRegistryName(Constants.modid, "emeraldhoe");
-        emeraldAxe.setRegistryName(Constants.modid, "emeraldaxe");
-        emeraldPickaxe.setRegistryName(Constants.modid, "emeraldpickaxe");
-        emeraldShovel.setRegistryName(Constants.modid, "emeraldshovel");
-        emeraldSword.setRegistryName(Constants.modid, "emeraldsword");
-        emeraldSickle.setRegistryName(Constants.modid, "emeraldsickle");
-        registry.registerAll(emeraldHoe,emeraldAxe,emeraldPickaxe,emeraldShovel,emeraldSword,emeraldSickle);
+            registerItem(obsidianHoe, "obsidianhoe", helper);
+            registerItem(obsidianAxe, "obsidianaxe", helper);
+            registerItem(obsidianPickaxe, "obsidianpickaxe", helper);
+            registerItem(obsidianShovel, "obsidianshovel", helper);
+            registerItem(obsidianSword, "obsidiansword", helper);
+            registerItem(obsidianSickle, "obsidiansickle", helper);
 
-        obsidianHoe.setRegistryName(Constants.modid, "obsidianhoe");
-        obsidianAxe.setRegistryName(Constants.modid, "obsidianaxe");
-        obsidianPickaxe.setRegistryName(Constants.modid, "obsidianpickaxe");
-        obsidianShovel.setRegistryName(Constants.modid, "obsidianshovel");
-        obsidianSword.setRegistryName(Constants.modid, "obsidiansword");
-        obsidianSickle.setRegistryName(Constants.modid, "obsidiansickle");
-        registry.registerAll(obsidianHoe,obsidianAxe,obsidianPickaxe,obsidianShovel,obsidianSword,obsidianSickle);
+            registerItem(lapisHoe, "lapishoe", helper);
+            registerItem(lapisAxe, "lapisaxe", helper);
+            registerItem(lapisPickaxe, "lapispickaxe", helper);
+            registerItem(lapisShovel, "lapisshovel", helper);
+            registerItem(lapisSword, "lapissword", helper);
+            registerItem(lapisSickle, "lapissickle", helper);
 
-        lapisHoe.setRegistryName(Constants.modid, "lapishoe");
-        lapisAxe.setRegistryName(Constants.modid, "lapisaxe");
-        lapisPickaxe.setRegistryName(Constants.modid, "lapispickaxe");
-        lapisShovel.setRegistryName(Constants.modid, "lapisshovel");
-        lapisSword.setRegistryName(Constants.modid, "lapissword");
-        lapisSickle.setRegistryName(Constants.modid, "lapissickle");
-        registry.registerAll(lapisHoe,lapisAxe,lapisPickaxe,lapisShovel,lapisSword,lapisSickle);
+            registerItem(redstoneHoe, "redstonehoe", helper);
+            registerItem(redstoneAxe, "redstoneaxe", helper);
+            registerItem(redstonePickaxe, "redstonepickaxe", helper);
+            registerItem(redstoneShovel, "redstoneshovel", helper);
+            registerItem(redstoneSword, "redstonesword", helper);
+            registerItem(redstoneSickle, "redstonesickle", helper);
 
-        redstoneHoe.setRegistryName(Constants.modid, "redstonehoe");
-        redstoneAxe.setRegistryName(Constants.modid, "redstoneaxe");
-        redstonePickaxe.setRegistryName(Constants.modid, "redstonepickaxe");
-        redstoneShovel.setRegistryName(Constants.modid, "redstoneshovel");
-        redstoneSword.setRegistryName(Constants.modid, "redstonesword");
-        redstoneSickle.setRegistryName(Constants.modid, "redstonesickle");
-        registry.registerAll(redstoneHoe,redstoneAxe,redstonePickaxe,redstoneShovel,redstoneSword,redstoneSickle);
+            registerItem(emeraldHelmet, "emeraldhelmet", helper);
+            registerItem(emeraldChestplate, "emeraldchestplate", helper);
+            registerItem(emeraldLeggings, "emeraldleggings", helper);
+            registerItem(emeraldBoots, "emeraldboots", helper);
 
-        emeraldHelmet.setRegistryName(Constants.modid, "emeraldhelmet");
-        emeraldChestplate.setRegistryName(Constants.modid, "emeraldchestplate");
-        emeraldLeggings.setRegistryName(Constants.modid, "emeraldleggings");
-        emeraldBoots.setRegistryName(Constants.modid, "emeraldboots");
-        registry.registerAll(emeraldHelmet,emeraldChestplate,emeraldLeggings,emeraldBoots);
+            registerItem(obsidianHelmet, "obsidianhelmet", helper);
+            registerItem(obsidianChestplate, "obsidianchestplate", helper);
+            registerItem(obsidianLeggings, "obsidianleggings", helper);
+            registerItem(obsidianBoots, "obsidianboots", helper);
 
-        obsidianHelmet.setRegistryName(Constants.modid, "obsidianhelmet");
-        obsidianChestplate.setRegistryName(Constants.modid, "obsidianchestplate");
-        obsidianLeggings.setRegistryName(Constants.modid, "obsidianleggings");
-        obsidianBoots.setRegistryName(Constants.modid, "obsidianboots");
-        registry.registerAll(obsidianHelmet,obsidianChestplate,obsidianLeggings,obsidianBoots);
+            registerItem(lapisHelmet, "lapishelmet", helper);
+            registerItem(lapisChestplate, "lapischestplate", helper);
+            registerItem(lapisLeggings, "lapisleggings", helper);
+            registerItem(lapisBoots, "lapisboots", helper);
 
-        lapisHelmet.setRegistryName(Constants.modid, "lapishelmet");
-        lapisChestplate.setRegistryName(Constants.modid, "lapischestplate");
-        lapisLeggings.setRegistryName(Constants.modid, "lapisleggings");
-        lapisBoots.setRegistryName(Constants.modid, "lapisboots");
-        registry.registerAll(lapisHelmet,lapisChestplate,lapisLeggings,lapisBoots);
+            registerItem(quartzHelmet, "quartzhelmet", helper);
+            registerItem(quartzChestplate, "quartzchestplate", helper);
+            registerItem(quartzLeggings, "quartzleggings", helper);
+            registerItem(quartzBoots, "quartzboots", helper);
 
-        quartzHelmet.setRegistryName(Constants.modid, "quartzhelmet");
-        quartzChestplate.setRegistryName(Constants.modid, "quartzchestplate");
-        quartzLeggings.setRegistryName(Constants.modid, "quartzleggings");
-        quartzBoots.setRegistryName(Constants.modid, "quartzboots");
-        registry.registerAll(quartzHelmet,quartzChestplate,quartzLeggings,quartzBoots);
+            registerItem(copperHelmet, "copperhelmet", helper);
+            registerItem(copperChestplate, "copperchestplate", helper);
+            registerItem(copperLeggings, "copperleggings", helper);
+            registerItem(copperBoots, "copperboots", helper);
 
-        copperHelmet.setRegistryName(Constants.modid, "copperhelmet");
-        copperChestplate.setRegistryName(Constants.modid, "copperchestplate");
-        copperLeggings.setRegistryName(Constants.modid, "copperleggings");
-        copperBoots.setRegistryName(Constants.modid, "copperboots");
-        registry.registerAll(copperHelmet,copperChestplate,copperLeggings,copperBoots);
+            if(Config.enable_SuperTools.get()){
+                registerItem(boneMealTool, "bonemealtool", helper);
+                registerItem(superHoe, "superhoe", helper);
+                registerItem(superAxe, "superaxe", helper);
+                registerItem(superPickaxe, "superpickaxe", helper);
+                registerItem(superShovel, "supershovel", helper);
+                registerItem(superSword, "supersword", helper);
+                registerItem(itemCup, "itemcup", helper);
+                registerItem(specialCup, "specialcup", helper);
+                registerItem(superSickle, "supersickle", helper);
+            }
 
-        if(Config.enable_SuperTools.get()){
-            boneMealTool.setRegistryName(Constants.modid, "bonemealtool");
-            superHoe.setRegistryName(Constants.modid, "superhoe");
-            superAxe.setRegistryName(Constants.modid, "superaxe");
-            superPickaxe.setRegistryName(Constants.modid, "superpickaxe");
-            superShovel.setRegistryName(Constants.modid, "supershovel");
-            superSword.setRegistryName(Constants.modid, "supersword");
-            itemCup.setRegistryName(Constants.modid, "itemcup");
-            specialCup.setRegistryName(Constants.modid, "specialcup");
-            superSickle.setRegistryName(Constants.modid, "supersickle");
-            registry.registerAll(boneMealTool,superHoe,superAxe,superPickaxe,superShovel,superSword,itemCup,specialCup,superSickle);
-        }
+        });
+    }
+
+    private static void registerItem(Item itemToRegister, String itemName, RegisterEvent.RegisterHelper<Item> registry){
+        registry.register(new ResourceLocation(Constants.modid, itemName), itemToRegister);
     }
 }
 

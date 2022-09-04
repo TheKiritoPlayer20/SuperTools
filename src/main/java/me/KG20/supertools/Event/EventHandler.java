@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -180,8 +181,8 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperShovelDestroyedBlock(BlockEvent.BreakEvent event){
-        Level world = (Level)event.getWorld();
         Player player = event.getPlayer();
+        Level world = player.level;
         BlockPos pos = event.getPos();
         ItemStack stack = player.getMainHandItem();
         Direction headRot = player.getMotionDirection();
@@ -252,8 +253,8 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperShovelRightClickBlock(PlayerInteractEvent.RightClickBlock event){
-        Level world = event.getPlayer().level;
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
+        Level world = player.level;
         BlockPos pos = event.getPos();
         ItemStack stack = player.getMainHandItem();
 
@@ -312,8 +313,8 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperHoeRightClickBlock(PlayerInteractEvent.RightClickBlock event){
-        Level world = event.getWorld();
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
+        Level world = player.level;
         BlockPos pos = event.getPos();
         ItemStack stack = player.getMainHandItem();
 
@@ -396,7 +397,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void SuperSwordHitEntity(LivingHurtEvent event){
         if(event.getSource().getDirectEntity() instanceof Player player){
-            LivingEntity target = event.getEntityLiving();
+            LivingEntity target = event.getEntity();
             ItemStack stack = player.getMainHandItem();
 
             if(RegisterItems.superSword.equals(stack.getItem())){
@@ -410,12 +411,12 @@ public class EventHandler {
     @SubscribeEvent
     public static void ItemCupHitEntity(LivingHurtEvent event){
         if(event.getSource().getDirectEntity() instanceof Player player){
-            LivingEntity target = event.getEntityLiving();
+            LivingEntity target = event.getEntity();
             ItemStack stack = player.getMainHandItem();
 
             if(RegisterItems.itemCup.equals(stack.getItem())){
                 if(target instanceof Player){
-                    Player playerTarget = (Player)event.getEntityLiving();
+                    Player playerTarget = (Player)event.getEntity();
                     if(!playerTarget.getActiveEffects().toString().contains("effect.minecraft.fire_resistance")){
                         if(!playerTarget.isCreative()){
                             playerTarget.setSecondsOnFire(3);
@@ -431,7 +432,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void SpecialCupHitEntity(LivingHurtEvent event){
         if(event.getSource().getDirectEntity() instanceof Player player){
-            LivingEntity target = event.getEntityLiving();
+            LivingEntity target = event.getEntity();
             ItemStack stack = player.getMainHandItem();
 
             if(RegisterItems.specialCup.equals(stack.getItem())){
@@ -505,7 +506,7 @@ public class EventHandler {
                                     Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
                                     Block.dropResources(world.getBlockState(newBlockPos), world, newBlockPos);
                                     world.destroyBlock(newBlockPos, false);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 1, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 1, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -519,7 +520,7 @@ public class EventHandler {
                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                     BlockState blockState = world.getBlockState(newBlockPos);
                                     world.destroyBlock(newBlockPos, true);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 0, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -536,7 +537,7 @@ public class EventHandler {
                                     Block.dropResources(blockState, world, newBlockPos);
                                     Block.dropResources(blockState, world, newBlockPos);
                                     world.destroyBlock(newBlockPos, false);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 2, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -552,7 +553,7 @@ public class EventHandler {
                                     Block.dropResources(blockState, world, newBlockPos);
                                     Block.dropResources(blockState, world, newBlockPos);
                                     world.destroyBlock(newBlockPos, false);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 2, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -565,7 +566,7 @@ public class EventHandler {
                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                     BlockState blockState = world.getBlockState(newBlockPos);
                                     world.destroyBlock(newBlockPos, true);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 0, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -582,7 +583,7 @@ public class EventHandler {
                                     Block.dropResources(blockState, world, newBlockPos);
                                     Block.dropResources(blockState, world, newBlockPos);
                                     world.destroyBlock(newBlockPos, false);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 3, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -598,7 +599,7 @@ public class EventHandler {
                                     Block.dropResources(blockState, world, newBlockPos);
                                     Block.dropResources(blockState, world, newBlockPos);
                                     world.destroyBlock(newBlockPos, false);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 3, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -615,7 +616,7 @@ public class EventHandler {
                                     Block.dropResources(blockState, world, newBlockPos);
                                     Block.dropResources(blockState, world, newBlockPos);
                                     world.destroyBlock(newBlockPos, false);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 3, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 3, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -628,7 +629,7 @@ public class EventHandler {
                                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                                     BlockState blockState = world.getBlockState(newBlockPos);
                                     world.destroyBlock(newBlockPos, true);
-                                    int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                                    int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 0, 0);
                                     if (amount != 0) {
                                         ServerLevel sWorld = (ServerLevel)world;
                                         destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -643,7 +644,7 @@ public class EventHandler {
                             Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                             BlockState blockState = world.getBlockState(newBlockPos);
                             world.destroyBlock(newBlockPos, true);
-                            int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                            int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 0, 0);
                             if (amount != 0) {
                                 ServerLevel sWorld = (ServerLevel)world;
                                 destroyedBlock.popExperience(sWorld, newBlockPos, amount);
@@ -657,7 +658,7 @@ public class EventHandler {
                         Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
                         BlockState blockState = world.getBlockState(newBlockPos);
                         world.destroyBlock(newBlockPos, true);
-                        int amount = destroyedBlock.getExpDrop(blockState, world, newBlockPos, 0, 0);
+                        int amount = destroyedBlock.getExpDrop(blockState, world, RandomSource.create(), newBlockPos, 0, 0);
                         if (amount != 0) {
                             ServerLevel sWorld = (ServerLevel)world;
                             destroyedBlock.popExperience(sWorld, newBlockPos, amount);
