@@ -1,6 +1,10 @@
 {
   	"homepage": "https://www.curseforge.com/minecraft/mc-mods/super-tools/files",
   	"promos": {
+		"1.19.2-latest": "1.0",
+		"1.19.2-recommended": "1.0",
+		"1.18.2-latest": "1.0",
+		"1.18.2-recommended": "1.0",
 		"1.17.1-latest": "1.0",
 		"1.17.1-recommended": "1.0",
 		"1.16.5-latest": "1.2",
