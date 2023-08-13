@@ -1,6 +1,5 @@
 package me.KG20.supertools.Tools;
 
-import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +15,7 @@ public class Pickaxe extends PickaxeItem {
     private final TagKey<Block> blocks =  BlockTags.MINEABLE_WITH_PICKAXE;
 
     public Pickaxe(Tier material, float speed) {
-        super(material, 1, speed, new Properties().tab(CreativeTabs.tools));
+        super(material, 1, speed, new Properties());
     }
 
     public Pickaxe(Tier material, float speed, Properties properties) {
@@ -25,7 +24,7 @@ public class Pickaxe extends PickaxeItem {
 
     @Override
     public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
+        return ToolActions.DEFAULT_PICKAXE_ACTIONS.contains(toolAction);
     }
 
     @Override

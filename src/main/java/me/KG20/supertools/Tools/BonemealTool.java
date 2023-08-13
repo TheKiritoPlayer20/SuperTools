@@ -1,14 +1,14 @@
 package me.KG20.supertools.Tools;
 
 import me.KG20.supertools.Config.Config;
-import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
@@ -23,17 +23,12 @@ import net.minecraft.world.level.block.BaseCoralWallFanBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
 
 public class BonemealTool extends Item {
     public BonemealTool() {
-        super(new Item.Properties().durability(Config.durability_BoneMealTool.get()).tab(CreativeTabs.supertools));
+        super(new Item.Properties().durability(Config.durability_BoneMealTool.get()));
     }
 
     /**
@@ -97,29 +92,30 @@ public class BonemealTool extends Item {
         return false;
     }
 
+
     public static boolean growWaterPlant(ItemStack stack, Level level, BlockPos blockPos, @Nullable Direction direction) {
         if (level.getBlockState(blockPos).is(Blocks.WATER) && level.getFluidState(blockPos).getAmount() == 8) {
             if (!(level instanceof ServerLevel)) {
                 return true;
             } else {
-                RandomSource random = level.getRandom();
+                RandomSource randomsource = level.getRandom();
 
-                label80:
+                label78:
                 for(int i = 0; i < 128; ++i) {
                     BlockPos blockpos = blockPos;
                     BlockState blockstate = Blocks.SEAGRASS.defaultBlockState();
 
                     for(int j = 0; j < i / 16; ++j) {
-                        blockpos = blockpos.offset(random.nextInt(3) - 1, (random.nextInt(3) - 1) * random.nextInt(3) / 2, random.nextInt(3) - 1);
+                        blockpos = blockpos.offset(randomsource.nextInt(3) - 1, (randomsource.nextInt(3) - 1) * randomsource.nextInt(3) / 2, randomsource.nextInt(3) - 1);
                         if (level.getBlockState(blockpos).isCollisionShapeFullBlock(level, blockpos)) {
-                            continue label80;
+                            continue label78;
                         }
                     }
 
                     Holder<Biome> holder = level.getBiome(blockpos);
-                    if (holder.is(Biomes.WARM_OCEAN)) {
+                    if (holder.is(BiomeTags.PRODUCES_CORALS_FROM_BONEMEAL)) {
                         if (i == 0 && direction != null && direction.getAxis().isHorizontal()) {
-                            blockstate = Registry.BLOCK.getTag(BlockTags.WALL_CORALS).flatMap((p_204098_) -> {
+                            blockstate = BuiltInRegistries.BLOCK.getTag(BlockTags.WALL_CORALS).flatMap((p_204098_) -> {
                                 return p_204098_.getRandomElement(level.random);
                             }).map((p_204100_) -> {
                                 return p_204100_.value().defaultBlockState();
@@ -127,8 +123,8 @@ public class BonemealTool extends Item {
                             if (blockstate.hasProperty(BaseCoralWallFanBlock.FACING)) {
                                 blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, direction);
                             }
-                        } else if (random.nextInt(4) == 0) {
-                            blockstate = Registry.BLOCK.getTag(BlockTags.UNDERWATER_BONEMEALS).flatMap((p_204091_) -> {
+                        } else if (randomsource.nextInt(4) == 0) {
+                            blockstate = BuiltInRegistries.BLOCK.getTag(BlockTags.UNDERWATER_BONEMEALS).flatMap((p_204091_) -> {
                                 return p_204091_.getRandomElement(level.random);
                             }).map((p_204095_) -> {
                                 return p_204095_.value().defaultBlockState();
@@ -140,7 +136,7 @@ public class BonemealTool extends Item {
                         return p_204093_.hasProperty(BaseCoralWallFanBlock.FACING);
                     })) {
                         for(int k = 0; !blockstate.canSurvive(level, blockpos) && k < 4; ++k) {
-                            blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random));
+                            blockstate = blockstate.setValue(BaseCoralWallFanBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(randomsource));
                         }
                     }
 
@@ -148,11 +144,12 @@ public class BonemealTool extends Item {
                         BlockState blockstate1 = level.getBlockState(blockpos);
                         if (blockstate1.is(Blocks.WATER) && level.getFluidState(blockpos).getAmount() == 8) {
                             level.setBlock(blockpos, blockstate, 3);
-                        } else if (blockstate1.is(Blocks.SEAGRASS) && random.nextInt(10) == 0) {
-                            ((BonemealableBlock)Blocks.SEAGRASS).performBonemeal((ServerLevel)level, random, blockpos, blockstate1);
+                        } else if (blockstate1.is(Blocks.SEAGRASS) && randomsource.nextInt(10) == 0) {
+                            ((BonemealableBlock)Blocks.SEAGRASS).performBonemeal((ServerLevel)level, randomsource, blockpos, blockstate1);
                         }
                     }
                 }
+                
                 stack.setDamageValue(stack.getDamageValue() + 1);
                 if(stack.getDamageValue() >= stack.getMaxDamage()){
                         stack.shrink(1);
@@ -198,7 +195,7 @@ public class BonemealTool extends Item {
                 double d6 = (double)blockPos.getX() + d5 + random.nextDouble() * d0 * 2.0D;
                 double d7 = (double)blockPos.getY() + random.nextDouble() * d1;
                 double d8 = (double)blockPos.getZ() + d5 + random.nextDouble() * d0 * 2.0D;
-                if (!levelAccessor.getBlockState((new BlockPos(d6, d7, d8)).below()).isAir()) {
+                if (!levelAccessor.getBlockState(BlockPos.containing(d6, d7, d8).below()).isAir()) {
                     levelAccessor.addParticle(ParticleTypes.HAPPY_VILLAGER, d6, d7, d8, d2, d3, d4);
                 }
             }

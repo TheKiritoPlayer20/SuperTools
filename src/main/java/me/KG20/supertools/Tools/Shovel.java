@@ -1,6 +1,5 @@
 package me.KG20.supertools.Tools;
 
-import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
@@ -16,7 +15,7 @@ public class Shovel extends ShovelItem {
     private final TagKey<Block> blocks =  BlockTags.MINEABLE_WITH_SHOVEL;
 
     public Shovel(Tier material, float speed) {
-        super(material, 1.5F, speed, new Properties().tab(CreativeTabs.tools));
+        super(material, 1.5F, speed, new Properties());
     }
 
     public Shovel(Tier material, float speed, Properties properties) {
@@ -25,7 +24,7 @@ public class Shovel extends ShovelItem {
 
     @Override
     public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
+        return ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction);
     }
 
     @Override

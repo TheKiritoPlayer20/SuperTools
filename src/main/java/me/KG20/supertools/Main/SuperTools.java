@@ -3,12 +3,13 @@ package me.KG20.supertools.Main;
 import com.mojang.logging.LogUtils;
 import me.KG20.supertools.Config.SuperToolsConfig;
 import me.KG20.supertools.Event.EventHandler;
-import me.KG20.supertools.Init.CreativeTabs;
+import me.KG20.supertools.Init.CreativeTabsRegistry;
 import me.KG20.supertools.Init.RegisterItems;
 import me.KG20.supertools.Init.RegisterTier;
 import me.KG20.supertools.Proxy.ClientProxy;
 import me.KG20.supertools.Proxy.CommonProxy;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -25,13 +26,14 @@ public class SuperTools {
     private static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
 
     public SuperTools(){
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         FMLJavaModLoadingContext.get().getModEventBus().register(this);
         MinecraftForge.EVENT_BUS.register(this);
         FMLJavaModLoadingContext.get().getModEventBus().register(RegisterItems.class);
         MinecraftForge.EVENT_BUS.register(EventHandler.class);
         proxy.construct();
         SuperToolsConfig.loadConfig(SuperToolsConfig.Server_Config, FMLPaths.CONFIGDIR.get().resolve("supertools.toml"));
-        CreativeTabs.init();
+        CreativeTabsRegistry.TABS.register(bus);
     }
     
     @SubscribeEvent

@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 public class ItemArmor extends ArmorItem {
 
 
-    public ItemArmor(ArmorMaterial materialIn, EquipmentSlot slots, Item.Properties properties) {
+    public ItemArmor(ArmorMaterial materialIn, ArmorItem.Type slots, Item.Properties properties) {
         super(materialIn, slots, properties);
     }
 

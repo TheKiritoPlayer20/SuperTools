@@ -1,6 +1,5 @@
 package me.KG20.supertools.Tools;
 
-import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.HoeItem;
@@ -16,7 +15,7 @@ public class Hoe extends HoeItem {
     private final TagKey<Block> blocks =  BlockTags.MINEABLE_WITH_HOE;
 
     public Hoe(Tier material, int p_i231595_2_, float speed) {
-        super(material, p_i231595_2_, speed, new Properties().tab(CreativeTabs.tools));
+        super(material, p_i231595_2_, speed, new Properties());
     }
 
     public Hoe(Tier material, int p_i231595_2_, float speed, Properties properties) {
@@ -25,7 +24,7 @@ public class Hoe extends HoeItem {
 
     @Override
     public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
+        return ToolActions.DEFAULT_HOE_ACTIONS.contains(toolAction);
     }
 
     @Override

@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.IPlantable;
 
 public class Sickle extends Item {
 
@@ -18,21 +18,21 @@ public class Sickle extends Item {
         super(properties);
     }
 
+
     @Override
     public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity entityLiving) {
-
         if(stack.getItem() instanceof Sickle && !RegisterItems.superSickle.equals(stack.getItem())){
             int bx = pos.getX();
             int by = pos.getY();
             int bz = pos.getZ();
 
-            if (world.getBlockState(pos).getMaterial() == Material.PLANT || world.getBlockState(pos).getMaterial() == Material.WATER_PLANT || world.getBlockState(pos).getMaterial() == Material.REPLACEABLE_WATER_PLANT || world.getBlockState(pos).getMaterial() == Material.REPLACEABLE_PLANT){
+            if (world.getBlockState(pos).getBlock() instanceof IPlantable){
                 for (int x = -1; x < 2; x++) {
                     for (int z = -1; z < 2; z++) {
 
                         BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_PLANT) {
+                        if (world.getBlockState(newBlockPos).getBlock() instanceof IPlantable) {
                             world.destroyBlock(newBlockPos, true);
                         }
 
@@ -49,13 +49,13 @@ public class Sickle extends Item {
             int by = pos.getY();
             int bz = pos.getZ();
 
-            if (world.getBlockState(pos).getMaterial() == Material.PLANT || world.getBlockState(pos).getMaterial() == Material.WATER_PLANT || world.getBlockState(pos).getMaterial() == Material.REPLACEABLE_WATER_PLANT || world.getBlockState(pos).getMaterial() == Material.REPLACEABLE_PLANT){
+            if (world.getBlockState(pos).getBlock() instanceof IPlantable){
                 for (int x = -4; x < 5; x++) {
                     for (int z = -4; z < 5; z++) {
 
                         BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
 
-                        if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_PLANT) {
+                        if (world.getBlockState(pos).getBlock() instanceof IPlantable) {
                             world.destroyBlock(newBlockPos, true);
                         }
 
@@ -86,7 +86,8 @@ public class Sickle extends Item {
             for (int x = -4; x < 5; x++) {
                 for (int z = -4; z < 5; z++) {
                     BlockPos newBlockPos = new BlockPos(bx + x, by, bz + z);
-                    if (world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_WATER_PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.REPLACEABLE_PLANT) {world.destroyBlock(newBlockPos, true);
+                    if (world.getBlockState(pos).getBlock() instanceof IPlantable) {
+                        world.destroyBlock(newBlockPos, true);
                         if(!context.getPlayer().isCreative()){
                             stack.setDamageValue(stack.getDamageValue() + 1);
                             if(stack.getDamageValue() >= stack.getMaxDamage()){

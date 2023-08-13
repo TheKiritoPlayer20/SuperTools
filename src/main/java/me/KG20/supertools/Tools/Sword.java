@@ -1,13 +1,12 @@
 package me.KG20.supertools.Tools;
 
-import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
 
 public class Sword extends SwordItem {
 
     public Sword(Tier material, float speed) {
-        super(material, 3, speed, new Properties().tab(CreativeTabs.tools));
+        super(material, 3, speed, new Properties());
     }
 
     public Sword(Tier material, float speed, Properties properties) {

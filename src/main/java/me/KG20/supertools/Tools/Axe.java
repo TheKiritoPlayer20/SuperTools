@@ -1,6 +1,5 @@
 package me.KG20.supertools.Tools;
 
-import me.KG20.supertools.Init.CreativeTabs;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.AxeItem;
@@ -16,7 +15,7 @@ public class Axe extends AxeItem {
     private final TagKey<Block> blocks =  BlockTags.MINEABLE_WITH_AXE;
 
     public Axe(Tier material, float speed) {
-        super(material, 6, speed, new Properties().tab(CreativeTabs.tools));
+        super(material, 6, speed, new Properties());
     }
 
     public Axe(Tier material, float speed, Properties properties) {
@@ -25,7 +24,6 @@ public class Axe extends AxeItem {
 
     @Override
     public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-        System.out.println("TEST5");
         return ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
     }
 

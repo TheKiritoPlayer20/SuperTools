@@ -2,6 +2,7 @@ package me.KG20.supertools.Event;
 
 import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Init.RegisterItems;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.Tag;
@@ -18,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -31,7 +31,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperAxeDestroyedBlock(BlockEvent.BreakEvent event){
-        Level world = event.getPlayer().level;
+        Level world = event.getPlayer().level();
         Player player = event.getPlayer();
         BlockPos pos = event.getPos();
         ItemStack stack = player.getMainHandItem();
@@ -106,7 +106,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void SuperPickaxeDestroyedBlock(BlockEvent.BreakEvent event) {
-        Level world = event.getPlayer().level;
+        Level world = event.getPlayer().level();
         Player player = event.getPlayer();
         BlockPos pos = event.getPos();
         ItemStack stack = player.getMainHandItem();
@@ -182,7 +182,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void SuperShovelDestroyedBlock(BlockEvent.BreakEvent event){
         Player player = event.getPlayer();
-        Level world = player.level;
+        Level world = player.level();
         BlockPos pos = event.getPos();
         ItemStack stack = player.getMainHandItem();
         Direction headRot = player.getMotionDirection();
@@ -254,7 +254,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void SuperShovelRightClickBlock(PlayerInteractEvent.RightClickBlock event){
         Player player = event.getEntity();
-        Level world = player.level;
+        Level world = player.level();
         BlockPos pos = event.getPos();
         ItemStack stack = player.getMainHandItem();
 
@@ -314,7 +314,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void SuperHoeRightClickBlock(PlayerInteractEvent.RightClickBlock event){
         Player player = event.getEntity();
-        Level world = player.level;
+        Level world = player.level();
         BlockPos pos = event.getPos();
         ItemStack stack = player.getMainHandItem();
 
@@ -705,7 +705,7 @@ public class EventHandler {
      * @param random Instance of the Class Random which is used to determine the amount of Damage
      */
     private static void destroyShovelBlocks(Level world, Player player, ItemStack stack, int blocksCleared, String unbreakingEnchantment, String silktouchEnchantment, BlockPos newBlockPos, Random random){
-        if (world.getBlockState(newBlockPos).getMaterial() == Material.DIRT || world.getBlockState(newBlockPos).getMaterial() == Material.SAND || world.getBlockState(newBlockPos).getMaterial() == Material.PLANT || world.getBlockState(newBlockPos).getMaterial() == Material.GRASS || world.getBlockState(newBlockPos).getMaterial() == Material.SNOW || world.getBlockState(newBlockPos).getMaterial() == Material.CLAY || world.getBlockState(newBlockPos).getMaterial() == Material.TOP_SNOW) {
+        if (world.getBlockState(newBlockPos).is(BlockTags.MINEABLE_WITH_SHOVEL)) {
             if (silktouchEnchantment.length() != 0) {
                 if(Config.enable_BlockDropsInCreative.get() || !player.isCreative()){
                     Block destroyedBlock = world.getBlockState(newBlockPos).getBlock();
