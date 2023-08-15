@@ -1,6 +1,7 @@
 package me.KG20.supertools.Main;
 
 import com.mojang.logging.LogUtils;
+import me.KG20.supertools.Config.Config;
 import me.KG20.supertools.Config.SuperToolsConfig;
 import me.KG20.supertools.Event.EventHandler;
 import me.KG20.supertools.Init.CreativeTabsRegistry;
@@ -34,6 +35,9 @@ public class SuperTools {
         proxy.construct();
         SuperToolsConfig.loadConfig(SuperToolsConfig.Server_Config, FMLPaths.CONFIGDIR.get().resolve("supertools.toml"));
         CreativeTabsRegistry.TABS.register(bus);
+        if(Config.enable_SuperTools.get()){
+            CreativeTabsRegistry.registerSuperToolsTab();
+        }
     }
     
     @SubscribeEvent

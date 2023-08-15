@@ -88,6 +88,7 @@ public class RegisterItems {
     public static final ItemArmor copperLeggings = new ItemArmor(BasisArmorMaterial.copper, ArmorItem.Type.LEGGINGS, new Item.Properties());
     public static final ItemArmor copperBoots = new ItemArmor(BasisArmorMaterial.copper, ArmorItem.Type.BOOTS, new Item.Properties());
 
+    /*
     public static final BonemealTool boneMealTool = new BonemealTool();
     public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, -3, -1F, new Item.Properties());
     public static final Axe superAxe = new Axe(BasisToolMaterial.supertools, -3.1F, new Item.Properties());
@@ -97,6 +98,19 @@ public class RegisterItems {
     public static final Cups itemCup = new Cups(BasisToolMaterial.itemcup, -2.8F);
     public static final Cups specialCup = new Cups(BasisToolMaterial.specialcup, -2.8F);
     public static final Sickle superSickle = new Sickle(new Item.Properties().durability(Config.durability_SuperTools.get()));
+    */
+
+
+    public static BonemealTool boneMealTool;
+    public static Hoe superHoe;
+    public static Axe superAxe;
+    public static Pickaxe superPickaxe;
+    public static Shovel superShovel;
+    public static Sword superSword;
+    public static Cups itemCup;
+    public static Cups specialCup;
+    public static Sickle superSickle;
+
 
 
     @SubscribeEvent
@@ -177,6 +191,15 @@ public class RegisterItems {
             registerArmorItem(copperBoots, "copperboots", helper);
 
             if(Config.enable_SuperTools.get()){
+                boneMealTool = new BonemealTool();
+                superHoe = new Hoe(BasisToolMaterial.supertools, -3, -1F, new Item.Properties());
+                superAxe = new Axe(BasisToolMaterial.supertools, -3.1F, new Item.Properties());
+                superPickaxe = new Pickaxe(BasisToolMaterial.supertools, -2.8F, new Item.Properties());
+                superShovel = new Shovel(BasisToolMaterial.supertools, -3F, new Item.Properties());
+                superSword = new Sword(BasisToolMaterial.supertools, -2.4F, new Item.Properties());
+                itemCup = new Cups(BasisToolMaterial.itemcup, -2.8F);
+                specialCup = new Cups(BasisToolMaterial.specialcup, -2.8F);
+                superSickle = new Sickle(new Item.Properties().durability(Config.durability_SuperTools.get()));
                 registerSuperTools(boneMealTool, "bonemealtool", helper);
                 registerSuperTools(superHoe, "superhoe", helper);
                 registerSuperTools(superAxe, "superaxe", helper);

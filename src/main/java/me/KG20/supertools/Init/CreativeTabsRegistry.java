@@ -29,7 +29,6 @@ public class CreativeTabsRegistry {
     public static final List<Item> TOOLS_ITEMS = new ArrayList<>();
     public static final List<Item> SUPER_TOOLS_ITEMS = new ArrayList<>();
 
-
     public static final RegistryObject<CreativeModeTab> ARMOR = TABS.register("armor",
             ()-> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.armor"))
@@ -39,6 +38,20 @@ public class CreativeTabsRegistry {
                     .build()
     );
 
+    public static RegistryObject<CreativeModeTab> SUPERTOOLS;
+
+    public static void registerSuperToolsTab(){
+        SUPERTOOLS = TABS.register("supertools",
+                ()-> CreativeModeTab.builder()
+                        .title(Component.translatable("itemGroup.supertools"))
+                        .icon(() -> new ItemStack(RegisterItems.specialCup))
+                        .displayItems((displayParams, output) ->
+                                SUPER_TOOLS_ITEMS.forEach(itemLike -> output.accept(new ItemStack(itemLike))))
+                        .build()
+        );
+    }
+
+    /*
     public static final RegistryObject<CreativeModeTab> SUPERTOOLS = TABS.register("supertools",
             ()-> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.supertools"))
@@ -46,7 +59,7 @@ public class CreativeTabsRegistry {
                     .displayItems((displayParams, output) ->
                             SUPER_TOOLS_ITEMS.forEach(itemLike -> output.accept(new ItemStack(itemLike))))
                     .build()
-    );
+    );*/
 
     public static final RegistryObject<CreativeModeTab> TOOLS = TABS.register("tools",
             ()-> CreativeModeTab.builder()
