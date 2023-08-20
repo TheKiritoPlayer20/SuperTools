@@ -66,7 +66,7 @@ public class Config {
         durability_Emerald = Builder.comment("Emerald durabilty (Default: 1561)").defineInRange("emerald_tools_durabilty", 1561, 0, 999999999);
         durability_Lapis = Builder.comment("Lapis durabilty (Default: 150)").defineInRange("lapis_tools_durabilty", 150, 0, 999999999);
         durability_Redstone = Builder.comment("Redstone durabilty (Default: 100)").defineInRange("redstone_tools_durabilty", 100, 0, 999999999);
-        durability_SuperTools = Builder.comment("Super Tools durabilty (Default: 1350)").defineInRange("super_tools_durabilty", 1350, 0, 999999999);
+        durability_SuperTools = Builder.comment("Super Tools durabilty (Default: 2000)").defineInRange("super_tools_durabilty", 2000, 0, 999999999);
         durability_BoneMealTool = Builder.comment("A Bag of Bonemeal durabilty (Default: 100)").defineInRange("a_bag_of_bonemeal _durabilty", 100, 0, 999999999);
         durability_Cup = Builder.comment("Cup durabilty (Default: 1700)").defineInRange("cup_durabilty", 1700, 0, 999999999);
         durability_SpecialCup = Builder.comment("SpecialCup durabilty (Default: 2000)").defineInRange("special_cup_durabilty", 2000, 0, 999999999);
