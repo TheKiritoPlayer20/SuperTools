@@ -1,4 +1,4 @@
-Build: 1.1.0-1.20.1
+Build: 1.1.0-1.20.1 - SUN AUG 20 17:13:02 GMT 2023
 	Added Adarum
 	Fixed Netherite Sickle Crafting Recipe
 	Super Tools now require Adarum instead of a diamond
