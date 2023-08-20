@@ -88,19 +88,6 @@ public class RegisterItems {
     public static final ItemArmor copperLeggings = new ItemArmor(BasisArmorMaterial.copper, ArmorItem.Type.LEGGINGS, new Item.Properties());
     public static final ItemArmor copperBoots = new ItemArmor(BasisArmorMaterial.copper, ArmorItem.Type.BOOTS, new Item.Properties());
 
-    /*
-    public static final BonemealTool boneMealTool = new BonemealTool();
-    public static final Hoe superHoe = new Hoe(BasisToolMaterial.supertools, -3, -1F, new Item.Properties());
-    public static final Axe superAxe = new Axe(BasisToolMaterial.supertools, -3.1F, new Item.Properties());
-    public static final Pickaxe superPickaxe = new Pickaxe(BasisToolMaterial.supertools, -2.8F, new Item.Properties());
-    public static final Shovel superShovel = new Shovel(BasisToolMaterial.supertools, -3F, new Item.Properties());
-    public static final Sword superSword = new Sword(BasisToolMaterial.supertools, -2.4F, new Item.Properties());
-    public static final Cups itemCup = new Cups(BasisToolMaterial.itemcup, -2.8F);
-    public static final Cups specialCup = new Cups(BasisToolMaterial.specialcup, -2.8F);
-    public static final Sickle superSickle = new Sickle(new Item.Properties().durability(Config.durability_SuperTools.get()));
-    */
-
-
     public static BonemealTool boneMealTool;
     public static Hoe superHoe;
     public static Axe superAxe;
@@ -110,7 +97,7 @@ public class RegisterItems {
     public static Cups itemCup;
     public static Cups specialCup;
     public static Sickle superSickle;
-
+    public static Item adarum;
 
 
     @SubscribeEvent
@@ -200,6 +187,7 @@ public class RegisterItems {
                 itemCup = new Cups(BasisToolMaterial.itemcup, -2.8F);
                 specialCup = new Cups(BasisToolMaterial.specialcup, -2.8F);
                 superSickle = new Sickle(new Item.Properties().durability(Config.durability_SuperTools.get()));
+                adarum = new Item(new Item.Properties().stacksTo(64));
                 registerSuperTools(boneMealTool, "bonemealtool", helper);
                 registerSuperTools(superHoe, "superhoe", helper);
                 registerSuperTools(superAxe, "superaxe", helper);
@@ -209,6 +197,7 @@ public class RegisterItems {
                 registerSuperTools(itemCup, "itemcup", helper);
                 registerSuperTools(specialCup, "specialcup", helper);
                 registerSuperTools(superSickle, "supersickle", helper);
+                registerSuperTools(adarum, "adarum", helper);
             }
 
         });
